@@ -1,3 +1,15 @@
+# [0.20.0](https://github.com/denouche/terraform-provider-awx/compare/v0.19.0...v0.20.0) (2023-04-13)
+
+
+### Bug Fixes
+
+* resource data description ([bd38f22](https://github.com/denouche/terraform-provider-awx/commit/bd38f22a2b5f1a0828998ccc555d1879588510b5))
+
+
+### Features
+
+* extra_data to workflow schedule schema ([df67648](https://github.com/denouche/terraform-provider-awx/commit/df6764890be3007f09f284e59f7bbef8eac2586c))
+
 # [0.19.0](https://github.com/denouche/terraform-provider-awx/compare/v0.18.0...v0.19.0) (2022-11-14)
 
 
