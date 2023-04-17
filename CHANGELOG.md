@@ -1,3 +1,10 @@
+# [0.21.0](https://github.com/denouche/terraform-provider-awx/compare/v0.20.0...v0.21.0) (2023-04-17)
+
+
+### Features
+
+* schedule extra data ([1d60ab8](https://github.com/denouche/terraform-provider-awx/commit/1d60ab86f97446abdca431020d0e4e4537096e04))
+
 # [0.20.0](https://github.com/denouche/terraform-provider-awx/compare/v0.19.0...v0.20.0) (2023-04-13)
 
 
