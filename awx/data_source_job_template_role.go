@@ -22,9 +22,9 @@ import (
 	"context"
 	"strconv"
 
-	awx "github.com/sharathrnair87/goawx/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/sharathrnair87/goawx/client"
 )
 
 func dataSourceJobTemplateRole() *schema.Resource {

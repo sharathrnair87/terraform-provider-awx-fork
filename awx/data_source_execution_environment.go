@@ -1,14 +1,15 @@
 /*
 *TBD*
 
-Example Usage
+# Example Usage
 
 ```hcl
-data "awx_execution_environment" "default" {
-  name = "Default"
-}
-```
 
+	data "awx_execution_environment" "default" {
+	  name = "Default"
+	}
+
+```
 */
 package awx
 
@@ -16,9 +17,9 @@ import (
 	"context"
 	"strconv"
 
-	awx "github.com/sharathrnair87/goawx/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/sharathrnair87/goawx/client"
 )
 
 func dataSourceExecutionEnvironment() *schema.Resource {

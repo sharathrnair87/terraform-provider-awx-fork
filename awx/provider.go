@@ -5,9 +5,9 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	awx "github.com/sharathrnair87/goawx/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/sharathrnair87/goawx/client"
 )
 
 func Provider() *schema.Provider {
@@ -44,6 +44,7 @@ func Provider() *schema.Provider {
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"awx_credential_azure_key_vault":                          resourceCredentialAzureKeyVault(),
+			"awx_credential_azure_resource_manager":                   resourceCredentialAzureRM(),
 			"awx_credential_google_compute_engine":                    resourceCredentialGoogleComputeEngine(),
 			"awx_credential_input_source":                             resourceCredentialInputSource(),
 			"awx_credential":                                          resourceCredential(),
@@ -79,25 +80,26 @@ func Provider() *schema.Provider {
 			"awx_workflow_job_template_notification_template_success": resourceWorkflowJobTemplateNotificationTemplateSuccess(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"awx_credential_azure_key_vault": dataSourceCredentialAzure(),
-			"awx_credential":                 dataSourceCredentialByID(),
-			"awx_credential_type":            dataSourceCredentialTypeByID(),
-			"awx_credentials":                dataSourceCredentials(),
-			"awx_execution_environment":      dataSourceExecutionEnvironment(),
-			"awx_inventory_group":            dataSourceInventoryGroup(),
-			"awx_inventory":                  dataSourceInventory(),
-			"awx_inventory_role":             dataSourceInventoryRole(),
-			"awx_job_template":               dataSourceJobTemplate(),
-			"awx_job_template_role":          dataSourceJobTemplateRole(),
-			"awx_notification_template":      dataSourceNotificationTemplate(),
-			"awx_organization":               dataSourceOrganization(),
-			"awx_organization_role":          dataSourceOrganizationRole(),
-			"awx_organizations":              dataSourceOrganizations(),
-			"awx_project":                    dataSourceProject(),
-			"awx_project_role":               dataSourceProjectRole(),
-			"awx_schedule":                   dataSourceSchedule(),
-			"awx_workflow_job_template":      dataSourceWorkflowJobTemplate(),
-			"awx_team":                       dataSourceTeam(),
+			"awx_credential_azure_key_vault":        dataSourceCredentialAzure(),
+			"awx_credential_azure_resource_manager": dataSourceCredentialAzureRM(),
+			"awx_credential":                        dataSourceCredentialByID(),
+			"awx_credential_type":                   dataSourceCredentialTypeByID(),
+			"awx_credentials":                       dataSourceCredentials(),
+			"awx_execution_environment":             dataSourceExecutionEnvironment(),
+			"awx_inventory_group":                   dataSourceInventoryGroup(),
+			"awx_inventory":                         dataSourceInventory(),
+			"awx_inventory_role":                    dataSourceInventoryRole(),
+			"awx_job_template":                      dataSourceJobTemplate(),
+			"awx_job_template_role":                 dataSourceJobTemplateRole(),
+			"awx_notification_template":             dataSourceNotificationTemplate(),
+			"awx_organization":                      dataSourceOrganization(),
+			"awx_organization_role":                 dataSourceOrganizationRole(),
+			"awx_organizations":                     dataSourceOrganizations(),
+			"awx_project":                           dataSourceProject(),
+			"awx_project_role":                      dataSourceProjectRole(),
+			"awx_schedule":                          dataSourceSchedule(),
+			"awx_workflow_job_template":             dataSourceWorkflowJobTemplate(),
+			"awx_team":                              dataSourceTeam(),
 		},
 		ConfigureContextFunc: providerConfigure,
 	}

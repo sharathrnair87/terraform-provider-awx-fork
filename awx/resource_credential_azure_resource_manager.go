@@ -20,14 +20,22 @@ import (
 	awx "github.com/sharathrnair87/goawx/client"
 )
 
-func resourceCredentialAzureKeyVault() *schema.Resource {
+func resourceCredentialAzureRM() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceCredentialAzureKeyVaultCreate,
-		ReadContext:   resourceCredentialAzureKeyVaultRead,
-		UpdateContext: resourceCredentialAzureKeyVaultUpdate,
+		CreateContext: resourceCredentialAzureRMCreate,
+		ReadContext:   resourceCredentialAzureRMRead,
+		UpdateContext: resourceCredentialAzureRMUpdate,
 		DeleteContext: CredentialsServiceDeleteByID,
 		Schema: map[string]*schema.Schema{
 			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"subscription": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"tenant": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -39,22 +47,31 @@ func resourceCredentialAzureKeyVault() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"url": {
-				Type:     schema.TypeString,
-				Required: true,
+			"username": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				AtLeastOneOf: []string{"username", "client"},
+			},
+			"password": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				Sensitive:    true,
+				RequiredWith: []string{"username"},
 			},
 			"client": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				AtLeastOneOf: []string{"username", "client"},
 			},
 			"secret": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				Sensitive:    true,
+				RequiredWith: []string{"client"},
 			},
-			"tenant": {
+			"cloud_environment": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 		},
 		Importer: &schema.ResourceImporter{
@@ -68,21 +85,34 @@ func resourceCredentialAzureKeyVault() *schema.Resource {
 	}
 }
 
-func resourceCredentialAzureKeyVaultCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialAzureRMCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+
+	inputs := make(map[string]interface{})
+
+	inputs["subscription"] = d.Get("subscription").(string)
+	inputs["tenant"] = d.Get("tenant").(string)
+	if username, userOk := d.GetOk("username"); userOk {
+		inputs["username"] = username
+		inputs["password"] = d.Get("password")
+	}
+
+	if client, clientOk := d.GetOk("client"); clientOk {
+		inputs["client"] = client
+		inputs["secret"] = d.Get("secret")
+	}
+
+	if cloud_environment, cloudOk := d.GetOk("cloud_environment"); cloudOk {
+		inputs["cloud_environment"] = cloud_environment
+	}
 
 	newCredential := map[string]interface{}{
 		"name":            d.Get("name").(string),
 		"description":     d.Get("description").(string),
 		"organization":    d.Get("organization_id").(int),
-		"credential_type": 19, // Azure Key Vault
-		"inputs": map[string]interface{}{
-			"url":    d.Get("url").(string),
-			"client": d.Get("client").(string),
-			"secret": d.Get("secret").(string),
-			"tenant": d.Get("tenant").(string),
-		},
+		"credential_type": 11, // Azure Resource Manager
+		"inputs":          inputs,
 	}
 
 	client := m.(*awx.AWX)
@@ -97,12 +127,12 @@ func resourceCredentialAzureKeyVaultCreate(ctx context.Context, d *schema.Resour
 	}
 
 	d.SetId(strconv.Itoa(cred.ID))
-	resourceCredentialAzureKeyVaultRead(ctx, d, m)
+	resourceCredentialAzureRMRead(ctx, d, m)
 
 	return diags
 }
 
-func resourceCredentialAzureKeyVaultRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialAzureRMRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	client := m.(*awx.AWX)
@@ -120,23 +150,25 @@ func resourceCredentialAzureKeyVaultRead(ctx context.Context, d *schema.Resource
 	d.Set("name", cred.Name)
 	d.Set("description", cred.Description)
 	d.Set("organization_id", cred.OrganizationID)
-	d.Set("url", cred.Inputs["url"])
+	d.Set("subscription", cred.Inputs["subscription"])
+	d.Set("tenant", cred.Inputs["tenant"])
 	d.Set("client", cred.Inputs["client"])
 	d.Set("secret", d.Get("secret").(string))
-	d.Set("tenant", cred.Inputs["tenant"])
+	d.Set("username", cred.Inputs["username"])
+	d.Set("password", d.Get("password").(string))
 
 	return diags
 }
 
-func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	keys := []string{
 		"name",
 		"description",
-		"url",
+		"subscription",
 		"client",
-		//"secret",
+		"username",
 		"tenant",
 	}
 
@@ -148,12 +180,14 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
 			"organization":    d.Get("organization_id").(int),
-			"credential_type": 19, // Azure Key Vault
+			"credential_type": 11, // Azure Resurce Manager
 			"inputs": map[string]interface{}{
-				"url":    d.Get("url").(string),
-				"client": d.Get("client").(string),
-				"secret": d.Get("secret").(string),
-				"tenant": d.Get("tenant").(string),
+				"url":      d.Get("url").(string),
+				"client":   d.Get("client").(string),
+				"secret":   d.Get("secret").(string),
+				"tenant":   d.Get("tenant").(string),
+				"username": d.Get("username").(string),
+				"password": d.Get("password").(string),
 			},
 		}
 
@@ -169,5 +203,5 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	return resourceCredentialAzureKeyVaultRead(ctx, d, m)
+	return resourceCredentialAzureRMRead(ctx, d, m)
 }

@@ -20,9 +20,9 @@ import (
 	awx "github.com/sharathrnair87/goawx/client"
 )
 
-func dataSourceCredentialAzure() *schema.Resource {
+func dataSourceCredentialAzureRM() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: dataSourceCredentialAzureRead,
+		ReadContext: dataSourceCredentialAzureRMRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {
 				Type:     schema.TypeInt,
@@ -40,7 +40,7 @@ func dataSourceCredentialAzure() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"url": {
+			"subscription": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -53,6 +53,15 @@ func dataSourceCredentialAzure() *schema.Resource {
 				Computed:  true,
 				Sensitive: true,
 			},
+			"username": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"password": {
+				Type:      schema.TypeString,
+				Computed:  true,
+				Sensitive: true,
+			},
 			"tenant": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -61,7 +70,7 @@ func dataSourceCredentialAzure() *schema.Resource {
 	}
 }
 
-func dataSourceCredentialAzureRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func dataSourceCredentialAzureRMRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	client := m.(*awx.AWX)
@@ -79,9 +88,11 @@ func dataSourceCredentialAzureRead(ctx context.Context, d *schema.ResourceData, 
 	d.Set("name", cred.Name)
 	d.Set("description", cred.Description)
 	d.Set("organization_id", cred.OrganizationID)
-	d.Set("url", cred.Inputs["url"])
+	d.Set("subscription", cred.Inputs["subscription"])
 	d.Set("client", cred.Inputs["client"])
 	d.Set("secret", d.Get("secret").(string))
+	d.Set("username", cred.Inputs["username"])
+	d.Set("password", d.Get("password").(string))
 	d.Set("tenant", cred.Inputs["tenant"])
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 
