@@ -83,6 +83,7 @@ func Provider() *schema.Provider {
 			"awx_credential_azure_key_vault":        dataSourceCredentialAzure(),
 			"awx_credential_azure_resource_manager": dataSourceCredentialAzureRM(),
 			"awx_credential":                        dataSourceCredentialByID(),
+			"awx_credential_role":                   dataSourceCredentialRole(),
 			"awx_credential_type":                   dataSourceCredentialTypeByID(),
 			"awx_credentials":                       dataSourceCredentials(),
 			"awx_execution_environment":             dataSourceExecutionEnvironment(),

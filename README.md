@@ -7,7 +7,7 @@ Coming soon.
 ## Local Development
 
 ### 1) Start a Local AWX instance in a kubernetes cluster
-A fresh AWX instance is required for automated tests, so they can ensure terraform provider is working by targetting a live AWX instance.
+A fresh AWX instance is required for automated tests, so they can ensure terraform provider is working by targeting a live AWX instance.
 
 A new instance can be re-created by invoking the `reCreate` [mage](https://magefile.org/) target defined in `tools/magefile.go`.
 Once executed it will deploy an AWX instance to a Kubernetes cluster, using [kind](https://kind.sigs.k8s.io/).

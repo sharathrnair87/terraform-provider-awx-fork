@@ -69,7 +69,7 @@ func resourceCredentialSCMCreate(ctx context.Context, d *schema.ResourceData, m 
 		"name":            d.Get("name").(string),
 		"description":     d.Get("description").(string),
 		"organization":    d.Get("organization_id").(int),
-		"credential_type": 2, // Source Controll
+		"credential_type": 2, // Source Control
 		"inputs": map[string]interface{}{
 			"username":       d.Get("username").(string),
 			"password":       d.Get("password").(string),
@@ -142,7 +142,7 @@ func resourceCredentialSCMUpdate(ctx context.Context, d *schema.ResourceData, m 
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
 			"organization":    d.Get("organization_id").(int),
-			"credential_type": 2, // Source Controll
+			"credential_type": 2, // Source Control
 			"inputs": map[string]interface{}{
 				"username":       d.Get("username").(string),
 				"password":       d.Get("password").(string),
