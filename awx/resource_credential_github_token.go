@@ -20,11 +20,11 @@ import (
 	awx "github.com/sharathrnair87/goawx/client"
 )
 
-func resourceCredentialGoogleComputeEngine() *schema.Resource {
+func resourceCredentialGithubPAT() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceCredentialGoogleComputeEngineCreate,
-		ReadContext:   resourceCredentialGoogleComputeEngineRead,
-		UpdateContext: resourceCredentialGoogleComputeEngineUpdate,
+		CreateContext: resourceCredentialGithubPATCreate,
+		ReadContext:   resourceCredentialGithubPATRead,
+		UpdateContext: resourceCredentialGithubPATUpdate,
 		DeleteContext: CredentialsServiceDeleteByID,
 		Schema: map[string]*schema.Schema{
 			"name": {
@@ -39,15 +39,7 @@ func resourceCredentialGoogleComputeEngine() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"username": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"project": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"ssh_key_data": {
+			"token": {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
@@ -64,7 +56,7 @@ func resourceCredentialGoogleComputeEngine() *schema.Resource {
 	}
 }
 
-func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialGithubPATCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
 
@@ -72,11 +64,9 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 		"name":            d.Get("name").(string),
 		"description":     d.Get("description").(string),
 		"organization":    d.Get("organization_id").(int),
-		"credential_type": 10, // Google Compute Engine
+		"credential_type": 12, // Github PAT
 		"inputs": map[string]interface{}{
-			"username":     d.Get("username").(string),
-			"project":      d.Get("project").(string),
-			"ssh_key_data": d.Get("ssh_key_data").(string),
+			"token": d.Get("token").(string),
 		},
 	}
 
@@ -92,12 +82,12 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 	}
 
 	d.SetId(strconv.Itoa(cred.ID))
-	resourceCredentialGoogleComputeEngineRead(ctx, d, m)
+	resourceCredentialGithubPATRead(ctx, d, m)
 
 	return diags
 }
 
-func resourceCredentialGoogleComputeEngineRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialGithubPATRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	client := m.(*awx.AWX)
@@ -114,23 +104,19 @@ func resourceCredentialGoogleComputeEngineRead(ctx context.Context, d *schema.Re
 
 	d.Set("name", cred.Name)
 	d.Set("description", cred.Description)
+	d.Set("token", d.Get("token").(string))
 	d.Set("organization_id", cred.OrganizationID)
-	d.Set("username", cred.Inputs["username"])
-	d.Set("project", cred.Inputs["project"])
 
 	return diags
 }
 
-func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialGithubPATUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	keys := []string{
 		"name",
 		"description",
-		"username",
-		"project",
-
-		"ssh_key_data",
+		"organization_id",
 	}
 
 	if d.HasChanges(keys...) {
@@ -141,11 +127,9 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
 			"organization":    d.Get("organization_id").(int),
-			"credential_type": 10, // Google Compute Engine
+			"credential_type": 12, // Github PAT
 			"inputs": map[string]interface{}{
-				"username":     d.Get("username").(string),
-				"project":      d.Get("project").(string),
-				"ssh_key_data": d.Get("ssh_key_data").(string),
+				"token": d.Get("token").(string),
 			},
 		}
 
@@ -161,5 +145,5 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 		}
 	}
 
-	return resourceCredentialGoogleComputeEngineRead(ctx, d, m)
+	return resourceCredentialGithubPATRead(ctx, d, m)
 }

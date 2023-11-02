@@ -20,11 +20,11 @@ import (
 	awx "github.com/sharathrnair87/goawx/client"
 )
 
-func resourceCredentialGoogleComputeEngine() *schema.Resource {
+func resourceCredentialHashiVaultSecret() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceCredentialGoogleComputeEngineCreate,
-		ReadContext:   resourceCredentialGoogleComputeEngineRead,
-		UpdateContext: resourceCredentialGoogleComputeEngineUpdate,
+		CreateContext: resourceCredentialHashiVaultSecretCreate,
+		ReadContext:   resourceCredentialHashiVaultSecretRead,
+		UpdateContext: resourceCredentialHashiVaultSecretUpdate,
 		DeleteContext: CredentialsServiceDeleteByID,
 		Schema: map[string]*schema.Schema{
 			"name": {
@@ -39,18 +39,23 @@ func resourceCredentialGoogleComputeEngine() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"username": {
+			"url": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"project": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"ssh_key_data": {
+			"token": {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
+			},
+			"cacert": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"api_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "v1",
 			},
 		},
 		Importer: &schema.ResourceImporter{
@@ -64,7 +69,7 @@ func resourceCredentialGoogleComputeEngine() *schema.Resource {
 	}
 }
 
-func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialHashiVaultSecretCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
 
@@ -72,11 +77,12 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 		"name":            d.Get("name").(string),
 		"description":     d.Get("description").(string),
 		"organization":    d.Get("organization_id").(int),
-		"credential_type": 10, // Google Compute Engine
+		"credential_type": 21, // Hashicorp Vault Secret Lookup
 		"inputs": map[string]interface{}{
-			"username":     d.Get("username").(string),
-			"project":      d.Get("project").(string),
-			"ssh_key_data": d.Get("ssh_key_data").(string),
+			"url":         d.Get("url").(string),
+			"token":       d.Get("token").(string),
+			"cacert":      d.Get("cacert").(string),
+			"api_version": d.Get("api_version").(string),
 		},
 	}
 
@@ -92,12 +98,12 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 	}
 
 	d.SetId(strconv.Itoa(cred.ID))
-	resourceCredentialGoogleComputeEngineRead(ctx, d, m)
+	resourceCredentialHashiVaultSecretRead(ctx, d, m)
 
 	return diags
 }
 
-func resourceCredentialGoogleComputeEngineRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialHashiVaultSecretRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	client := m.(*awx.AWX)
@@ -115,22 +121,24 @@ func resourceCredentialGoogleComputeEngineRead(ctx context.Context, d *schema.Re
 	d.Set("name", cred.Name)
 	d.Set("description", cred.Description)
 	d.Set("organization_id", cred.OrganizationID)
-	d.Set("username", cred.Inputs["username"])
-	d.Set("project", cred.Inputs["project"])
+	d.Set("url", cred.Inputs["url"])
+	d.Set("token", d.Get("token").(string))
+	d.Set("cacert", cred.Inputs["cacert"])
+	d.Set("api_version", cred.Inputs["api_version"])
 
 	return diags
 }
 
-func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCredentialHashiVaultSecretUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	keys := []string{
 		"name",
 		"description",
-		"username",
-		"project",
-
-		"ssh_key_data",
+		"url",
+		"token",
+		"cacert",
+		"api_version",
 	}
 
 	if d.HasChanges(keys...) {
@@ -141,11 +149,12 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
 			"organization":    d.Get("organization_id").(int),
-			"credential_type": 10, // Google Compute Engine
+			"credential_type": 21, // Hashicorp Vault Secret Lookup
 			"inputs": map[string]interface{}{
-				"username":     d.Get("username").(string),
-				"project":      d.Get("project").(string),
-				"ssh_key_data": d.Get("ssh_key_data").(string),
+				"url":         d.Get("url").(string),
+				"token":       d.Get("token").(string),
+				"cacert":      d.Get("cacert").(string),
+				"api_version": d.Get("api_version").(string),
 			},
 		}
 
@@ -161,5 +170,5 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 		}
 	}
 
-	return resourceCredentialGoogleComputeEngineRead(ctx, d, m)
+	return resourceCredentialHashiVaultSecretRead(ctx, d, m)
 }

@@ -180,7 +180,7 @@ func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
 			"organization":    d.Get("organization_id").(int),
-			"credential_type": 11, // Azure Resurce Manager
+			"credential_type": 11, // Azure Resource Manager
 			"inputs": map[string]interface{}{
 				"url":      d.Get("url").(string),
 				"client":   d.Get("client").(string),
