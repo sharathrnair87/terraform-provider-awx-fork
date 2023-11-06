@@ -74,7 +74,6 @@ func Provider() *schema.Provider {
 			"awx_settings_saml_team_map":                              resourceSettingsSAMLTeamMap(),
 			"awx_settings_saml_organization_map":                      resourceSettingsSAMLOrganizationMap(),
 			"awx_settings_saml_team_attributes":                       resourceSettingsSAMLTeamAttrMap(),
-			"awx_settings_saml_team_attributes_legacy":                resourceSettingsSAMLTeamLegacyAttrMap(),
 			"awx_setting":                                             resourceSetting(),
 			"awx_team":                                                resourceTeam(),
 			"awx_workflow_job_template_node_always":                   resourceWorkflowJobTemplateNodeAlways(),

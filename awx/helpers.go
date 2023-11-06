@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	awx "github.com/sharathrnair87/goawx/client"
@@ -184,4 +185,21 @@ func marshalYaml(v interface{}) string {
 		return string(extraDataBytes)
 	}
 	return ""
+}
+
+func checkTeamAliasSupport(m interface{}) bool {
+	client := m.(*awx.AWX)
+	versionMap, _ := client.PingService.Ping()
+	constraints, _ := version.NewConstraint(">=3.8.0, >=12.0.0")
+
+	res, err := version.NewSemver(versionMap.Version)
+	if err != nil {
+		return false
+	}
+
+	if constraints.Check(res) {
+		return true
+	}
+
+	return false
 }

@@ -83,7 +83,7 @@ func dataSourceJobTemplateRead(ctx context.Context, d *schema.ResourceData, m in
 		log.Printf("byid %v", len(jobTemplate))
 		if len(jobTemplate) != 1 {
 			return buildDiagnosticsMessage(
-				"Get: find more than one Element",
+				"Get: found more than one Element",
 				"The Query Returns more than one Group, %d",
 				len(jobTemplate),
 			)
@@ -92,7 +92,7 @@ func dataSourceJobTemplateRead(ctx context.Context, d *schema.ResourceData, m in
 		return diags
 	}
 	return buildDiagnosticsMessage(
-		"Get: find more than one Element",
+		"Get: found more than one Element",
 		"The Query Returns more than one Group, %d",
 		len(jobTemplate),
 	)

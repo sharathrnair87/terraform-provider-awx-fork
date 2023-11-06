@@ -75,7 +75,7 @@ func dataSourceInventoryGroupRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	if len(groups) > 1 {
 		return buildDiagnosticsMessage(
-			"Get: find more than one Element",
+			"Get: found more than one Element",
 			"The Query Returns more than one Group, %d",
 			len(groups),
 		)

@@ -69,7 +69,7 @@ func dataSourceOrganizationRead(ctx context.Context, d *schema.ResourceData, m i
 	}
 	if len(organizations) > 1 {
 		return buildDiagnosticsMessage(
-			"Get: find more than one Element",
+			"Get: found more than one Element",
 			"The Query Returns more than one organization, %d",
 			len(organizations),
 		)

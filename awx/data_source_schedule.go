@@ -69,7 +69,7 @@ func dataSourceSchedulesRead(ctx context.Context, d *schema.ResourceData, m inte
 	}
 	if len(schedules) > 1 {
 		return buildDiagnosticsMessage(
-			"Get: find more than one Element",
+			"Get: found more than one Element",
 			"The Query Returns more than one Group, %d",
 			len(schedules),
 		)

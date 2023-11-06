@@ -77,7 +77,7 @@ func dataSourceWorkflowJobTemplateRead(ctx context.Context, d *schema.ResourceDa
 	if _, okGroupID := d.GetOk("id"); okGroupID {
 		if len(workflowJobTemplate) != 1 {
 			return buildDiagnosticsMessage(
-				"Get: find more than one Element",
+				"Get: found more than one Element",
 				"The Query Returns more than one Group, %d",
 				len(workflowJobTemplate),
 			)
@@ -86,7 +86,7 @@ func dataSourceWorkflowJobTemplateRead(ctx context.Context, d *schema.ResourceDa
 		return diags
 	}
 	return buildDiagnosticsMessage(
-		"Get: find more than one Element",
+		"Get: found more than one Element",
 		"The Query Returns more than one Group, %d",
 		len(workflowJobTemplate),
 	)

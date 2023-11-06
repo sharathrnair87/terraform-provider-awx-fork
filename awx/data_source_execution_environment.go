@@ -69,7 +69,7 @@ func dataSourceExecutionEnvironmentsRead(ctx context.Context, d *schema.Resource
 	}
 	if len(executionEnvironments) > 1 {
 		return buildDiagnosticsMessage(
-			"Get: find more than one element",
+			"Get: found more than one element",
 			"The query returns more than one execution environment, %d",
 			len(executionEnvironments),
 		)

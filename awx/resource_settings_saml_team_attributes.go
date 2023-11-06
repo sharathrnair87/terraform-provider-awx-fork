@@ -71,8 +71,9 @@ func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 							Description: "Organization Name",
 						},
 						"team_alias": {
-							Type:        schema.TypeString,
-							Required:    true,
+							Type: schema.TypeString,
+							//Required:    true,
+							Optional:    true,
 							Description: "Team Alias",
 						},
 					},
@@ -99,16 +100,33 @@ type samlTeamAttrEntry struct {
 	TeamAlias    string `json:"team_alias"`
 }
 
+type samlTeamAttrLegacyEntry struct {
+	Team         string `json:"team"`
+	Organization string `json:"organization"`
+}
+
 type samlTeamAttrs struct {
 	SamlAttr   string              `json:"saml_attr"`
 	Remove     bool                `json:"remove"`
 	TeamOrgMap []samlTeamAttrEntry `json:"team_org_map"`
 }
 
+type samlTeamAttrsLegacy struct {
+	SamlAttr   string                    `json:"saml_attr"`
+	Remove     bool                      `json:"remove"`
+	TeamOrgMap []samlTeamAttrLegacyEntry `json:"team_org_map"`
+}
+
 func resourceSettingsSAMLTeamAttrMapCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	samlTeamAttrMapAccessMutex.Lock()
 	defer samlTeamAttrMapAccessMutex.Unlock()
+
+	var teamAliasSupport bool
+
+	if checkTeamAliasSupport(m) {
+		teamAliasSupport = true
+	}
 
 	client := m.(*awx.AWX)
 	awxService := client.SettingService
@@ -121,79 +139,90 @@ func resourceSettingsSAMLTeamAttrMapCreate(ctx context.Context, d *schema.Resour
 		)
 	}
 
-	//tmaps := map[string]interface{} {
-	//    []samlTeamAttrMap{},
-	//}
-
-	//tmaps := []samlTeamAttrMap{}
-
 	var tmaps samlTeamAttrs
-
-	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
-	if err != nil {
-		return buildDiagnosticsMessage(
-			"Create: failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting",
-			"Failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting, got: %s with input %s", err.Error(), (*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"],
-		)
-	}
-
-	//team := d.Get("team").(string)
-	//organization := d.Get("organization").(string)
-	//teamAlias := d.Get("team_alias").(string)
+	var ltmaps samlTeamAttrsLegacy
 
 	var getTeamOrgMap []samlTeamAttrEntry
+	var getTeamOrgLMap []samlTeamAttrLegacyEntry
 
-	if v, ok := d.GetOk("team_org_map"); ok {
-		for _, e := range v.(*schema.Set).List() {
-			lv := e.(map[string]interface{})
-			var en samlTeamAttrEntry
-			en.Team = lv["team"].(string)
-			en.TeamAlias = lv["team_alias"].(string)
-			en.Organization = lv["organization"].(string)
+	if teamAliasSupport {
+		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Create: failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting",
+				"Failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting, got: %s with input %s", err.Error(), (*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"],
+			)
+		}
 
-			getTeamOrgMap = append(getTeamOrgMap, en)
+		if v, ok := d.GetOk("team_org_map"); ok {
+			for _, e := range v.(*schema.Set).List() {
+				lv := e.(map[string]interface{})
+				var en samlTeamAttrEntry
+				en.Team = lv["team"].(string)
+				en.TeamAlias = lv["team_alias"].(string)
+				en.Organization = lv["organization"].(string)
+
+				getTeamOrgMap = append(getTeamOrgMap, en)
+			}
+		}
+
+		newtmap := samlTeamAttrs{
+			SamlAttr:   d.Get("saml_attr").(string),
+			Remove:     d.Get("remove").(bool),
+			TeamOrgMap: getTeamOrgMap,
+		}
+
+		tmaps = newtmap
+		payload := map[string]interface{}{
+			"SOCIAL_AUTH_SAML_TEAM_ATTR": tmaps,
+		}
+
+		_, err = awxService.UpdateSettings("saml", payload, make(map[string]string))
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Create: organization map not created",
+				"failed to save organization map data, got: %s", err.Error(),
+			)
+		}
+	} else {
+		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &ltmaps)
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Create: failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting",
+				"Failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting, got: %s with input %s", err.Error(), (*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"],
+			)
+		}
+		if v, ok := d.GetOk("team_org_map"); ok {
+			for _, e := range v.(*schema.Set).List() {
+				lv := e.(map[string]interface{})
+				var en samlTeamAttrLegacyEntry
+				en.Team = lv["team"].(string)
+				en.Organization = lv["organization"].(string)
+
+				getTeamOrgLMap = append(getTeamOrgLMap, en)
+			}
+		}
+
+		newltmap := samlTeamAttrsLegacy{
+			SamlAttr:   d.Get("saml_attr").(string),
+			Remove:     d.Get("remove").(bool),
+			TeamOrgMap: getTeamOrgLMap,
+		}
+
+		ltmaps = newltmap
+		lpayload := map[string]interface{}{
+			"SOCIAL_AUTH_SAML_TEAM_ATTR": ltmaps,
+		}
+
+		_, err = awxService.UpdateSettings("saml", lpayload, make(map[string]string))
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Create: organization map not created",
+				"failed to save organization map data, got: %s", err.Error(),
+			)
 		}
 	}
 
-	newtmap := samlTeamAttrs{
-		SamlAttr:   d.Get("saml_attr").(string),
-		Remove:     d.Get("remove").(bool),
-		TeamOrgMap: getTeamOrgMap,
-	}
-
-	tmaps = newtmap
-
-	//if d == tmaps {
-	//    return buildDiagnosticsMessage(
-	//        "Create: organization map already exists",
-	//        "Map for saml to organization map %v already exists", d.Id(),
-	//    )
-	//}
-
-	//for _, t := range tmaps.TeamOrgMap {
-	//    // Check for duplicates
-	//    //if (team == t.Team) && (organization == t.Organization) && (teamAlias == t.TeamAlias) {
-	//    if newtmap == t {
-	//    }
-	//}
-
-	//tmaps.TeamOrgMap = append(tmaps.TeamOrgMap, newtmap)
-	//id := len(tmaps.TeamOrgMap)
-
-	payload := map[string]interface{}{
-		"SOCIAL_AUTH_SAML_TEAM_ATTR": tmaps,
-	}
-
-	_, err = awxService.UpdateSettings("saml", payload, make(map[string]string))
-	if err != nil {
-		return buildDiagnosticsMessage(
-			"Create: organization map not created",
-			"failed to save organization map data, got: %s", err.Error(),
-		)
-	}
-
-	//d.SetId(genHash(fmt.Sprintf("%s%s%s", newtmap.Team, newtmap.Organization, newtmap.TeamAlias)))
-	//id := uuid.New()
 	d.SetId("SOCIAL_AUTH_SAML_TEAM_ATTR")
 	return resourceSettingsSAMLTeamAttrMapRead(ctx, d, m)
 }
@@ -214,51 +243,98 @@ func resourceSettingsSAMLTeamAttrMapUpdate(ctx context.Context, d *schema.Resour
 		)
 	}
 
-	var tmaps samlTeamAttrs
-	//var utmaps samlTeamAttrs
+	var teamAliasSupport bool
 
-	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
-	if err != nil {
-		return buildDiagnosticsMessage(
-			"Update: failed to parse AUTH_SAML_TEAM_ATTR setting",
-			"Failed to parse AUTH_SAML_TEAM_ATTR setting, got: %s", err.Error(),
-		)
+	if checkTeamAliasSupport(m) {
+		teamAliasSupport = true
 	}
+
+	var tmaps samlTeamAttrs
+	var ltmaps samlTeamAttrsLegacy
+	var getTeamOrgMap []samlTeamAttrEntry
+	var getTeamOrgLMap []samlTeamAttrLegacyEntry
 
 	id := d.Id()
 
-	var getTeamOrgMap []samlTeamAttrEntry
-
-	if v, ok := d.GetOk("team_org_map"); ok {
-		for _, e := range v.(*schema.Set).List() {
-			lv := e.(map[string]interface{})
-			var en samlTeamAttrEntry
-			en.Team = lv["team"].(string)
-			en.TeamAlias = lv["team_alias"].(string)
-			en.Organization = lv["organization"].(string)
-
-			getTeamOrgMap = append(getTeamOrgMap, en)
+	if teamAliasSupport {
+		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Update: failed to parse AUTH_SAML_TEAM_ATTR setting",
+				"Failed to parse AUTH_SAML_TEAM_ATTR setting, got: %s", err.Error(),
+			)
 		}
-	}
 
-	samlAttr := d.Get("saml_attr").(string)
-	remove := d.Get("remove").(bool)
-	teamOrgMap := getTeamOrgMap
+		if v, ok := d.GetOk("team_org_map"); ok {
+			for _, e := range v.(*schema.Set).List() {
+				lv := e.(map[string]interface{})
+				var en samlTeamAttrEntry
+				en.Team = lv["team"].(string)
+				en.TeamAlias = lv["team_alias"].(string)
+				en.Organization = lv["organization"].(string)
 
-	tmaps.SamlAttr = samlAttr
-	tmaps.Remove = remove
-	tmaps.TeamOrgMap = teamOrgMap
+				getTeamOrgMap = append(getTeamOrgMap, en)
+			}
+		}
 
-	payload := map[string]interface{}{
-		"SOCIAL_AUTH_SAML_TEAM_ATTR": tmaps,
-	}
+		samlAttr := d.Get("saml_attr").(string)
+		remove := d.Get("remove").(bool)
+		teamOrgMap := getTeamOrgMap
 
-	_, err = awxService.UpdateSettings("saml", payload, make(map[string]string))
-	if err != nil {
-		return buildDiagnosticsMessage(
-			"Update: organization map not created",
-			"failed to save organization map data: %v, got: %s", payload, err.Error(),
-		)
+		tmaps.SamlAttr = samlAttr
+		tmaps.Remove = remove
+		tmaps.TeamOrgMap = teamOrgMap
+
+		payload := map[string]interface{}{
+			"SOCIAL_AUTH_SAML_TEAM_ATTR": tmaps,
+		}
+
+		_, err = awxService.UpdateSettings("saml", payload, make(map[string]string))
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Update: organization map not created",
+				"failed to save organization map data: %v, got: %s", payload, err.Error(),
+			)
+		}
+	} else {
+		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &ltmaps)
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Update: failed to parse AUTH_SAML_TEAM_ATTR setting",
+				"Failed to parse AUTH_SAML_TEAM_ATTR setting, got: %s", err.Error(),
+			)
+		}
+
+		if v, ok := d.GetOk("team_org_map"); ok {
+			for _, e := range v.(*schema.Set).List() {
+				lv := e.(map[string]interface{})
+				var en samlTeamAttrLegacyEntry
+				en.Team = lv["team"].(string)
+				en.Organization = lv["organization"].(string)
+
+				getTeamOrgLMap = append(getTeamOrgLMap, en)
+			}
+		}
+
+		samlAttr := d.Get("saml_attr").(string)
+		remove := d.Get("remove").(bool)
+		teamOrgLMap := getTeamOrgLMap
+
+		ltmaps.SamlAttr = samlAttr
+		ltmaps.Remove = remove
+		ltmaps.TeamOrgMap = teamOrgLMap
+
+		lpayload := map[string]interface{}{
+			"SOCIAL_AUTH_SAML_TEAM_ATTR": ltmaps,
+		}
+
+		_, err = awxService.UpdateSettings("saml", lpayload, make(map[string]string))
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Update: organization map not created",
+				"failed to save organization map data: %v, got: %s", lpayload, err.Error(),
+			)
+		}
 	}
 
 	d.SetId(id)
@@ -279,71 +355,67 @@ func resourceSettingsSAMLTeamAttrMapRead(ctx context.Context, d *schema.Resource
 		)
 	}
 	var tmaps samlTeamAttrs
+	var ltmaps samlTeamAttrsLegacy
 
-	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
-	if err != nil {
-		return buildDiagnosticsMessage(
-			"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR",
-			"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR, got: %s", err.Error(),
-		)
+	var teamAliasSupport bool
+
+	if checkTeamAliasSupport(m) {
+		teamAliasSupport = true
 	}
 
-	//mapdef, ok := tmaps[d.Id()]
-	//if !ok {
-	//	return buildDiagnosticsMessage(
-	//		"Unable to fetch saml organization map",
-	//		"Unable to load saml organization map %v: not found", d.Id(),
-	//	)
-	//}
-
-	//var users []string
-	//switch tt := mapdef.SamlUserGroups.(type) {
-	//case string:
-	//	users = []string{tt}
-	//case []string:
-	//	users = tt
-	//case []interface{}:
-	//	for _, v := range tt {
-	//		if t, ok := v.(string); ok {
-	//			users = append(users, t)
-	//		}
-	//	}
-	//}
-
-	//var admins []string
-	//switch tt := mapdef.SamlAdminGroups.(type) {
-	//case string:
-	//	admins = []string{tt}
-	//case []string:
-	//	admins = tt
-	//case []interface{}:
-	//	for _, v := range tt {
-	//		if t, ok := v.(string); ok {
-	//			admins = append(admins, t)
-	//		}
-	//	}
-	//}
-
-	var setTeamOrgMap []map[string]interface{}
-
-	for _, teamAttr := range tmaps.TeamOrgMap {
-		lv := map[string]interface{}{
-			"team":         "",
-			"organization": "",
-			"team_alias":   "",
+	if teamAliasSupport {
+		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR",
+				"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR, got: %s", err.Error(),
+			)
 		}
 
-		lv["team"] = teamAttr.Team
-		lv["organization"] = teamAttr.Organization
-		lv["team_alias"] = teamAttr.TeamAlias
+		var setTeamOrgMap []map[string]interface{}
 
-		setTeamOrgMap = append(setTeamOrgMap, lv)
+		for _, teamAttr := range tmaps.TeamOrgMap {
+			lv := map[string]interface{}{
+				"team":         "",
+				"organization": "",
+				"team_alias":   "",
+			}
+
+			lv["team"] = teamAttr.Team
+			lv["organization"] = teamAttr.Organization
+			lv["team_alias"] = teamAttr.TeamAlias
+
+			setTeamOrgMap = append(setTeamOrgMap, lv)
+		}
+		d.Set("team_org_map", setTeamOrgMap)
+
+	} else {
+		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &ltmaps)
+		if err != nil {
+			return buildDiagnosticsMessage(
+				"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR",
+				"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR, got: %s", err.Error(),
+			)
+		}
+		var setTeamOrgLMap []map[string]interface{}
+
+		for _, lteamAttr := range ltmaps.TeamOrgMap {
+			lv := map[string]interface{}{
+				"team":         "",
+				"organization": "",
+			}
+
+			lv["team"] = lteamAttr.Team
+			lv["organization"] = lteamAttr.Organization
+
+			setTeamOrgLMap = append(setTeamOrgLMap, lv)
+		}
+		d.Set("team_org_map", setTeamOrgLMap)
 	}
 
 	d.SetId(d.Id())
-	d.Set("saml_attr", tmaps.SamlAttr)
-	d.Set("remove", tmaps.Remove)
-	d.Set("team_org_map", setTeamOrgMap)
+	d.Set("saml_attr", ltmaps.SamlAttr)
+	d.Set("remove", ltmaps.Remove)
 	return diags
 }
 
@@ -373,9 +445,6 @@ func resourceSettingsSAMLTeamAttrMapDelete(ctx context.Context, d *schema.Resour
 			"Failed to parse SOCIAL_AUTH_SAML_TEAM_ATTR setting, got: %s", err.Error(),
 		)
 	}
-
-	//id := d.Id()
-	//delete(tmaps, id)
 
 	payload := map[string]interface{}{
 		"SOCIAL_AUTH_SAML_TEAM_ATTR": tmaps,

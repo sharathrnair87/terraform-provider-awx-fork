@@ -68,7 +68,7 @@ func dataSourceProjectsRead(ctx context.Context, d *schema.ResourceData, m inter
 	}
 	if len(Projects) > 1 {
 		return buildDiagnosticsMessage(
-			"Get: find more than one Element",
+			"Get: found more than one Element",
 			"The Query Returns more than one Group, %d",
 			len(Projects),
 		)
