@@ -83,13 +83,13 @@ func resourceSettingsSAMLTeamMap() *schema.Resource {
 	}
 }
 
-type saml_team_map_entry struct {
+type samlTeamMapEntry struct {
 	SamlGroups   interface{} `json:"users"`
 	Organization string      `json:"organization"`
 	Remove       bool        `json:"remove"`
 }
 
-type samlteammap map[string]saml_team_map_entry
+type samlTeamMap map[string]samlTeamMapEntry
 
 func resourceSettingsSAMLTeamMapCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
@@ -107,11 +107,7 @@ func resourceSettingsSAMLTeamMapCreate(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	/*return buildDiagnosticsMessage(
-		"returning as desired",
-		"Data: %v", res,
-	)*/
-	tmaps := make(samlteammap)
+	tmaps := make(samlTeamMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -130,7 +126,7 @@ func resourceSettingsSAMLTeamMapCreate(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	newtmap := saml_team_map_entry{
+	newtmap := samlTeamMapEntry{
 		SamlGroups:   d.Get("users").([]interface{}),
 		Organization: d.Get("organization").(string),
 		Remove:       d.Get("remove").(bool),
@@ -170,7 +166,7 @@ func resourceSettingsSAMLTeamMapUpdate(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	tmaps := make(samlteammap)
+	tmaps := make(samlTeamMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -225,7 +221,7 @@ func resourceSettingsSAMLTeamMapRead(ctx context.Context, d *schema.ResourceData
 			err.Error(),
 		)
 	}
-	tmaps := make(samlteammap)
+	tmaps := make(samlTeamMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -240,11 +236,6 @@ func resourceSettingsSAMLTeamMapRead(ctx context.Context, d *schema.ResourceData
 			"Unable to load saml team map %v: not found", d.Id(),
 		)
 	}
-
-	/*return buildDiagnosticsMessage(
-		"returning as desired",
-		"Data: %v %T", mapdef.UserDNs, mapdef.UserDNs,
-	)*/
 
 	var users []string
 	switch tt := mapdef.SamlGroups.(type) {
@@ -284,7 +275,7 @@ func resourceSettingsSAMLTeamMapDelete(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	tmaps := make(samlteammap)
+	tmaps := make(samlTeamMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(

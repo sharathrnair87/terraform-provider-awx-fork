@@ -97,14 +97,14 @@ func resourceSettingsSAMLOrganizationMap() *schema.Resource {
 	}
 }
 
-type saml_organization_map_entry struct {
+type samlOrganizationMapEntry struct {
 	SamlUserGroups  interface{} `json:"users"`
 	SamlAdminGroups interface{} `json:"admins"`
 	RemoveUsers     bool        `json:"remove_users"`
 	RemoveAdmins    bool        `json:"remove_admins"`
 }
 
-type samlorganizationmap map[string]saml_organization_map_entry
+type samlOrganizationMap map[string]samlOrganizationMapEntry
 
 func resourceSettingsSAMLOrganizationMapCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
@@ -122,7 +122,7 @@ func resourceSettingsSAMLOrganizationMapCreate(ctx context.Context, d *schema.Re
 		)
 	}
 
-	tmaps := make(samlorganizationmap)
+	tmaps := make(samlOrganizationMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_ORGANIZATION_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -141,7 +141,7 @@ func resourceSettingsSAMLOrganizationMapCreate(ctx context.Context, d *schema.Re
 		)
 	}
 
-	newtmap := saml_organization_map_entry{
+	newtmap := samlOrganizationMapEntry{
 		SamlUserGroups:  d.Get("users").([]interface{}),
 		SamlAdminGroups: d.Get("admins").([]interface{}),
 		RemoveUsers:     d.Get("remove_users").(bool),
@@ -182,7 +182,7 @@ func resourceSettingsSAMLOrganizationMapUpdate(ctx context.Context, d *schema.Re
 		)
 	}
 
-	tmaps := make(samlorganizationmap)
+	tmaps := make(samlOrganizationMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_ORGANIZATION_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -239,7 +239,7 @@ func resourceSettingsSAMLOrganizationMapRead(ctx context.Context, d *schema.Reso
 			err.Error(),
 		)
 	}
-	tmaps := make(samlorganizationmap)
+	tmaps := make(samlOrganizationMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_ORGANIZATION_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -308,7 +308,7 @@ func resourceSettingsSAMLOrganizationMapDelete(ctx context.Context, d *schema.Re
 		)
 	}
 
-	tmaps := make(samlorganizationmap)
+	tmaps := make(samlOrganizationMap)
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_ORGANIZATION_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(

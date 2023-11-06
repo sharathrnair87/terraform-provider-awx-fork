@@ -71,8 +71,8 @@ func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 							Description: "Organization Name",
 						},
 						"team_alias": {
+                            // Only supported in AT >= 3.8.0 and AWX >= 12.0.0
 							Type: schema.TypeString,
-							//Required:    true,
 							Optional:    true,
 							Description: "Team Alias",
 						},
