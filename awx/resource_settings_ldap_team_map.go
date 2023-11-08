@@ -83,13 +83,13 @@ func resourceSettingsLDAPTeamMap() *schema.Resource {
 	}
 }
 
-type team_map_entry struct {
+type teamMapEntry struct {
 	UserDNs      interface{} `json:"users"`
 	Organization string      `json:"organization"`
 	Remove       bool        `json:"remove"`
 }
 
-type teammap map[string]team_map_entry
+type teamMap map[string]teamMapEntry
 
 func resourceSettingsLDAPTeamMapCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
@@ -111,7 +111,7 @@ func resourceSettingsLDAPTeamMapCreate(ctx context.Context, d *schema.ResourceDa
 		"returning as desired",
 		"Data: %v", res,
 	)*/
-	tmaps := make(teammap)
+	tmaps := make(teamMap)
 	err = json.Unmarshal((*res)["AUTH_LDAP_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -130,7 +130,7 @@ func resourceSettingsLDAPTeamMapCreate(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	newtmap := team_map_entry{
+	newtmap := teamMapEntry{
 		UserDNs:      d.Get("users").([]interface{}),
 		Organization: d.Get("organization").(string),
 		Remove:       d.Get("remove").(bool),
@@ -170,7 +170,7 @@ func resourceSettingsLDAPTeamMapUpdate(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	tmaps := make(teammap)
+	tmaps := make(teamMap)
 	err = json.Unmarshal((*res)["AUTH_LDAP_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -225,7 +225,7 @@ func resourceSettingsLDAPTeamMapRead(ctx context.Context, d *schema.ResourceData
 			err.Error(),
 		)
 	}
-	tmaps := make(teammap)
+	tmaps := make(teamMap)
 	err = json.Unmarshal((*res)["AUTH_LDAP_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(
@@ -284,7 +284,7 @@ func resourceSettingsLDAPTeamMapDelete(ctx context.Context, d *schema.ResourceDa
 		)
 	}
 
-	tmaps := make(teammap)
+	tmaps := make(teamMap)
 	err = json.Unmarshal((*res)["AUTH_LDAP_TEAM_MAP"], &tmaps)
 	if err != nil {
 		return buildDiagnosticsMessage(

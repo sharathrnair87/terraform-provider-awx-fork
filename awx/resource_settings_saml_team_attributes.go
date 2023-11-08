@@ -62,12 +62,12 @@ func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"team": {
 							Type:        schema.TypeString,
-							Required:    true,
+							Optional:    true,
 							Description: "Team Name",
 						},
 						"organization": {
 							Type:        schema.TypeString,
-							Required:    true,
+							Optional:    true,
 							Description: "Organization Name",
 						},
 						"team_alias": {
@@ -142,8 +142,8 @@ func resourceSettingsSAMLTeamAttrMapCreate(ctx context.Context, d *schema.Resour
 	var tmaps samlTeamAttrs
 	var ltmaps samlTeamAttrsLegacy
 
-	var getTeamOrgMap []samlTeamAttrEntry
-	var getTeamOrgLMap []samlTeamAttrLegacyEntry
+    getTeamOrgMap := make([]samlTeamAttrEntry, 0)
+    getTeamOrgLMap := make([]samlTeamAttrLegacyEntry, 0)
 
 	if teamAliasSupport {
 		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
@@ -251,8 +251,8 @@ func resourceSettingsSAMLTeamAttrMapUpdate(ctx context.Context, d *schema.Resour
 
 	var tmaps samlTeamAttrs
 	var ltmaps samlTeamAttrsLegacy
-	var getTeamOrgMap []samlTeamAttrEntry
-	var getTeamOrgLMap []samlTeamAttrLegacyEntry
+    getTeamOrgMap := make([]samlTeamAttrEntry, 0)
+    getTeamOrgLMap := make([]samlTeamAttrLegacyEntry, 0)
 
 	id := d.Id()
 
@@ -372,7 +372,7 @@ func resourceSettingsSAMLTeamAttrMapRead(ctx context.Context, d *schema.Resource
 			)
 		}
 
-		var setTeamOrgMap []map[string]interface{}
+        setTeamOrgMap := make([]map[string]interface{}, 0)
 
 		for _, teamAttr := range tmaps.TeamOrgMap {
 			lv := map[string]interface{}{
@@ -397,7 +397,8 @@ func resourceSettingsSAMLTeamAttrMapRead(ctx context.Context, d *schema.Resource
 				"Unable to parse SOCIAL_AUTH_SAML_TEAM_ATTR, got: %s", err.Error(),
 			)
 		}
-		var setTeamOrgLMap []map[string]interface{}
+
+        setTeamOrgLMap := make([]map[string]interface{}, 0)
 
 		for _, lteamAttr := range ltmaps.TeamOrgMap {
 			lv := map[string]interface{}{
@@ -437,6 +438,7 @@ func resourceSettingsSAMLTeamAttrMapDelete(ctx context.Context, d *schema.Resour
 	}
 
 	var tmaps samlTeamAttrs
+    tmaps.TeamOrgMap = make([]samlTeamAttrEntry, 0)
 
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
 	if err != nil {
