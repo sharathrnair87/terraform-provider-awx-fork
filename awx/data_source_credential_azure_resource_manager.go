@@ -1,10 +1,19 @@
 /*
-*TBD*
+Use this data source to lookup an Azure Resource Manager Credential in AWX/AT
 
 # Example Usage
 
 ```hcl
-*TBD*
+
+	data "awx_credential_azure_resource_manager" "my_azrm_creds" {
+	  credential_id = <my_azrm_cred_id>
+	}
+
+	output "my_azrm_creds" {
+	  value     = data.awx_credential_azure_resource_manager.my_azrm_creds
+	  sensitive = true
+	}
+
 ```
 */
 package awx

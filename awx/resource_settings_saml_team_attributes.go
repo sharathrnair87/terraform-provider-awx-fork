@@ -9,16 +9,14 @@
 	  name = "Default"
 	}
 
-	resource "awx_organization" "admin_organization" {
-	  name = "Admins"
-	  organization_id = data.awx_organization.default.id
-	}
-
-	resource "awx_settings_saml_team_attr" "admin_team_attr" {
-	  name         = resource.awx_organization.admin_organization.name
-	  users        = ["CN=MyTeamAttr,OU=Groups,DC=example,DC=com"]
-	  organization = data.awx_organization.default.name
-	  remove       = true
+	resource "awx_settings_saml_team_attributes" "global" {
+	  saml_attr = "groups"
+	  remove    = true
+	  team_org_map {
+	    team         = <saml_provider_team_id> // The team ID as it is displayed in your SAML Auth Provider
+	    organization = data.awx_organization.default.name
+	    team_alias   = "Admin"
+	  }
 	}
 
 ```
@@ -71,8 +69,8 @@ func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 							Description: "Organization Name",
 						},
 						"team_alias": {
-                            // Only supported in AT >= 3.8.0 and AWX >= 12.0.0
-							Type: schema.TypeString,
+							// Only supported in AT >= 3.8.0 and AWX >= 12.0.0
+							Type:        schema.TypeString,
 							Optional:    true,
 							Description: "Team Alias",
 						},
@@ -142,8 +140,8 @@ func resourceSettingsSAMLTeamAttrMapCreate(ctx context.Context, d *schema.Resour
 	var tmaps samlTeamAttrs
 	var ltmaps samlTeamAttrsLegacy
 
-    getTeamOrgMap := make([]samlTeamAttrEntry, 0)
-    getTeamOrgLMap := make([]samlTeamAttrLegacyEntry, 0)
+	getTeamOrgMap := make([]samlTeamAttrEntry, 0)
+	getTeamOrgLMap := make([]samlTeamAttrLegacyEntry, 0)
 
 	if teamAliasSupport {
 		err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
@@ -251,8 +249,8 @@ func resourceSettingsSAMLTeamAttrMapUpdate(ctx context.Context, d *schema.Resour
 
 	var tmaps samlTeamAttrs
 	var ltmaps samlTeamAttrsLegacy
-    getTeamOrgMap := make([]samlTeamAttrEntry, 0)
-    getTeamOrgLMap := make([]samlTeamAttrLegacyEntry, 0)
+	getTeamOrgMap := make([]samlTeamAttrEntry, 0)
+	getTeamOrgLMap := make([]samlTeamAttrLegacyEntry, 0)
 
 	id := d.Id()
 
@@ -372,7 +370,7 @@ func resourceSettingsSAMLTeamAttrMapRead(ctx context.Context, d *schema.Resource
 			)
 		}
 
-        setTeamOrgMap := make([]map[string]interface{}, 0)
+		setTeamOrgMap := make([]map[string]interface{}, 0)
 
 		for _, teamAttr := range tmaps.TeamOrgMap {
 			lv := map[string]interface{}{
@@ -398,7 +396,7 @@ func resourceSettingsSAMLTeamAttrMapRead(ctx context.Context, d *schema.Resource
 			)
 		}
 
-        setTeamOrgLMap := make([]map[string]interface{}, 0)
+		setTeamOrgLMap := make([]map[string]interface{}, 0)
 
 		for _, lteamAttr := range ltmaps.TeamOrgMap {
 			lv := map[string]interface{}{
@@ -438,7 +436,7 @@ func resourceSettingsSAMLTeamAttrMapDelete(ctx context.Context, d *schema.Resour
 	}
 
 	var tmaps samlTeamAttrs
-    tmaps.TeamOrgMap = make([]samlTeamAttrEntry, 0)
+	tmaps.TeamOrgMap = make([]samlTeamAttrEntry, 0)
 
 	err = json.Unmarshal((*res)["SOCIAL_AUTH_SAML_TEAM_ATTR"], &tmaps)
 	if err != nil {

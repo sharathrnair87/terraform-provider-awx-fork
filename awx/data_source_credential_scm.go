@@ -1,10 +1,19 @@
 /*
-*TBD*
+Use this data source to query an SCM Credential in AWX/AT
 
 # Example Usage
 
 ```hcl
-*TBD*
+
+	data "awx_credential_scm" "my_scm_cred" {
+	  credential_id = <my_scm_cred_id>
+	}
+
+	output "my_scm_cred" {
+	  value     = data.awx_credential_scm.my_scm_cred
+	  sensitive = true
+	}
+
 ```
 */
 package awx

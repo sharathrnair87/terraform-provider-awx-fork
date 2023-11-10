@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this data source to obtain the ID of a given Job Template Role in AWX/AT
 
 # Example Usage
 

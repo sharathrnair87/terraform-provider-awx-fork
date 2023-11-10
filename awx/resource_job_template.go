@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create an AWX/AT Job Template. See below for the full list of supported parameters
 
 # Example Usage
 
@@ -28,6 +28,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+    "golang.org/x/exp/slices"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -56,9 +57,17 @@ func resourceJobTemplate() *schema.Resource {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "One of: run, check, scan",
+                ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+                    v := val.(string)
+                    allowedValues := []string{"run", "check", "scan"}
+                    if ok := slices.Contains(allowedValues, v); !ok {
+                        errs = append(errs, fmt.Errorf("%q must be one of 'run', 'check' or 'scan', got %s", key, v))
+                    }
+                    return
+                },
 			},
 			"inventory_id": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeInt,
 				Required: true,
 			},
 			"project_id": {
@@ -85,6 +94,13 @@ func resourceJobTemplate() *schema.Resource {
 				Type:        schema.TypeInt,
 				Optional:    true,
 				Default:     0,
+                ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+                    v := val.(int)
+                    if v < 0 || v > 5 {
+                        errs = append(errs, fmt.Errorf("%q must be between 0 and 5 inclusive, got %d", key, v))
+                    }
+                    return
+                },
 				Description: "One of 0,1,2,3,4,5",
 			},
 			"extra_vars": {

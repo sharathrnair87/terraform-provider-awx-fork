@@ -1,10 +1,32 @@
 /*
-*TBD*
+Create an AWX Credential of a specified type under a specific Organization.
+Use this when a resource to create a specific credential type is not available,
+usually with custom credential types.
+In order to view the `inputs` needed with a given credential type,
+navigate to `/api/v2/credential_types/<credential_type_id>` on your AT instance
 
 # Example Usage
 
 ```hcl
-*TBD*
+
+	data "awx_organization" "my_org" {
+	  name = "My Org"
+	}
+
+	resource "awx_credential" "my_creds" {
+	  name               = "My Creds"
+	  description        = "My Machine Credentials"
+	  organization_id    = data.awx_organization.my_org.id
+	  credential_type_id = 1 // SSH Machine Credential
+	  inputs = jsonencode({
+	    username        = "testuser",
+	    password        = "securepassword",
+	    become_method   = "sudo",
+	    become_username = "root",
+	    become_password = "securepasssword"
+	  })
+	}
+
 ```
 */
 package awx

@@ -1,10 +1,19 @@
 /*
-*TBD*
+Use this data source to query a Github Token Credential in AWX/AT
 
 # Example Usage
 
 ```hcl
-*TBD*
+
+	data "awx_credential_github_token" "my_gh_token" {
+	  credential_id = <my_gh_token_id>
+	}
+
+	output "my_gh_token" {
+	  value     = data.awx_credential_github_token.my_gh_token
+	  sensitive = true
+	}
+
 ```
 */
 package awx

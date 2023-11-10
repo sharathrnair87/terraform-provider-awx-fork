@@ -1,10 +1,19 @@
 /*
-*TBD*
+Use this data source to query a Machine Credential in AWX/AT
 
 # Example Usage
 
 ```hcl
-*TBD*
+
+	data "awx_credential_machine" "my_machine_creds" {
+	  credential_id = <my_machine_creds>
+	}
+
+	output "my_machine_creds" {
+	  value     = data.awx_credential_machine.my_machine_creds
+	  sensitive = true
+	}
+
 ```
 */
 package awx

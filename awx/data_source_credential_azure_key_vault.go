@@ -1,10 +1,19 @@
 /*
-*TBD*
+Use this data source to query an Azure Key Vault Credential in AWX/AT
 
 # Example Usage
 
 ```hcl
-*TBD*
+
+	data "awx_credential_azure_key_vault" "my_kv_lookup" {
+	  credential_id = <my_kv_id>
+	}
+
+	output "kv" {
+	  value     = data.awx_credential_azure_key_vault.my_kv_lookup
+	  sensitive = true
+	}
+
 ```
 */
 package awx

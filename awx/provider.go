@@ -89,6 +89,7 @@ func Provider() *schema.Provider {
 		DataSourcesMap: map[string]*schema.Resource{
 			"awx_credential_azure_key_vault":        dataSourceCredentialAzure(),
 			"awx_credential_azure_resource_manager": dataSourceCredentialAzureRM(),
+			"awx_credential_machine":                dataSourceCredentialMachine(),
 			"awx_credential_scm":                    dataSourceCredentialSCM(),
 			"awx_credential_github_token":           dataSourceCredentialGithubPAT(),
 			"awx_credential_hashivault_secret":      dataSourceCredentialHashiVault(),

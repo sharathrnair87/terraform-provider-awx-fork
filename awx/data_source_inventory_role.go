@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this data source to query the ID of a given Inventoty Role in AWX/AT
 
 # Example Usage
 
@@ -14,6 +14,10 @@
 	  name         = "Admin"
 	  inventory_id = data.awx_inventory.myinv.id
 	}
+
+    output "inv_admin_role_id" {
+        value = data.awx_inventory_role.inv_admin_role.id
+    }
 
 ```
 */

@@ -4,7 +4,13 @@ Use this data source to query Credential Type by ID.
 # Example Usage
 
 ```hcl
-*TBD*
+data "awx_credential_type" "my_cust_cred_type" {
+    id = <my_cust_cred_type_id>
+}
+
+output "my_cust_cred_type_inputs" {
+    value = data.awx_credential_type.my_cust_cred_type.inputs
+}
 ```
 */
 package awx
@@ -13,6 +19,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+    "encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -63,13 +70,41 @@ func dataSourceCredentialTypeByIDRead(ctx context.Context, d *schema.ResourceDat
 			Summary:  "Unable to fetch credential type",
 			Detail:   fmt.Sprintf("Unable to fetch credential type with ID: %d. Error: %s", id, err.Error()),
 		})
+
+        return diags
 	}
+
+    inputMap := credType.Inputs.(map[string]interface{})
+
+    inputStr, err := json.Marshal(inputMap)
+    if err != nil {
+        diags = append(diags, diag.Diagnostic{
+            Severity: diag.Error,
+            Summary: "Unable to parse inputs",
+            Detail: fmt.Sprintf("Unable to parse inputs for credential type with ID: %d. Error: %s", id, err.Error()),
+        })
+
+        return diags
+    }
+
+    injectorMap := credType.Injectors.(map[string]interface{})
+
+    injectorStr, err := json.Marshal(injectorMap)
+    if err != nil {
+        diags = append(diags, diag.Diagnostic{
+            Severity: diag.Error,
+            Summary: "Unable to parse inputs",
+            Detail: fmt.Sprintf("Unable to parse injectors for credential type with ID: %d. Error: %s", id, err.Error()),
+        })
+
+        return diags
+    }
 
 	d.Set("name", credType.Name)
 	d.Set("description", credType.Description)
 	d.Set("kind", credType.Kind)
-	d.Set("inputs", credType.Inputs)
-	d.Set("injectors", credType.Injectors)
+	d.Set("inputs", string(inputStr))
+	d.Set("injectors", string(injectorStr))
 	d.SetId(strconv.Itoa(id))
 
 	return diags
