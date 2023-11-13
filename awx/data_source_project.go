@@ -1,13 +1,19 @@
 /*
-*TBD*
+Use this data source to query a Project in AWX/AT
 
 # Example Usage
 
 ```hcl
 
-	data "awx_project" "default" {
-	  name = "Default"
-	}
+	    // By Name
+		data "awx_project" "default" {
+		  name = "Default"
+		}
+
+	    // By ID
+	    data "awx_project" "sharedServices" {
+	        id = <shared_services_prj_id>
+	    }
 
 ```
 */
@@ -36,6 +42,59 @@ func dataSourceProject() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"organization_id": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"local_path": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"scm_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"scm_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"scm_credential_id": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"scm_branch": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"scm_clean": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"scm_delete_on_update": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"scm_update_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"scm_update_cache_timeout": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -55,21 +114,21 @@ func dataSourceProjectsRead(ctx context.Context, d *schema.ResourceData, m inter
 	if len(params) == 0 {
 		return buildDiagnosticsMessage(
 			"Get: Missing Parameters",
-			"Please use one of the selectors (name or group_id)",
+			"Please use one of the selectors (name or project_id)",
 		)
 	}
 	Projects, _, err := client.ProjectService.ListProjects(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Inventory Group",
-			"Fail to find the group got: %s",
+			"Get: Failed to fetch Project",
+			"Failed to find the group got: %s",
 			err.Error(),
 		)
 	}
 	if len(Projects) > 1 {
 		return buildDiagnosticsMessage(
 			"Get: found more than one Element",
-			"The Query Returns more than one Group, %d",
+			"The Query Returns more than one Project, %d",
 			len(Projects),
 		)
 	}

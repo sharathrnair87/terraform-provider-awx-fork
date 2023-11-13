@@ -1,13 +1,13 @@
 /*
-*TBD*
+Use this resource to lookup a Workflow Job Template in AWX/AT
 
 # Example Usage
 
 ```hcl
 
-	data "awx_workflow_job_template" "default" {
-	  name = "Default"
-	}
+		data "awx_workflow_job_template" "default" {
+	        name = "Default"
+		}
 
 ```
 */
@@ -27,13 +27,67 @@ func dataSourceWorkflowJobTemplate() *schema.Resource {
 		ReadContext: dataSourceWorkflowJobTemplateRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"name"},
 			},
 			"name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"id"},
+			},
+			"variables": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
+			},
+			"organization_id": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"survey_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"allow_simultaneous": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"ask_variables_on_launch": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"inventory_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"limit": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"scm_branch": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ask_inventory_on_launch": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"ask_scm_branch_on_launch": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"ask_limit_on_launch": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"webhook_service": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"webhook_credential": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 		},
@@ -61,8 +115,8 @@ func dataSourceWorkflowJobTemplateRead(ctx context.Context, d *schema.ResourceDa
 	workflowJobTemplate, _, err := client.WorkflowJobTemplateService.ListWorkflowJobTemplates(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Inventory Group",
-			"Fail to find the group got: %s",
+			"Get: Failed to fetch Inventory Group",
+			"Failed to find the group got: %s",
 			err.Error(),
 		)
 	}

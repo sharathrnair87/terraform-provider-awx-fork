@@ -1,5 +1,7 @@
 /*
-*TBD*
+Use this resource to globally set the SOCIAL_AUTH_SAML_TEAM_ATTR setting in the SAML config.
+Note: This resource controls this setting globally across your entire AWX/AT setup, and must be
+managed centrally from a single state file to avoid conflicts
 
 # Example Usage
 
@@ -81,7 +83,7 @@ func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 			},
 		},
 		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 
 		Timeouts: &schema.ResourceTimeout{

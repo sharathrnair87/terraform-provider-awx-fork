@@ -71,8 +71,8 @@ func dataSourceInventoriesRead(ctx context.Context, d *schema.ResourceData, m in
 	inventories, _, err := client.InventoriesService.ListInventories(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Inventory Group",
-			"Fail to find the group got: %s",
+			"Get: Failed to fetch Inventory Group",
+			"Failed to find the group got: %s",
 			err.Error(),
 		)
 	}

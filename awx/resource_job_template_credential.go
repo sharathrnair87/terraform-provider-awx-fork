@@ -61,7 +61,7 @@ func resourceJobTemplateCredentialsCreate(ctx context.Context, d *schema.Resourc
 	}, map[string]string{})
 
 	if err != nil {
-		return buildDiagnosticsMessage("Create: JobTemplate not AssociateCredentials", "Fail to add credentials with Id %v, for Template ID %v, got error: %s", d.Get("credential_id").(int), jobTemplateID, err.Error())
+		return buildDiagnosticsMessage("Create: JobTemplate not AssociateCredentials", "Failed to add credentials with Id %v, for Template ID %v, got error: %s", d.Get("credential_id").(int), jobTemplateID, err.Error())
 	}
 
 	d.SetId(strconv.Itoa(result.ID))

@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this data source to query the ID of a given Organization Role in AWX/AT
 
 # Example Usage
 
@@ -60,8 +60,8 @@ func dataSourceOrganizationRolesRead(ctx context.Context, d *schema.ResourceData
 	organization, err := client.OrganizationsService.GetOrganizationsByID(org_id, params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch organization role",
-			"Fail to find the organization role got: %s",
+			"Get: Failed to fetch organization role",
+			"Failed to find the organization role got: %s",
 			err.Error(),
 		)
 	}

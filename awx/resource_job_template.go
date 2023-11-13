@@ -28,7 +28,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-    "golang.org/x/exp/slices"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -57,14 +56,13 @@ func resourceJobTemplate() *schema.Resource {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "One of: run, check, scan",
-                ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
-                    v := val.(string)
-                    allowedValues := []string{"run", "check", "scan"}
-                    if ok := slices.Contains(allowedValues, v); !ok {
-                        errs = append(errs, fmt.Errorf("%q must be one of 'run', 'check' or 'scan', got %s", key, v))
-                    }
-                    return
-                },
+				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+					v := val.(string)
+					if v != "run" && v != "check" && v != "scan" {
+						errs = append(errs, fmt.Errorf("%q must be one of 'run', 'check' or 'scan', got %s", key, v))
+					}
+					return
+				},
 			},
 			"inventory_id": {
 				Type:     schema.TypeInt,
@@ -91,16 +89,16 @@ func resourceJobTemplate() *schema.Resource {
 			},
 			//0,1,2,3,4,5
 			"verbosity": {
-				Type:        schema.TypeInt,
-				Optional:    true,
-				Default:     0,
-                ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
-                    v := val.(int)
-                    if v < 0 || v > 5 {
-                        errs = append(errs, fmt.Errorf("%q must be between 0 and 5 inclusive, got %d", key, v))
-                    }
-                    return
-                },
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+					v := val.(int)
+					if v < 0 || v > 5 {
+						errs = append(errs, fmt.Errorf("%q must be between 0 and 5 inclusive, got %d", key, v))
+					}
+					return
+				},
 				Description: "One of 0,1,2,3,4,5",
 			},
 			"extra_vars": {
@@ -219,6 +217,9 @@ func resourceJobTemplate() *schema.Resource {
 				Default:  "",
 			},
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 	}
 }
 
@@ -262,7 +263,7 @@ func resourceJobTemplateCreate(ctx context.Context, d *schema.ResourceData, m in
 		"execution_environment":    AtoipOr(d.Get("execution_environment").(string), nil),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create Template %v", err)
+		log.Printf("Failed to Create Template %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create JobTemplate",

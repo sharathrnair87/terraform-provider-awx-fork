@@ -5,13 +5,13 @@ Use this data source to query an AWX/AT Job Template
 
 ```hcl
 
-	data "awx_job_template" "default" {
-	  name = "Default"
-	}
+		data "awx_job_template" "default" {
+		  name = "Default"
+		}
 
-    output "def_job_templ_playbook" {
-        value = data.awx_job_template.default.playbook
-    }
+	    output "def_job_templ_playbook" {
+	        value = data.awx_job_template.default.playbook
+	    }
 
 ```
 */
@@ -33,16 +33,16 @@ func dataSourceJobTemplate() *schema.Resource {
 		ReadContext: dataSourceJobTemplateRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-                ConflictsWith: []string{"name"},
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"name"},
 			},
 			"name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-                ConflictsWith: []string{"id"},
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"id"},
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -50,8 +50,8 @@ func dataSourceJobTemplate() *schema.Resource {
 				Computed: true,
 			},
 			"job_type": {
-				Type:        schema.TypeString,
-				Optional:    true,
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"inventory_id": {
 				Type:     schema.TypeInt,
@@ -77,8 +77,8 @@ func dataSourceJobTemplate() *schema.Resource {
 				Computed: true,
 			},
 			"verbosity": {
-				Type:        schema.TypeInt,
-				Optional:    true,
+				Type:     schema.TypeInt,
+				Optional: true,
 				Computed: true,
 			},
 			"extra_vars": {
@@ -223,8 +223,8 @@ func dataSourceJobTemplateRead(ctx context.Context, d *schema.ResourceData, m in
 
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Job Template",
-			"Fail to find the jt got: %s",
+			"Get: Failed to fetch Job Template",
+			"Failed to find the jt got: %s",
 			err.Error(),
 		)
 	}

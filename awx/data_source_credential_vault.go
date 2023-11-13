@@ -4,13 +4,15 @@ Use this data source to query an Ansible Vault Credential in AWX/AT
 # Example Usage
 
 ```hcl
-data "awx_credential_vault" "my_vault_cred" {
-    credential_id = <my_vault_cred_id>
-}
 
-output "my_vault_cred_vault_id" {
-    value = data.awx_credential_vault.my_vault_cred.vault_id
-}
+	data "awx_credential_vault" "my_vault_cred" {
+	    credential_id = <my_vault_cred_id>
+	}
+
+	output "my_vault_cred_vault_id" {
+	    value = data.awx_credential_vault.my_vault_cred.vault_id
+	}
+
 ```
 */
 package awx

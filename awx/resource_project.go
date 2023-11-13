@@ -76,7 +76,7 @@ func resourceProject() *schema.Resource {
 			"scm_credential_id": {
 				Type:        schema.TypeInt,
 				Optional:    true,
-				Description: "Numeric ID of the scm used credential",
+				Description: "Numeric ID of the scm credential used",
 			},
 			"scm_branch": {
 				Type:        schema.TypeString,
@@ -111,7 +111,7 @@ func resourceProject() *schema.Resource {
 			},
 		},
 		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 
 		Timeouts: &schema.ResourceTimeout{
@@ -134,7 +134,7 @@ func resourceProjectCreate(ctx context.Context, d *schema.ResourceData, m interf
 	},
 	)
 	if err != nil {
-		return buildDiagnosticsMessage("Create: Fail to find Project", "Fail to find Project %s Organization ID %v, %s", projectName, orgID, err.Error())
+		return buildDiagnosticsMessage("Create: Failed to find Project", "Failed to find Project %s Organization ID %v, %s", projectName, orgID, err.Error())
 	}
 	if len(res.Results) >= 1 {
 		return buildDiagnosticsMessage("Create: Always exist", "Project with name %s  already exists in the Organization ID %v", projectName, orgID)
@@ -200,7 +200,7 @@ func resourceProjectUpdate(ctx context.Context, d *schema.ResourceData, m interf
 
 	_, err := awxService.UpdateProject(id, data, map[string]string{})
 	if err != nil {
-		return buildDiagnosticsMessage("Update: Fail To Update Project", "Fail to get Project with ID %v, got %s", id, err.Error())
+		return buildDiagnosticsMessage("Update: Fail To Update Project", "Failed to get Project with ID %v, got %s", id, err.Error())
 	}
 	return resourceProjectRead(ctx, d, m)
 }
@@ -250,8 +250,8 @@ func resourceProjectDelete(ctx context.Context, d *schema.ResourceData, m interf
 		_, err = client.ProjectUpdatesService.ProjectUpdateCancel(jobID)
 		if err != nil {
 			return buildDiagnosticsMessage(
-				"Delete: Fail to canel Job",
-				"Fail to canel the Job %v for Project with ID %v, got %s",
+				"Delete: Failed to canel Job",
+				"Failed to canel the Job %v for Project with ID %v, got %s",
 				jobID, id, err.Error(),
 			)
 		}
@@ -270,7 +270,7 @@ func resourceProjectDelete(ctx context.Context, d *schema.ResourceData, m interf
 	return diags
 }
 
-func setProjectResourceData(d *schema.ResourceData, r *awx.Project) *schema.ResourceData {
+func setProjectResourceData(d *schema.ResourceData, r *awx.ProjectRead) *schema.ResourceData {
 	d.Set("name", r.Name)
 	d.Set("description", r.Description)
 	d.Set("scm_type", r.ScmType)
@@ -279,11 +279,7 @@ func setProjectResourceData(d *schema.ResourceData, r *awx.Project) *schema.Reso
 	d.Set("scm_clean", r.ScmClean)
 	d.Set("scm_delete_on_update", r.ScmDeleteOnUpdate)
 	d.Set("organization_id", r.Organization)
-
-	id, err := strconv.Atoi(r.Credential)
-	if err == nil {
-		d.Set("scm_credential_id", id)
-	}
+	d.Set("scm_credential_id", r.Credential)
 	d.Set("scm_update_on_launch", r.ScmUpdateOnLaunch)
 	d.Set("scm_update_cache_timeout", r.ScmUpdateCacheTimeout)
 

@@ -121,7 +121,7 @@ func resourceWorkflowJobTemplateNode() *schema.Resource {
 			},
 		},
 		//Importer: &schema.ResourceImporter{
-		//	State: schema.ImportStatePassthrough,
+		//	StateContext: schema.ImportStatePassthroughContext,
 		//},
 		//
 		//Timeouts: &schema.ResourceTimeout{
@@ -157,7 +157,7 @@ func resourceWorkflowJobTemplateNodeCreate(ctx context.Context, d *schema.Resour
 		"identifier":                d.Get("identifier").(string),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create Template %v", err)
+		log.Printf("Failed to Create Template %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create WorkflowJobTemplateNode",

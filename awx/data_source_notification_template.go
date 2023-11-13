@@ -1,12 +1,12 @@
 /*
-*TBD*
+Use this data source to query a Notificate Template in AWX/AT
 
 # Example Usage
 
 ```hcl
 
 	data "awx_notification_template" "default" {
-	  name            = "private_services"
+	  name = "private_services"
 	}
 
 ```
@@ -62,8 +62,8 @@ func dataSourceNotificationTemplatesRead(ctx context.Context, d *schema.Resource
 	notificationTemplates, _, err := client.NotificationTemplatesService.List(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch NotificationTemplate",
-			"Fail to find the group got: %s",
+			"Get: Failed to fetch NotificationTemplate",
+			"Failed to find the group got: %s",
 			err.Error(),
 		)
 	}

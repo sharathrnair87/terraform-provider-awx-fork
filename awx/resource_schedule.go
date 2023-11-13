@@ -87,7 +87,7 @@ func resourceScheduleCreate(ctx context.Context, d *schema.ResourceData, m inter
 		"extra_data":           unmarshalYaml(d.Get("extra_data").(string)),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create Schedule %v", err)
+		log.Printf("Failed to Create Schedule %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create Schedule",

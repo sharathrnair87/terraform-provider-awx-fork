@@ -74,7 +74,7 @@ func buildDiagDeleteFailSummary(tfMethode string) string {
 	return fmt.Sprintf("%s delete failed", tfMethode)
 }
 func buildDiagDeleteFailDetails(tfMethode, detailsString string) string {
-	return fmt.Sprintf("Fail to delete %s, %s", tfMethode, detailsString)
+	return fmt.Sprintf("Failed to delete %s, %s", tfMethode, detailsString)
 }
 
 func convertStateIDToNummeric(tfElement string, d *schema.ResourceData) (int, diag.Diagnostics) {

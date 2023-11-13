@@ -1,23 +1,23 @@
 /*
-Use this data source to query the ID of a given Inventoty Role in AWX/AT
+Use this data source to query the ID of a given Inventory Role in AWX/AT
 
 # Example Usage
 
 ```hcl
 
-	resource "awx_inventory" "myinv" {
-	  name = "My Inventory"
-	  ...
-	}
+		resource "awx_inventory" "myinv" {
+		  name = "My Inventory"
+		  ...
+		}
 
-	data "awx_inventory_role" "inv_admin_role" {
-	  name         = "Admin"
-	  inventory_id = data.awx_inventory.myinv.id
-	}
+		data "awx_inventory_role" "inv_admin_role" {
+		  name         = "Admin"
+		  inventory_id = data.awx_inventory.myinv.id
+		}
 
-    output "inv_admin_role_id" {
-        value = data.awx_inventory_role.inv_admin_role.id
-    }
+	    output "inv_admin_role_id" {
+	        value = data.awx_inventory_role.inv_admin_role.id
+	    }
 
 ```
 */
@@ -63,8 +63,8 @@ func dataSourceInventoryRoleRead(ctx context.Context, d *schema.ResourceData, m 
 	inventory, err := client.InventoriesService.GetInventoryByID(inv_id, params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Inventory",
-			"Fail to find the inventory, got: %s",
+			"Get: Failed to fetch Inventory",
+			"Failed to find the inventory, got: %s",
 			err.Error(),
 		)
 	}

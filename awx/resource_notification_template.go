@@ -83,7 +83,7 @@ func resourceNotificationTemplateCreate(ctx context.Context, d *schema.ResourceD
 		"notification_configuration": notificationConfigurationMap,
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create notification_template %v", err)
+		log.Printf("Failed to Create notification_template %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create NotificationTemplate",

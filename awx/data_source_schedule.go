@@ -27,13 +27,39 @@ func dataSourceSchedule() *schema.Resource {
 		ReadContext: dataSourceSchedulesRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"name"},
 			},
 			"name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"id"},
+			},
+			"rrule": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
+			},
+			"unified_job_template_id": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"inventory": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"extra_data": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 		},
@@ -62,8 +88,8 @@ func dataSourceSchedulesRead(ctx context.Context, d *schema.ResourceData, m inte
 	schedules, _, err := client.ScheduleService.List(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Schedule Group",
-			"Fail to find the group got: %s",
+			"Get: Failed to fetch Schedule Group",
+			"Failed to find the group got: %s",
 			err.Error(),
 		)
 	}

@@ -4,22 +4,24 @@ Use this data source to query Credential Type by ID.
 # Example Usage
 
 ```hcl
-data "awx_credential_type" "my_cust_cred_type" {
-    id = <my_cust_cred_type_id>
-}
 
-output "my_cust_cred_type_inputs" {
-    value = data.awx_credential_type.my_cust_cred_type.inputs
-}
+	data "awx_credential_type" "my_cust_cred_type" {
+	    id = <my_cust_cred_type_id>
+	}
+
+	output "my_cust_cred_type_inputs" {
+	    value = data.awx_credential_type.my_cust_cred_type.inputs
+	}
+
 ```
 */
 package awx
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strconv"
-    "encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -71,34 +73,34 @@ func dataSourceCredentialTypeByIDRead(ctx context.Context, d *schema.ResourceDat
 			Detail:   fmt.Sprintf("Unable to fetch credential type with ID: %d. Error: %s", id, err.Error()),
 		})
 
-        return diags
+		return diags
 	}
 
-    inputMap := credType.Inputs.(map[string]interface{})
+	inputMap := credType.Inputs.(map[string]interface{})
 
-    inputStr, err := json.Marshal(inputMap)
-    if err != nil {
-        diags = append(diags, diag.Diagnostic{
-            Severity: diag.Error,
-            Summary: "Unable to parse inputs",
-            Detail: fmt.Sprintf("Unable to parse inputs for credential type with ID: %d. Error: %s", id, err.Error()),
-        })
+	inputStr, err := json.Marshal(inputMap)
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to parse inputs",
+			Detail:   fmt.Sprintf("Unable to parse inputs for credential type with ID: %d. Error: %s", id, err.Error()),
+		})
 
-        return diags
-    }
+		return diags
+	}
 
-    injectorMap := credType.Injectors.(map[string]interface{})
+	injectorMap := credType.Injectors.(map[string]interface{})
 
-    injectorStr, err := json.Marshal(injectorMap)
-    if err != nil {
-        diags = append(diags, diag.Diagnostic{
-            Severity: diag.Error,
-            Summary: "Unable to parse inputs",
-            Detail: fmt.Sprintf("Unable to parse injectors for credential type with ID: %d. Error: %s", id, err.Error()),
-        })
+	injectorStr, err := json.Marshal(injectorMap)
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to parse inputs",
+			Detail:   fmt.Sprintf("Unable to parse injectors for credential type with ID: %d. Error: %s", id, err.Error()),
+		})
 
-        return diags
-    }
+		return diags
+	}
 
 	d.Set("name", credType.Name)
 	d.Set("description", credType.Description)

@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a Team with appropriate Role Entitlements in AWX/AT. See examples below.
 
 # Example Usage
 
@@ -88,12 +88,20 @@ func resourceTeam() *schema.Resource {
 							Type:     schema.TypeInt,
 							Required: true,
 						},
+						"resource_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
 		},
 		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 
 		Timeouts: &schema.ResourceTimeout{
@@ -116,7 +124,7 @@ func resourceTeamCreate(ctx context.Context, d *schema.ResourceData, m interface
 	},
 	)
 	if err != nil {
-		return buildDiagnosticsMessage("Create: Fail to find Team", "Fail to find Team %s Organization ID %v, %s", teamName, orgID, err.Error())
+		return buildDiagnosticsMessage("Create: Failed to find Team", "Failed to find Team %s Organization ID %v, %s", teamName, orgID, err.Error())
 	}
 	if len(res.Results) >= 1 {
 		return buildDiagnosticsMessage("Create: Already exist", "Team with name %s  already exists in the Organization ID %v", teamName, orgID)
@@ -212,7 +220,7 @@ func resourceTeamUpdate(ctx context.Context, d *schema.ResourceData, m interface
 		"organization": d.Get("organization_id").(int),
 	}, map[string]string{})
 	if err != nil {
-		return buildDiagnosticsMessage("Update: Failed To Update Team", "Fail to get Team with ID %v, got %s", id, err.Error())
+		return buildDiagnosticsMessage("Update: Failed To Update Team", "Failed to get Team with ID %v, got %s", id, err.Error())
 	}
 	d.Partial(false)
 	return resourceTeamRead(ctx, d, m)
@@ -268,11 +276,15 @@ func setTeamResourceData(d *schema.ResourceData, r *awx.Team, e []*awx.ApplyRole
 	for _, v := range e {
 		elem := make(map[string]interface{})
 		elem["role_id"] = v.ID
+		elem["resource_name"] = v.Summary.ResourceName
+		elem["resource_type"] = v.Summary.ResourceType
 		entlist = append(entlist, elem)
 	}
 	f := schema.HashResource(&schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"role_id": {Type: schema.TypeInt},
+			"role_id":       {Type: schema.TypeInt},
+			"resource_name": {Type: schema.TypeString},
+			"resource_type": {Type: schema.TypeString},
 		}})
 
 	ent := schema.NewSet(f, entlist)

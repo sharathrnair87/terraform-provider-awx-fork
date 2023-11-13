@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this data source to lookup a Team by name or ID in AWX/AT
 
 # Example Usage
 
@@ -27,14 +27,44 @@ func dataSourceTeam() *schema.Resource {
 		ReadContext: dataSourceTeamsRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"name"},
 			},
 			"name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"id"},
+			},
+			"description": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
+			},
+			"organization_id": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"role_entitlement": {
+				Type:     schema.TypeSet,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"role_id": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"resource_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -61,8 +91,8 @@ func dataSourceTeamsRead(ctx context.Context, d *schema.ResourceData, m interfac
 	Teams, _, err := client.TeamService.ListTeams(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Team",
-			"Fail to find the team got: %s",
+			"Get: Failed to fetch Team",
+			"Failed to find the team got: %s",
 			err.Error(),
 		)
 	}
@@ -79,7 +109,7 @@ func dataSourceTeamsRead(ctx context.Context, d *schema.ResourceData, m interfac
 	if err != nil {
 		return buildDiagnosticsMessage(
 			"Get: Failed to fetch team role entitlements",
-			"Fail to retrieve team role entitlements got: %s",
+			"Failed to retrieve team role entitlements got: %s",
 			err.Error(),
 		)
 	}

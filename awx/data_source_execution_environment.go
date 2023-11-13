@@ -5,13 +5,13 @@ Use this data source to query an Execution Environment in AWX/AT
 
 ```hcl
 
-	data "awx_execution_environment" "default" {
-	  name = "Default"
-	}
+		data "awx_execution_environment" "default" {
+		  name = "Default"
+		}
 
-    output "default_ee" {
-        value = data.awx_execution_environment.default.id
-    }
+	    output "default_ee" {
+	        value = data.awx_execution_environment.default.id
+	    }
 
 ```
 */
@@ -65,8 +65,8 @@ func dataSourceExecutionEnvironmentsRead(ctx context.Context, d *schema.Resource
 	executionEnvironments, _, err := client.ExecutionEnvironmentsService.ListExecutionEnvironments(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch execution environment",
-			"Fail to find the execution environment got: %s",
+			"Get: Failed to fetch execution environment",
+			"Failed to find the execution environment got: %s",
 			err.Error(),
 		)
 	}

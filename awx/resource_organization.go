@@ -41,7 +41,6 @@ func resourceOrganization() *schema.Resource {
 				Optional: true,
 				Default:  "",
 			},
-			// Run, Check, Scan
 			"max_hosts": {
 				Type:        schema.TypeInt,
 				Optional:    true,
@@ -55,7 +54,7 @@ func resourceOrganization() *schema.Resource {
 			},
 		},
 		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 		//
 		//Timeouts: &schema.ResourceTimeout{
@@ -78,7 +77,7 @@ func resourceOrganizationsCreate(ctx context.Context, d *schema.ResourceData, m 
 		"custom_virtualenv": d.Get("description").(string),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create Organization %v", err)
+		log.Printf("Failed to Create Organization %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create Organizations",

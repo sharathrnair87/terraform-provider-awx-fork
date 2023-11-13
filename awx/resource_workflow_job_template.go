@@ -141,7 +141,7 @@ func resourceWorkflowJobTemplateCreate(ctx context.Context, d *schema.ResourceDa
 		"webhook_credential":       d.Get("webhook_credential").(string),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create Template %v", err)
+		log.Printf("Failed to Create Template %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create WorkflowJobTemplate",
@@ -238,7 +238,7 @@ func setWorkflowJobTemplateResourceData(d *schema.ResourceData, r *awx.WorkflowJ
 
 	d.Set("name", r.Name)
 	d.Set("description", r.Description)
-	d.Set("organization_id", strconv.Itoa(r.Organization))
+	d.Set("organization_id", r.Organization)
 	d.Set("inventory_id", strconv.Itoa(r.Inventory))
 	d.Set("survey_enabled", r.SurveyEnabled)
 	d.Set("allow_simultaneous", r.AllowSimultaneous)

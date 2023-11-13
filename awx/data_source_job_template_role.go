@@ -60,8 +60,8 @@ func dataSourceJobTemplateRoleRead(ctx context.Context, d *schema.ResourceData, 
 	jobTemplate, err := client.JobTemplateService.GetJobTemplateByID(jobTmpl_id, params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch JobTemplate",
-			"Fail to find the job template, got: %s",
+			"Get: Failed to fetch JobTemplate",
+			"Failed to find the job template, got: %s",
 			err.Error(),
 		)
 	}

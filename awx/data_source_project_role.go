@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this data source to obtain the ID of a given Project Role in AWX/AT
 
 # Example Usage
 
@@ -60,8 +60,8 @@ func dataSourceProjectRolesRead(ctx context.Context, d *schema.ResourceData, m i
 	Project, err := client.ProjectService.GetProjectByID(proj_id, params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch Project",
-			"Fail to find the project got: %s",
+			"Get: Failed to fetch Project",
+			"Failed to find the project got: %s",
 			err.Error(),
 		)
 	}

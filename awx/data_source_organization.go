@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this data source to query an AWX/AT Organization
 
 # Example Usage
 
@@ -27,11 +27,23 @@ func dataSourceOrganization() *schema.Resource {
 		ReadContext: dataSourceOrganizationRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"name"},
+			},
+			"name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"id"},
+			},
+			"max_hosts": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"name": {
+			"custom_virtualenv": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -57,13 +69,12 @@ func dataSourceOrganizationRead(ctx context.Context, d *schema.ResourceData, m i
 			"Get: Missing Parameters",
 			"Please use one of the selectors (name or group_id)",
 		)
-		return diags
 	}
 	organizations, err := client.OrganizationsService.ListOrganizations(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch organization",
-			"Fail to find the organization got: %s",
+			"Get: Failed to fetch organization",
+			"Failed to find the organization got: %s",
 			err.Error(),
 		)
 	}
@@ -73,7 +84,6 @@ func dataSourceOrganizationRead(ctx context.Context, d *schema.ResourceData, m i
 			"The Query Returns more than one organization, %d",
 			len(organizations),
 		)
-		return diags
 	}
 
 	organization := organizations[0]

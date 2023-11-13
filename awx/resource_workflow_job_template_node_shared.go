@@ -103,7 +103,7 @@ func createNodeForWorkflowJob(awxService *awx.WorkflowJobTemplateNodeStepService
 		"identifier":                d.Get("identifier").(string),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create Template %v", err)
+		log.Printf("Failed to Create Template %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create WorkflowJobTemplateNodeSuccess",

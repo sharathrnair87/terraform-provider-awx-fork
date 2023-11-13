@@ -60,8 +60,8 @@ func dataSourceCredentialRoleRead(ctx context.Context, d *schema.ResourceData, m
 	cred, err := client.CredentialsService.GetCredentialsByID(cred_id, params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Fail to fetch credential",
-			"Fail to find the credential, got: %s",
+			"Get: Failed to fetch credential",
+			"Failed to find the credential, got: %s",
 			err.Error(),
 		)
 	}

@@ -72,7 +72,7 @@ func resourceExecutionEnvironmentsCreate(ctx context.Context, d *schema.Resource
 		"credential":   AtoipOr(d.Get("credential").(string), nil),
 	}, map[string]string{})
 	if err != nil {
-		log.Printf("Fail to Create ExecutionEnvironment %v", err)
+		log.Printf("Failed to Create ExecutionEnvironment %v", err)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create ExecutionEnvironments",
