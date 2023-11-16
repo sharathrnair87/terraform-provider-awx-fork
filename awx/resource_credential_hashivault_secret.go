@@ -1,10 +1,21 @@
 /*
-*TBD*
+Use this resource to manage a HashiCorp Vault Secret Credential in AWX/AT.
+For more details see [HashiCorp Vault Secret Lookup](https://docs.ansible.com/automation-controller/latest/html/userguide/credential_plugins.html#ug-credentials-hashivault)
 
 # Example Usage
 
 ```hcl
-*TBD*
+data "awx_organization" "cybersec" {
+  name = "CyberSec"
+}
+
+resource "awx_credential_hashivault_secret" "hv_cyber" {
+  name            = "HV Cyber"
+  organization_id = data.awx_organization.cybersec.id
+  url             = var.hashicorp_vault_url
+  token           = var.hashicorp_vault_token
+}
+
 ```
 */
 package awx

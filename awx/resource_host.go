@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a managed host in AWX/AT.
 
 # Example Usage
 

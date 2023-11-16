@@ -1,10 +1,21 @@
 /*
-*TBD*
+Use this resource to manage a HashiCorp Vault Signed SSH Credential in AWX/AT
+For more details see [HashiCorp Vault Signed SSH](https://docs.ansible.com/automation-controller/latest/html/userguide/credential_plugins.html#hashicorp-vault-signed-ssh)
 
 # Example Usage
 
 ```hcl
-*TBD*
+data "awx_organization" "cybersec" {
+  name = "CyberSec"
+}
+
+resource "awx_credential_hashivault_signed_ssh" "hv_cyber_signed_ssh" {
+  name            = "HV Cyber Sig SSH"
+  organization_id = data.awx_organization.cybersec.id
+  url             = var.hashicorp_vault_url
+  token           = var.hashicorp_vault_token
+}
+
 ```
 */
 package awx

@@ -1,10 +1,43 @@
 /*
-*TBD*
+Use this resource to create a custom Credential Type in AWX/AT
 
 # Example Usage
 
 ```hcl
-*TBD*
+data "awx_organization" "default" {
+  name = "Default"
+}
+
+resource "awx_credential_type" "custom_cred_type" {
+  name = "customcreds"
+  inputs = jsonencode(
+    {
+      fields = [
+        {
+          id     = "url",
+          label  = "URL",
+          secret = false,
+          type   = "string",
+        },
+        {
+          id     = "url_token",
+          label  = "URL TOKEN",
+          secret = true,
+          type   = "string",
+        }
+      ]
+    }
+  )
+  injectors = jsonencode(
+    {
+      "env" = {
+        url       = "{{url}}",
+        url_token = "{{url_token}}",
+      }
+    }
+  )
+}
+
 ```
 */
 package awx

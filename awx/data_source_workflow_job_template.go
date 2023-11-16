@@ -5,8 +5,14 @@ Use this resource to lookup a Workflow Job Template in AWX/AT
 
 ```hcl
 
+        // Lookup by `name`
 		data "awx_workflow_job_template" "default" {
 	        name = "Default"
+		}
+
+        // Lookup by `id`
+		data "awx_workflow_job_template" "default" {
+	        id = <default_workflow_job_template_id>
 		}
 
 ```

@@ -1,10 +1,20 @@
 /*
-*TBD*
+Use this resource to manage a Github Token Credential in AWX/AT.
+For more details see [Github Token](https://docs.ansible.com/automation-controller/latest/html/userguide/credentials.html#github-personal-access-token)
 
 # Example Usage
 
 ```hcl
-*TBD*
+data "awx_organization" "devops" {
+  name = "DevOpsOrg"
+}
+
+resource "awx_credential_github_token" "gh_pat" {
+  name            = "devops_gh_pat"
+  token           = "..."
+  organization_id = data.awx_organization.devops.id
+}
+
 ```
 */
 package awx
