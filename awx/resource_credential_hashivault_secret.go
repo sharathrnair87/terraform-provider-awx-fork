@@ -84,12 +84,30 @@ func resourceCredentialHashiVaultSecret() *schema.Resource {
 func resourceCredentialHashiVaultSecretCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "HashiCorp Vault Secret Lookup",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":            d.Get("name").(string),
-		"description":     d.Get("description").(string),
-		"organization":    d.Get("organization_id").(int),
-		"credential_type": 21, // Hashicorp Vault Secret Lookup
+		"name":         d.Get("name").(string),
+		"description":  d.Get("description").(string),
+		"organization": d.Get("organization_id").(int),
+		//"credential_type": 21, // Hashicorp Vault Secret Lookup
+		"credential_type": credentialTypeID, // Hashicorp Vault Secret Lookup
 		"inputs": map[string]interface{}{
 			"url":         d.Get("url").(string),
 			"token":       d.Get("token").(string),
@@ -98,7 +116,6 @@ func resourceCredentialHashiVaultSecretCreate(ctx context.Context, d *schema.Res
 		},
 	}
 
-	client := m.(*awx.AWX)
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -143,6 +160,23 @@ func resourceCredentialHashiVaultSecretRead(ctx context.Context, d *schema.Resou
 
 func resourceCredentialHashiVaultSecretUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "HashiCorp Vault Secret Lookup",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	keys := []string{
 		"name",
@@ -158,10 +192,11 @@ func resourceCredentialHashiVaultSecretUpdate(ctx context.Context, d *schema.Res
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":            d.Get("name").(string),
-			"description":     d.Get("description").(string),
-			"organization":    d.Get("organization_id").(int),
-			"credential_type": 21, // Hashicorp Vault Secret Lookup
+			"name":         d.Get("name").(string),
+			"description":  d.Get("description").(string),
+			"organization": d.Get("organization_id").(int),
+			//"credential_type": 21, // Hashicorp Vault Secret Lookup
+			"credential_type": credentialTypeID, // Hashicorp Vault Secret Lookup
 			"inputs": map[string]interface{}{
 				"url":         d.Get("url").(string),
 				"token":       d.Get("token").(string),

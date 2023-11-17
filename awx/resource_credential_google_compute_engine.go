@@ -82,12 +82,30 @@ func resourceCredentialGoogleComputeEngine() *schema.Resource {
 func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "Google Compute Engine",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":            d.Get("name").(string),
-		"description":     d.Get("description").(string),
-		"organization":    d.Get("organization_id").(int),
-		"credential_type": 10, // Google Compute Engine
+		"name":         d.Get("name").(string),
+		"description":  d.Get("description").(string),
+		"organization": d.Get("organization_id").(int),
+		//"credential_type": 10, // Google Compute Engine
+		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
 			"username":     d.Get("username").(string),
 			"project":      d.Get("project").(string),
@@ -95,7 +113,6 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 		},
 	}
 
-	client := m.(*awx.AWX)
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -138,6 +155,23 @@ func resourceCredentialGoogleComputeEngineRead(ctx context.Context, d *schema.Re
 
 func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "Google Compute Engine",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	keys := []string{
 		"name",
@@ -153,10 +187,11 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":            d.Get("name").(string),
-			"description":     d.Get("description").(string),
-			"organization":    d.Get("organization_id").(int),
-			"credential_type": 10, // Google Compute Engine
+			"name":         d.Get("name").(string),
+			"description":  d.Get("description").(string),
+			"organization": d.Get("organization_id").(int),
+			//"credential_type": 10, // Google Compute Engine
+			"credential_type": credentialTypeID, // Google Compute Engine
 			"inputs": map[string]interface{}{
 				"username":     d.Get("username").(string),
 				"project":      d.Get("project").(string),
@@ -164,7 +199,6 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 			},
 		}
 
-		client := m.(*awx.AWX)
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{

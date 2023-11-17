@@ -102,6 +102,23 @@ func resourceCredentialAzureRM() *schema.Resource {
 func resourceCredentialAzureRMCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "Microsoft Azure Resource Manager",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	inputs := make(map[string]interface{})
 
@@ -122,14 +139,14 @@ func resourceCredentialAzureRMCreate(ctx context.Context, d *schema.ResourceData
 	}
 
 	newCredential := map[string]interface{}{
-		"name":            d.Get("name").(string),
-		"description":     d.Get("description").(string),
-		"organization":    d.Get("organization_id").(int),
-		"credential_type": 11, // Azure Resource Manager
+		"name":         d.Get("name").(string),
+		"description":  d.Get("description").(string),
+		"organization": d.Get("organization_id").(int),
+		//"credential_type": 11, // Azure Resource Manager
+		"credential_type": credentialTypeID, // Azure Resource Manager
 		"inputs":          inputs,
 	}
 
-	client := m.(*awx.AWX)
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -176,6 +193,23 @@ func resourceCredentialAzureRMRead(ctx context.Context, d *schema.ResourceData, 
 
 func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "Microsoft Azure Resource Manager",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	keys := []string{
 		"name",
@@ -191,10 +225,11 @@ func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":            d.Get("name").(string),
-			"description":     d.Get("description").(string),
-			"organization":    d.Get("organization_id").(int),
-			"credential_type": 11, // Azure Resource Manager
+			"name":         d.Get("name").(string),
+			"description":  d.Get("description").(string),
+			"organization": d.Get("organization_id").(int),
+			//"credential_type": 11, // Azure Resource Manager
+			"credential_type": credentialTypeID, // Azure Resource Manager
 			"inputs": map[string]interface{}{
 				"url":      d.Get("url").(string),
 				"client":   d.Get("client").(string),
@@ -205,7 +240,6 @@ func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData
 			},
 		}
 
-		client := m.(*awx.AWX)
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{
