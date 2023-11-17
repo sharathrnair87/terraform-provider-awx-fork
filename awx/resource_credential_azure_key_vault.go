@@ -94,20 +94,20 @@ func resourceCredentialAzureKeyVaultCreate(ctx context.Context, d *schema.Resour
 		"name": "Microsoft Azure Key Vault",
 	})
 	if err != nil {
-	    diags = append(diags, diag.Diagnostic{
-		Severity: diag.Error,
-		Summary:  "Unable to find Credential Type",
-		Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
-	    })
-	    return diags
-    	}
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
 
 	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":            d.Get("name").(string),
-		"description":     d.Get("description").(string),
-		"organization":    d.Get("organization_id").(int),
+		"name":         d.Get("name").(string),
+		"description":  d.Get("description").(string),
+		"organization": d.Get("organization_id").(int),
 		//"credential_type": 19, // Azure Key Vault
 		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
@@ -170,13 +170,13 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 		"name": "Microsoft Azure Key Vault",
 	})
 	if err != nil {
-	    diags = append(diags, diag.Diagnostic{
-		Severity: diag.Error,
-		Summary:  "Unable to find Credential Type",
-		Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
-	    })
-	    return diags
-    	}
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
 
 	credentialTypeID = credType[0].ID
 
@@ -194,9 +194,9 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":            d.Get("name").(string),
-			"description":     d.Get("description").(string),
-			"organization":    d.Get("organization_id").(int),
+			"name":         d.Get("name").(string),
+			"description":  d.Get("description").(string),
+			"organization": d.Get("organization_id").(int),
 			//"credential_type": 19, // Azure Key Vault
 			"credential_type": credentialTypeID,
 			"inputs": map[string]interface{}{
