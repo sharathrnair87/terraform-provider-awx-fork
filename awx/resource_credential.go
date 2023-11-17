@@ -187,5 +187,5 @@ func resourceCredentialUpdate(ctx context.Context, d *schema.ResourceData, m int
 		}
 	}
 
-	return resourceCredentialSCMRead(ctx, d, m)
+	return resourceCredentialRead(ctx, d, m)
 }

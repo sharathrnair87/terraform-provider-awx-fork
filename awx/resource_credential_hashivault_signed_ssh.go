@@ -5,16 +5,17 @@ For more details see [HashiCorp Vault Signed SSH](https://docs.ansible.com/autom
 # Example Usage
 
 ```hcl
-data "awx_organization" "cybersec" {
-  name = "CyberSec"
-}
 
-resource "awx_credential_hashivault_signed_ssh" "hv_cyber_signed_ssh" {
-  name            = "HV Cyber Sig SSH"
-  organization_id = data.awx_organization.cybersec.id
-  url             = var.hashicorp_vault_url
-  token           = var.hashicorp_vault_token
-}
+	data "awx_organization" "cybersec" {
+	  name = "CyberSec"
+	}
+
+	resource "awx_credential_hashivault_signed_ssh" "hv_cyber_signed_ssh" {
+	  name            = "HV Cyber Sig SSH"
+	  organization_id = data.awx_organization.cybersec.id
+	  url             = var.hashicorp_vault_url
+	  token           = var.hashicorp_vault_token
+	}
 
 ```
 */
@@ -78,12 +79,33 @@ func resourceCredentialHashiVaultSSH() *schema.Resource {
 func resourceCredentialHashiVaultSSHCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	//params := make(map[string]string)
+	//params["name"] = "HashiCorp Vault Signed SSH"
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "HashiCorp Vault Signed SSH",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":            d.Get("name").(string),
-		"description":     d.Get("description").(string),
-		"organization":    d.Get("organization_id").(int),
-		"credential_type": 22, // Hashicorp Vault Signed SSH
+		"name":         d.Get("name").(string),
+		"description":  d.Get("description").(string),
+		"organization": d.Get("organization_id").(int),
+		//"credential_type": 22, // Hashicorp Vault Signed SSH
+		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
 			"url":    d.Get("url").(string),
 			"token":  d.Get("token").(string),
@@ -91,7 +113,6 @@ func resourceCredentialHashiVaultSSHCreate(ctx context.Context, d *schema.Resour
 		},
 	}
 
-	client := m.(*awx.AWX)
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -135,6 +156,23 @@ func resourceCredentialHashiVaultSSHRead(ctx context.Context, d *schema.Resource
 
 func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "HashiCorp Vault Signed SSH",
+	})
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to find Credential Type",
+			Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+		})
+		return diags
+	}
+
+	credentialTypeID = credType[0].ID
 
 	keys := []string{
 		"name",
@@ -149,10 +187,11 @@ func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.Resour
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":            d.Get("name").(string),
-			"description":     d.Get("description").(string),
-			"organization":    d.Get("organization_id").(int),
-			"credential_type": 22, // Hashicorp Vault Signed SSH
+			"name":         d.Get("name").(string),
+			"description":  d.Get("description").(string),
+			"organization": d.Get("organization_id").(int),
+			//"credential_type": 22, // Hashicorp Vault Signed SSH
+			"credential_type": credentialTypeID,
 			"inputs": map[string]interface{}{
 				"url":    d.Get("url").(string),
 				"token":  d.Get("token").(string),
@@ -160,7 +199,6 @@ func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.Resour
 			},
 		}
 
-		client := m.(*awx.AWX)
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{
