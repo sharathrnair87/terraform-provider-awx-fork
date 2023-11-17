@@ -5,10 +5,10 @@ Use this resource to create an Execution Environment in AWX/AT
 
 ```hcl
 
-resource "awx_execution_environment" "default" {
-  name  = "acc-test"
-  image = "registry.example.io/my-image@latest"
-}
+	resource "awx_execution_environment" "default" {
+	  name  = "acc-test"
+	  image = "registry.example.io/my-image@latest"
+	}
 
 *TBD* - Validate resource parameters
 
@@ -57,18 +57,18 @@ func resourceExecutionEnvironment() *schema.Resource {
 				Optional: true,
 				Default:  "",
 			},
-            "pull": {
-                Type: schema.TypeString,
-                Optional: true,
-                Default: "",
-                ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
-                    v := val.(string)
-                    if v != "always" && v != "missing" && v != "never" && v != "" {
-                        errs = append(errs, fmt.Errorf("%q must be one of 'always', 'missing', 'never' or '' (blank), got %s", key, v))
-                    }
-                    return
-                },
-            },
+			"pull": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "",
+				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+					v := val.(string)
+					if v != "always" && v != "missing" && v != "never" && v != "" {
+						errs = append(errs, fmt.Errorf("%q must be one of 'always', 'missing', 'never' or '' (blank), got %s", key, v))
+					}
+					return
+				},
+			},
 		},
 	}
 }
@@ -84,7 +84,7 @@ func resourceExecutionEnvironmentsCreate(ctx context.Context, d *schema.Resource
 		"description":  d.Get("description").(string),
 		"organization": d.Get("organization").(string),
 		"credential":   AtoipOr(d.Get("credential").(string), nil),
-        "pull": d.Get("pull").(string),
+		"pull":         d.Get("pull").(string),
 	}, map[string]string{})
 	if err != nil {
 		log.Printf("Failed to Create ExecutionEnvironment %v", err)
@@ -122,7 +122,7 @@ func resourceExecutionEnvironmentsUpdate(ctx context.Context, d *schema.Resource
 		"description":  d.Get("description").(string),
 		"organization": d.Get("organization").(string),
 		"credential":   AtoipOr(d.Get("credential").(string), nil),
-        "pull": d.Get("pull").(string),
+		"pull":         d.Get("pull").(string),
 	}, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -177,7 +177,7 @@ func setExecutionEnvironmentsResourceData(d *schema.ResourceData, r *awx.Executi
 	d.Set("description", r.Description)
 	d.Set("organization", r.Organization)
 	d.Set("credential", r.Credential)
-    d.Set("pull", r.Pull)
+	d.Set("pull", r.Pull)
 	d.SetId(strconv.Itoa(r.ID))
 	return d
 }
