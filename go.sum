@@ -478,6 +478,8 @@ github.com/sergi/go-diff v1.1.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNX
 github.com/sergi/go-diff v1.2.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
 github.com/sharathrnair87/goawx v0.0.0-20231117035808-394d359d88a9 h1:9ztEr/wkwLH7/DCtNegLxFfDtxki797MXw6Nw+uzTA4=
 github.com/sharathrnair87/goawx v0.0.0-20231117035808-394d359d88a9/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
+github.com/sharathrnair87/goawx v0.0.0-20231117044007-e9de1433ca16 h1:QYAnuuId8eaYgKs+0EAiuGunlUXaphpxkE/g+gr1vno=
+github.com/sharathrnair87/goawx v0.0.0-20231117044007-e9de1433ca16/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
