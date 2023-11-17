@@ -86,12 +86,30 @@ func resourceCredentialAzureKeyVault() *schema.Resource {
 func resourceCredentialAzureKeyVaultCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "Microsoft Azure Key Vault",
+	})
+	if err != nil {
+	    diags = append(diags, diag.Diagnostic{
+		Severity: diag.Error,
+		Summary:  "Unable to find Credential Type",
+		Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+	    })
+	    return diags
+    	}
+
+	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
 		"name":            d.Get("name").(string),
 		"description":     d.Get("description").(string),
 		"organization":    d.Get("organization_id").(int),
-		"credential_type": 19, // Azure Key Vault
+		//"credential_type": 19, // Azure Key Vault
+		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
 			"url":    d.Get("url").(string),
 			"client": d.Get("client").(string),
@@ -100,7 +118,6 @@ func resourceCredentialAzureKeyVaultCreate(ctx context.Context, d *schema.Resour
 		},
 	}
 
-	client := m.(*awx.AWX)
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -145,6 +162,23 @@ func resourceCredentialAzureKeyVaultRead(ctx context.Context, d *schema.Resource
 
 func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
+	var credentialTypeID int
+
+	client := m.(*awx.AWX)
+
+	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+		"name": "Microsoft Azure Key Vault",
+	})
+	if err != nil {
+	    diags = append(diags, diag.Diagnostic{
+		Severity: diag.Error,
+		Summary:  "Unable to find Credential Type",
+		Detail:   fmt.Sprintf("Unable to find Credential Type: %s", err.Error()),
+	    })
+	    return diags
+    	}
+
+	credentialTypeID = credType[0].ID
 
 	keys := []string{
 		"name",
@@ -163,7 +197,8 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
 			"organization":    d.Get("organization_id").(int),
-			"credential_type": 19, // Azure Key Vault
+			//"credential_type": 19, // Azure Key Vault
+			"credential_type": credentialTypeID,
 			"inputs": map[string]interface{}{
 				"url":    d.Get("url").(string),
 				"client": d.Get("client").(string),
@@ -172,7 +207,6 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 			},
 		}
 
-		client := m.(*awx.AWX)
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{

@@ -476,16 +476,6 @@ github.com/sebdah/goldie v1.0.0/go.mod h1:jXP4hmWywNEwZzhMuv2ccnqTSFpuq8iyQhtQdk
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/sergi/go-diff v1.1.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
 github.com/sergi/go-diff v1.2.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
-github.com/sharathrnair87/goawx v0.0.0-20231113053945-c46fe068d2d3 h1:F3a4VsOw6JT+sQcc9Z2t2GbcMgX8nKiqsOidjMi8Pzc=
-github.com/sharathrnair87/goawx v0.0.0-20231113053945-c46fe068d2d3/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
-github.com/sharathrnair87/goawx v0.0.0-20231113093824-bc001a78d34b h1:m3YZOx3v0j71pWkIYpMtysTtWwytb2ZBkzvO4AAXpZ8=
-github.com/sharathrnair87/goawx v0.0.0-20231113093824-bc001a78d34b/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
-github.com/sharathrnair87/goawx v0.0.0-20231113101515-9b649ba2ab79 h1:L6M2gR7ds/U8datGTG1sx/A33d3gtyMB4x59klHh5hg=
-github.com/sharathrnair87/goawx v0.0.0-20231113101515-9b649ba2ab79/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
-github.com/sharathrnair87/goawx v0.0.0-20231117000042-4dec0313f397 h1:n43Q5rrxZ4mSCGzSga3nNrVQKKlqMjOUX3PNXYVw0Ug=
-github.com/sharathrnair87/goawx v0.0.0-20231117000042-4dec0313f397/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
-github.com/sharathrnair87/goawx v0.0.0-20231117035547-abde4cdf88e2 h1:KWv6aaTEUV2nZ4979vJX+Wy9lSzoL0nAc/FRpcWQO28=
-github.com/sharathrnair87/goawx v0.0.0-20231117035547-abde4cdf88e2/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
 github.com/sharathrnair87/goawx v0.0.0-20231117035808-394d359d88a9 h1:9ztEr/wkwLH7/DCtNegLxFfDtxki797MXw6Nw+uzTA4=
 github.com/sharathrnair87/goawx v0.0.0-20231117035808-394d359d88a9/go.mod h1:8T/D1u+D6bClGK/uwdswb9s7tHbc3Dlh+Cg/z0nJLvM=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=

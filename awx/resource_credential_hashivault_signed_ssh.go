@@ -64,6 +64,26 @@ func resourceCredentialHashiVaultSSH() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"role_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"kubernetes_role": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"default_auth_path": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -107,9 +127,14 @@ func resourceCredentialHashiVaultSSHCreate(ctx context.Context, d *schema.Resour
 		//"credential_type": 22, // Hashicorp Vault Signed SSH
 		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
-			"url":    d.Get("url").(string),
-			"token":  d.Get("token").(string),
-			"cacert": d.Get("cacert").(string),
+			"url":               d.Get("url").(string),
+			"token":             d.Get("token").(string),
+			"cacert":            d.Get("cacert").(string),
+			"role_id":           d.Get("role_id").(string),
+			"secret_id":         d.Get("secret_id").(string),
+			"namespace":         d.Get("namespace").(string),
+			"kubernetes_role":   d.Get("kubernetes_role").(string),
+			"default_auth_path": d.Get("default_auth_path").(string),
 		},
 	}
 
@@ -150,6 +175,11 @@ func resourceCredentialHashiVaultSSHRead(ctx context.Context, d *schema.Resource
 	d.Set("url", cred.Inputs["url"])
 	d.Set("token", d.Get("token").(string))
 	d.Set("cacert", cred.Inputs["cacert"])
+	d.Set("role_id", cred.Inputs["role_id"])
+	d.Set("secret_id", cred.Inputs["secret_id"])
+	d.Set("namespace", cred.Inputs["namespace"])
+	d.Set("kubernetes_role", cred.Inputs["kubernetes_role"])
+	d.Set("default_auth_path", cred.Inputs["default_auth_path"])
 
 	return diags
 }
@@ -180,6 +210,11 @@ func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.Resour
 		"url",
 		"token",
 		"cacert",
+		"role_id",
+		"secret_id",
+		"namespace",
+		"kubernetes_role",
+		"default_auth_path",
 	}
 
 	if d.HasChanges(keys...) {
@@ -193,9 +228,14 @@ func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.Resour
 			//"credential_type": 22, // Hashicorp Vault Signed SSH
 			"credential_type": credentialTypeID,
 			"inputs": map[string]interface{}{
-				"url":    d.Get("url").(string),
-				"token":  d.Get("token").(string),
-				"cacert": d.Get("cacert").(string),
+				"url":               d.Get("url").(string),
+				"token":             d.Get("token").(string),
+				"cacert":            d.Get("cacert").(string),
+				"role_id":           d.Get("role_id").(string),
+				"secret_id":         d.Get("secret_id").(string),
+				"namespace":         d.Get("namespace").(string),
+				"kubernetes_role":   d.Get("kubernetes_role").(string),
+				"default_auth_path": d.Get("default_auth_path").(string),
 			},
 		}
 

@@ -62,6 +62,26 @@ func dataSourceCredentialHashiVaultSSH() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"role_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"kubernetes_role": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"default_auth_path": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -87,7 +107,11 @@ func dataSourceCredentialHashiVaultSSHRead(ctx context.Context, d *schema.Resour
 	d.Set("url", cred.Inputs["url"])
 	d.Set("token", cred.Inputs["token"])
 	d.Set("cacert", cred.Inputs["cacert"])
-	d.Set("api_version", cred.Inputs["api_version"])
+	d.Set("role_id", cred.Inputs["role_id"])
+	d.Set("secret_id", cred.Inputs["secret_id"])
+	d.Set("namespace", cred.Inputs["namespace"])
+	d.Set("kubernetes_role", cred.Inputs["kubernetes_role"])
+	d.Set("default_auth_path", cred.Inputs["default_auth_path"])
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 
 	return diags
