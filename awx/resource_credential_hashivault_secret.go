@@ -88,7 +88,11 @@ func resourceCredentialHashiVaultSecretCreate(ctx context.Context, d *schema.Res
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	//credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	//	"name": "HashiCorp Vault Secret Lookup",
+	//})
+
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "HashiCorp Vault Secret Lookup",
 	})
 	if err != nil {
@@ -164,7 +168,7 @@ func resourceCredentialHashiVaultSecretUpdate(ctx context.Context, d *schema.Res
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "HashiCorp Vault Secret Lookup",
 	})
 	if err != nil {

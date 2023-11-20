@@ -5,6 +5,7 @@ Use this data source to all available Credentials in AWX/AT
 
 ```hcl
 // Query all available credentials
+
 data "awx_credentials" "all_creds" {}
 
 	output "all_creds" {
@@ -83,7 +84,7 @@ func dataSourceCredentialsRead(ctx context.Context, d *schema.ResourceData, m in
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 
-	creds, err := client.CredentialsService.ListCredentials(map[string]string{})
+	creds, err := awx.GetAllPages[awx.Credential](client, awx.CredentialsAPIEndpoint, map[string]string{})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,

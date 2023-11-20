@@ -86,7 +86,7 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "Google Compute Engine",
 	})
 	if err != nil {
@@ -159,7 +159,7 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "Google Compute Engine",
 	})
 	if err != nil {

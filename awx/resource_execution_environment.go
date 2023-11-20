@@ -5,12 +5,16 @@ Use this resource to create an Execution Environment in AWX/AT
 
 ```hcl
 
-	resource "awx_execution_environment" "default" {
-	  name  = "acc-test"
-	  image = "registry.example.io/my-image@latest"
+	data "awx_organization" "devops" {
+	  name = "DevOps"
 	}
 
-*TBD* - Validate resource parameters
+	resource "awx_execution_environment" "default" {
+	  name         = "acc-test"
+	  image        = "us-docker.pkg.dev/cloudrun/container/hello"
+	  pull         = "never"
+	  organization = data.awx_organization.devops.id
+	}
 
 ```
 */

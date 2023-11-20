@@ -90,7 +90,7 @@ func resourceCredentialAzureKeyVaultCreate(ctx context.Context, d *schema.Resour
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "Microsoft Azure Key Vault",
 	})
 	if err != nil {
@@ -166,7 +166,7 @@ func resourceCredentialAzureKeyVaultUpdate(ctx context.Context, d *schema.Resour
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "Microsoft Azure Key Vault",
 	})
 	if err != nil {

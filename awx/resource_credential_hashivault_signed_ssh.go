@@ -106,7 +106,7 @@ func resourceCredentialHashiVaultSSHCreate(ctx context.Context, d *schema.Resour
 	//params := make(map[string]string)
 	//params["name"] = "HashiCorp Vault Signed SSH"
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "HashiCorp Vault Signed SSH",
 	})
 	if err != nil {
@@ -190,7 +190,7 @@ func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.Resour
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "HashiCorp Vault Signed SSH",
 	})
 	if err != nil {

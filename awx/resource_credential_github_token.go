@@ -74,7 +74,7 @@ func resourceCredentialGithubPATCreate(ctx context.Context, d *schema.ResourceDa
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "GitHub Personal Access Token",
 	})
 	if err != nil {
@@ -144,7 +144,7 @@ func resourceCredentialGithubPATUpdate(ctx context.Context, d *schema.ResourceDa
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "GitHub Personal Access Token",
 	})
 	if err != nil {

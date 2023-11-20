@@ -106,7 +106,7 @@ func resourceCredentialAzureRMCreate(ctx context.Context, d *schema.ResourceData
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "Microsoft Azure Resource Manager",
 	})
 	if err != nil {
@@ -197,7 +197,7 @@ func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData
 
 	client := m.(*awx.AWX)
 
-	credType, err := client.CredentialTypeService.GetCredentialTypeByName(map[string]string{
+	credType, err := awx.GetAllPages[awx.CredentialType](client, awx.CredentialTypesAPIEndpoint, map[string]string{
 		"name": "Microsoft Azure Resource Manager",
 	})
 	if err != nil {
