@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create an AWX/AT Inventory
 
 # Example Usage
 

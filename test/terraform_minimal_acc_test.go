@@ -10,10 +10,10 @@ import (
 
 func TestTerraformMinimalAccExample(t *testing.T) {
 	terraformOptions := &terraform.Options{
-		TerraformDir: "../examples/k8s/base",
+		TerraformDir: "../terraform/",
 	}
 	terraformDataOptions := &terraform.Options{
-		TerraformDir: "../examples/k8s/data",
+		TerraformDir: "../terraform/",
 	}
 
 	defer terraform.Destroy(t, terraformOptions)
