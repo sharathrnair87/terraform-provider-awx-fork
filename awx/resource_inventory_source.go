@@ -4,21 +4,22 @@ Use this resource to create an Inventory Source for an existing Inventory in AWX
 # Example Usage
 
 ```hcl
-data "awx_inventory" "db_inventory" {
-  name            = "DB_Inventory"
-  organization_id = data.awx_organization.db.id
-}
 
-data "awx_project" "db_project" {
-  name = "DB_Infra"
-}
+	data "awx_inventory" "db_inventory" {
+	  name            = "DB_Inventory"
+	  organization_id = data.awx_organization.db.id
+	}
 
-resource "awx_inventory_source" "db_inventory_source" {
-  name              = "DB Inventory Src"
-  inventory_id      = data.awx_inventory.db_inventory.id
-  source_project_id = data.awx_project.db_project.id
-  source_path       = "inventory/db-hosts.yml"
-}
+	data "awx_project" "db_project" {
+	  name = "DB_Infra"
+	}
+
+	resource "awx_inventory_source" "db_inventory_source" {
+	  name              = "DB Inventory Src"
+	  inventory_id      = data.awx_inventory.db_inventory.id
+	  source_project_id = data.awx_project.db_project.id
+	  source_path       = "inventory/db-hosts.yml"
+	}
 
 ```
 */
@@ -139,14 +140,14 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 	awxService := client.InventorySourcesService
 
 	inventorySourceMap := map[string]interface{}{
-		"name":             d.Get("name").(string),
-		"description":      d.Get("description").(string),
-		"enabled_var":      d.Get("enabled_var").(string),
-		"enabled_value":    d.Get("enabled_value").(string),
-		"overwrite":        d.Get("overwrite").(bool),
-		"overwrite_vars":   d.Get("overwrite_vars").(bool),
-		"update_on_launch": d.Get("update_on_launch").(bool),
-		"inventory":        d.Get("inventory_id").(int),
+		"name":                 d.Get("name").(string),
+		"description":          d.Get("description").(string),
+		"enabled_var":          d.Get("enabled_var").(string),
+		"enabled_value":        d.Get("enabled_value").(string),
+		"overwrite":            d.Get("overwrite").(bool),
+		"overwrite_vars":       d.Get("overwrite_vars").(bool),
+		"update_on_launch":     d.Get("update_on_launch").(bool),
+		"inventory":            d.Get("inventory_id").(int),
 		"source":               d.Get("source").(string),
 		"source_vars":          d.Get("source_vars").(string),
 		"host_filter":          d.Get("host_filter").(string),
@@ -184,14 +185,14 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	inventorySourceMap := map[string]interface{}{
-		"name":             d.Get("name").(string),
-		"description":      d.Get("description").(string),
-		"enabled_var":      d.Get("enabled_var").(string),
-		"enabled_value":    d.Get("enabled_value").(string),
-		"overwrite":        d.Get("overwrite").(bool),
-		"overwrite_vars":   d.Get("overwrite_vars").(bool),
-		"update_on_launch": d.Get("update_on_launch").(bool),
-		"inventory":        d.Get("inventory_id").(int),
+		"name":                 d.Get("name").(string),
+		"description":          d.Get("description").(string),
+		"enabled_var":          d.Get("enabled_var").(string),
+		"enabled_value":        d.Get("enabled_value").(string),
+		"overwrite":            d.Get("overwrite").(bool),
+		"overwrite_vars":       d.Get("overwrite_vars").(bool),
+		"update_on_launch":     d.Get("update_on_launch").(bool),
+		"inventory":            d.Get("inventory_id").(int),
 		"source":               d.Get("source").(string),
 		"source_vars":          d.Get("source_vars").(string),
 		"host_filter":          d.Get("host_filter").(string),
