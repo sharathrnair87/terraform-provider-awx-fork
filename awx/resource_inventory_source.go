@@ -123,16 +123,15 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
 
-	result, err := awxService.CreateInventorySource(map[string]interface{}{
-		"name":                 d.Get("name").(string),
-		"description":          d.Get("description").(string),
-		"enabled_var":          d.Get("enabled_var").(string),
-		"enabled_value":        d.Get("enabled_value").(string),
-		"overwrite":            d.Get("overwrite").(bool),
-		"overwrite_vars":       d.Get("overwrite_vars").(bool),
-		"update_on_launch":     d.Get("update_on_launch").(bool),
-		"inventory":            d.Get("inventory_id").(int),
-		"credential":           d.Get("credential_id").(int),
+	inventorySourceMap := map[string]interface{}{
+		"name":             d.Get("name").(string),
+		"description":      d.Get("description").(string),
+		"enabled_var":      d.Get("enabled_var").(string),
+		"enabled_value":    d.Get("enabled_value").(string),
+		"overwrite":        d.Get("overwrite").(bool),
+		"overwrite_vars":   d.Get("overwrite_vars").(bool),
+		"update_on_launch": d.Get("update_on_launch").(bool),
+		"inventory":        d.Get("inventory_id").(int),
 		"source":               d.Get("source").(string),
 		"source_vars":          d.Get("source_vars").(string),
 		"host_filter":          d.Get("host_filter").(string),
@@ -145,7 +144,13 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 		"group_by":         d.Get("group_by").(string),
 		"source_project":   d.Get("source_project_id").(int),
 		"source_path":      d.Get("source_path").(string),
-	}, map[string]string{})
+	}
+
+	if credential, ok := d.GetOk("credential_id"); ok {
+		inventorySourceMap["credential"] = credential.(int)
+	}
+
+	result, err := awxService.CreateInventorySource(inventorySourceMap, map[string]string{})
 	if err != nil {
 		return buildDiagCreateFail(diagElementInventorySourceTitle, err)
 	}
@@ -163,16 +168,15 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 		return diags
 	}
 
-	_, err := awxService.UpdateInventorySource(id, map[string]interface{}{
-		"name":                 d.Get("name").(string),
-		"description":          d.Get("description").(string),
-		"enabled_var":          d.Get("enabled_var").(string),
-		"enabled_value":        d.Get("enabled_value").(string),
-		"overwrite":            d.Get("overwrite").(bool),
-		"overwrite_vars":       d.Get("overwrite_vars").(bool),
-		"update_on_launch":     d.Get("update_on_launch").(bool),
-		"inventory":            d.Get("inventory_id").(int),
-		"credential":           d.Get("credential_id").(int),
+	inventorySourceMap := map[string]interface{}{
+		"name":             d.Get("name").(string),
+		"description":      d.Get("description").(string),
+		"enabled_var":      d.Get("enabled_var").(string),
+		"enabled_value":    d.Get("enabled_value").(string),
+		"overwrite":        d.Get("overwrite").(bool),
+		"overwrite_vars":   d.Get("overwrite_vars").(bool),
+		"update_on_launch": d.Get("update_on_launch").(bool),
+		"inventory":        d.Get("inventory_id").(int),
 		"source":               d.Get("source").(string),
 		"source_vars":          d.Get("source_vars").(string),
 		"host_filter":          d.Get("host_filter").(string),
@@ -185,7 +189,13 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 		"group_by":         d.Get("group_by").(string),
 		"source_project":   d.Get("source_project_id").(int),
 		"source_path":      d.Get("source_path").(string),
-	}, nil)
+	}
+
+	if credential, ok := d.GetOk("credential_id"); ok {
+		inventorySourceMap["credential"] = credential.(int)
+	}
+
+	_, err := awxService.UpdateInventorySource(id, inventorySourceMap, nil)
 	if err != nil {
 		return buildDiagUpdateFail(diagElementInventorySourceTitle, id, err)
 	}
@@ -202,8 +212,8 @@ func resourceInventorySourceDelete(ctx context.Context, d *schema.ResourceData, 
 	}
 	if _, err := awxService.DeleteInventorySource(id); err != nil {
 		return buildDiagDeleteFail(
-			"inventroy source",
-			fmt.Sprintf("inventroy source %v, got %s ",
+			"inventory source",
+			fmt.Sprintf("inventory source %v, got %s ",
 				id, err.Error()))
 	}
 	d.SetId("")
