@@ -133,9 +133,9 @@ func resourceCredentialSCMRead(ctx context.Context, d *schema.ResourceData, m in
 	d.Set("name", cred.Name)
 	d.Set("description", cred.Description)
 	d.Set("username", cred.Inputs["username"])
-	d.Set("password", cred.Inputs["password"])
-	d.Set("ssh_key_data", cred.Inputs["ssh_key_data"])
-	d.Set("ssh_key_unlock", cred.Inputs["ssh_key_unlock"])
+	d.Set("password", d.Get("password").(string))
+	d.Set("ssh_key_data", d.Get("ssh_key_data").(string))
+	d.Set("ssh_key_unlock", d.Get("ssh_key_unlock").(string))
 	d.Set("organization_id", cred.OrganizationID)
 
 	return diags
