@@ -69,6 +69,12 @@ func resourceJobTemplateLaunch() *schema.Resource {
 				Description: "Override Inventory ID. Required ask_inventory_on_launch set on job_template.",
 				ForceNew:    true,
 			},
+			"extra_vars": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Override job template variables. Only JSON content is supported yet.",
+				ForceNew:    true,
+			},
 			"wait_for_completion": {
 				Type:        schema.TypeBool,
 				Required:    false,
@@ -106,8 +112,9 @@ func jobTemplateLaunchWait(ctx context.Context, svc *awx.JobService, job *awx.Jo
 
 // JobTemplateLaunchData provides payload data used by the JobTemplateLaunch method
 type JobTemplateLaunchData struct {
-	Limit     string `json:"limit,omitempty"`
-	Inventory int    `json:"inventory,omitempty"`
+	Limit     string                 `json:"limit,omitempty"`
+	Inventory int                    `json:"inventory,omitempty"`
+	ExtraVars map[string]interface{} `json:"extra_vars,omitempty"`
 }
 
 func resourceJobTemplateLaunchCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -122,9 +129,21 @@ func resourceJobTemplateLaunchCreate(ctx context.Context, d *schema.ResourceData
 		return buildDiagNotFoundFail("job template", jobTemplateID, err)
 	}
 
+	var iExtraVars map[string]interface{}
+	err = json.Unmarshal([]byte(d.Get("extra_vars").(string)), &iExtraVars)
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Failed to decode extra_vars",
+			Detail:   fmt.Sprintf("JobTemplateLaunch with template ID %d, failed to decode extra_vars %s", d.Get("job_template_id").(int), err.Error()),
+		})
+		return diags
+	}
+
 	data := JobTemplateLaunchData{
 		Limit:     d.Get("limit").(string),
 		Inventory: d.Get("inventory").(int),
+		ExtraVars: iExtraVars,
 	}
 
 	var iData map[string]interface{}
