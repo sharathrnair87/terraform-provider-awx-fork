@@ -14,7 +14,7 @@ Use this data source to query an Input Source mapping for an AWX/AT Credential
 	}
 
 	data "awx_credential_input_source" "hcv-iaas-sig-map" {
-	    input_source_id = <id_of_credential_input_source>
+	    input_source_id = var.id_of_credential_input_source
 	}
 
 ```
@@ -34,6 +34,7 @@ import (
 
 func dataSourceCredentialInputSource() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an Input Source mapping for an AWX/AT Credential",
 		ReadContext: dataSourceCredentialInputSourceRead,
 		Schema: map[string]*schema.Schema{
 			"input_source_id": {

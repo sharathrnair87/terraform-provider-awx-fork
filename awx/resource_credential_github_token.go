@@ -33,6 +33,7 @@ import (
 
 func resourceCredentialGithubPAT() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage a Github Token Credential in AWX/AT.",
 		CreateContext: resourceCredentialGithubPATCreate,
 		ReadContext:   resourceCredentialGithubPATRead,
 		UpdateContext: resourceCredentialGithubPATUpdate,

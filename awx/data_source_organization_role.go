@@ -7,7 +7,7 @@ Use this data source to query the ID of a given Organization Role in AWX/AT
 
 	resource "awx_organization" "myorg" {
 	  name = "My AWX Org"
-	  ...
+	  // Truncated //
 	}
 
 	data "awx_organization_role" "org_admins" {

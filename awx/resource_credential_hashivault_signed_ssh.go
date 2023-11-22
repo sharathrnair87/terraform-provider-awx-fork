@@ -34,6 +34,7 @@ import (
 
 func resourceCredentialHashiVaultSSH() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage a HashiCorp Vault Signed SSH Credential in AWX/AT",
 		CreateContext: resourceCredentialHashiVaultSSHCreate,
 		ReadContext:   resourceCredentialHashiVaultSSHRead,
 		UpdateContext: resourceCredentialHashiVaultSSHUpdate,

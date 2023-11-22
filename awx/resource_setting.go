@@ -55,6 +55,7 @@ import (
 
 func resourceSetting() *schema.Resource {
 	return &schema.Resource{
+		Description:   "",
 		CreateContext: resourceSettingUpdate,
 		ReadContext:   resourceSettingRead,
 		DeleteContext: resourceSettingDelete,

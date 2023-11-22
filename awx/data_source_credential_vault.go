@@ -6,7 +6,7 @@ Use this data source to query an Ansible Vault Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_vault" "my_vault_cred" {
-	    credential_id = <my_vault_cred_id>
+	    credential_id = var.my_vault_cred_id
 	}
 
 	output "my_vault_cred_vault_id" {
@@ -30,6 +30,7 @@ import (
 
 func dataSourceCredentialVault() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an Ansible Vault Credential in AWX/AT",
 		ReadContext: dataSourceCredentialVaultRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

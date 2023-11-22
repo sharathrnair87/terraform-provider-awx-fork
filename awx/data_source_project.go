@@ -12,7 +12,7 @@ Use this data source to query a Project in AWX/AT
 
 	    // By ID
 	    data "awx_project" "sharedServices" {
-	        id = <shared_services_prj_id>
+	        id = var.shared_services_prj_id
 	    }
 
 ```
@@ -30,6 +30,7 @@ import (
 
 func dataSourceProject() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query a Project in AWX/AT",
 		ReadContext: dataSourceProjectsRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

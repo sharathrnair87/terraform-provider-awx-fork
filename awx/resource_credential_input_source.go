@@ -41,6 +41,7 @@ import (
 
 func resourceCredentialInputSource() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an Input Source mapping for an AWX/AT Credential",
 		CreateContext: resourceCredentialInputSourceCreate,
 		ReadContext:   resourceCredentialInputSourceRead,
 		UpdateContext: resourceCredentialInputSourceUpdate,

@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create an AWX/AT Organization
 
 # Example Usage
 
@@ -26,6 +26,7 @@ import (
 
 func resourceOrganization() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an AWX/AT Organization",
 		CreateContext: resourceOrganizationsCreate,
 		ReadContext:   resourceOrganizationsRead,
 		UpdateContext: resourceOrganizationsUpdate,

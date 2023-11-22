@@ -33,6 +33,7 @@ import (
 
 func resourceExecutionEnvironment() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an Execution Environment in AWX/AT",
 		CreateContext: resourceExecutionEnvironmentsCreate,
 		ReadContext:   resourceExecutionEnvironmentsRead,
 		UpdateContext: resourceExecutionEnvironmentsUpdate,

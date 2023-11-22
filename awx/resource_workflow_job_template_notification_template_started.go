@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to associate a Notification template with a Workflow Job Template, triggered when the workflow is started
 
 # Example Usage
 
@@ -20,6 +20,7 @@ import (
 
 func resourceWorkflowJobTemplateNotificationTemplateStarted() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate a Notification template with a Workflow Job Template, triggered when the workflow is started",
 		CreateContext: resourceWorkflowJobTemplateNotificationTemplateCreateForType("started"),
 		DeleteContext: resourceWorkflowJobTemplateNotificationTemplateDeleteForType("started"),
 		ReadContext:   resourceWorkflowJobTemplateNotificationTemplateRead,

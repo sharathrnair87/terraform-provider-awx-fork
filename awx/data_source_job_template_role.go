@@ -29,6 +29,7 @@ import (
 
 func dataSourceJobTemplateRole() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to obtain the ID of a given Job Template Role in AWX/AT",
 		ReadContext: dataSourceJobTemplateRoleRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

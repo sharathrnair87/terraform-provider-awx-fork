@@ -37,6 +37,7 @@ import (
 
 func resourceCredentialAzureKeyVault() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage an Azure Key Vault Credential in AWX/AT.",
 		CreateContext: resourceCredentialAzureKeyVaultCreate,
 		ReadContext:   resourceCredentialAzureKeyVaultRead,
 		UpdateContext: resourceCredentialAzureKeyVaultUpdate,

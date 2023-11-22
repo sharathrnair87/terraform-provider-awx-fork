@@ -6,7 +6,7 @@ Use this data source to query a Github Token Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_github_token" "my_gh_token" {
-	  credential_id = <my_gh_token_id>
+	  credential_id = var.my_gh_token_id
 	}
 
 	output "my_gh_token" {
@@ -31,6 +31,7 @@ import (
 
 func dataSourceCredentialGithubPAT() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query a Github Token Credential in AWX/AT",
 		ReadContext: dataSourceCredentialGithubPATRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

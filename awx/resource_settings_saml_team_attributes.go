@@ -1,6 +1,6 @@
 /*
 Use this resource to globally set the SOCIAL_AUTH_SAML_TEAM_ATTR setting in the SAML config.
-Note: This resource controls this setting globally across your entire AWX/AT setup, and must be
+NOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be
 managed centrally from a single state file to avoid conflicts
 
 # Example Usage
@@ -15,7 +15,7 @@ managed centrally from a single state file to avoid conflicts
 	  saml_attr = "groups"
 	  remove    = true
 	  team_org_map {
-	    team         = <saml_provider_team_id> // The team ID as it is displayed in your SAML Auth Provider
+	    team         = var.saml_provider_team_id // The team ID as it is displayed in your SAML Auth Provider
 	    organization = data.awx_organization.default.name
 	    team_alias   = "Admin"
 	  }
@@ -40,6 +40,7 @@ var samlTeamAttrMapAccessMutex sync.Mutex
 
 func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to globally set the SOCIAL_AUTH_SAML_TEAM_ATTR setting in the SAML config.\nNOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be",
 		CreateContext: resourceSettingsSAMLTeamAttrMapCreate,
 		ReadContext:   resourceSettingsSAMLTeamAttrMapRead,
 		DeleteContext: resourceSettingsSAMLTeamAttrMapDelete,

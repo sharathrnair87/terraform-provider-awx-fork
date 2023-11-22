@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create an AWX/AT Project
 
 # Example Usage
 
@@ -35,6 +35,7 @@ import (
 
 func resourceProject() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an AWX/AT Project",
 		CreateContext: resourceProjectCreate,
 		ReadContext:   resourceProjectRead,
 		DeleteContext: resourceProjectDelete,

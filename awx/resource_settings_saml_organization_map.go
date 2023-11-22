@@ -1,5 +1,7 @@
 /*
-*TBD*
+Use this resource to map a SAML derived Group to an AWX/AT Organization.
+NOTE: This resource manages the global SAML group to AWX/AT Organization mapping i.e. SOCIAL_AUTH_SAML_ORGANIZATION_MAP,
+ensure that this resource is managed by a single terraform state to avoid unexpected behaviour
 
 # Example Usage
 
@@ -10,15 +12,17 @@
 	}
 
 	resource "awx_organization" "admin_organization" {
-	  name = "Admins"
+	  name            = "Admins"
 	  organization_id = data.awx_organization.default.id
 	}
 
 	resource "awx_settings_saml_organization_map" "admin_organization_map" {
-	  name         = resource.awx_organization.admin_organization.name
-	  users        = ["CN=MyOrganization,OU=Groups,DC=example,DC=com"]
-	  organization = data.awx_organization.default.name
-	  remove       = true
+	  name          = resource.awx_organization.admin_organization.name
+	  users         = ["myorg-infra-users"]
+	  admins        = ["myorg-infra-admins"]
+	  organization  = data.awx_organization.default.name
+	  remove_users  = true
+	  remove_admins = true
 	}
 
 ```
@@ -40,6 +44,7 @@ var samlOrganizationMapAccessMutex sync.Mutex
 
 func resourceSettingsSAMLOrganizationMap() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to map a SAML derived Group to an AWX/AT Organization.",
 		CreateContext: resourceSettingsSAMLOrganizationMapCreate,
 		ReadContext:   resourceSettingsSAMLOrganizationMapRead,
 		DeleteContext: resourceSettingsSAMLOrganizationMapDelete,

@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to associate a Notification template with a Job Template when it is Started
 
 # Example Usage
 
@@ -20,6 +20,7 @@ import (
 
 func resourceJobTemplateNotificationTemplateStarted() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate a Notification template with a Job Template when it is Started",
 		CreateContext: resourceJobTemplateNotificationTemplateCreateForType("started"),
 		DeleteContext: resourceJobTemplateNotificationTemplateDeleteForType("started"),
 		ReadContext:   resourceJobTemplateNotificationTemplateRead,

@@ -24,6 +24,7 @@ import (
 
 func dataSourceNotificationTemplate() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query a Notificate Template in AWX/AT",
 		ReadContext: dataSourceNotificationTemplatesRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

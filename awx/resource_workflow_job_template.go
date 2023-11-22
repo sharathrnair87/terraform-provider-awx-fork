@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a Workflow Job template in AWX/AT
 
 # Example Usage
 
@@ -28,6 +28,7 @@ import (
 
 func resourceWorkflowJobTemplate() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a Workflow Job template in AWX/AT",
 		CreateContext: resourceWorkflowJobTemplateCreate,
 		ReadContext:   resourceWorkflowJobTemplateRead,
 		UpdateContext: resourceWorkflowJobTemplateUpdate,

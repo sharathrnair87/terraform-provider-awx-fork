@@ -6,7 +6,7 @@ Use this data source to query Credential by ID.
 ```hcl
 
 	data "awx_credential" "my_creds" {
-	  id = <my_creds_id>
+	  id = var.my_creds_id
 	}
 
 ```
@@ -24,6 +24,7 @@ import (
 
 func dataSourceCredentialByID() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query Credential by ID.",
 		ReadContext: dataSourceCredentialByIDRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

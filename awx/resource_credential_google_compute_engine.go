@@ -37,6 +37,7 @@ import (
 
 func resourceCredentialGoogleComputeEngine() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage a Google Compute Engine credential in AWX/AT.",
 		CreateContext: resourceCredentialGoogleComputeEngineCreate,
 		ReadContext:   resourceCredentialGoogleComputeEngineRead,
 		UpdateContext: resourceCredentialGoogleComputeEngineUpdate,

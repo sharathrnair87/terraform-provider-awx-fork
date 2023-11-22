@@ -34,6 +34,7 @@ import (
 
 func resourceCredentialHashiVaultSecret() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage a HashiCorp Vault Secret Credential in AWX/AT.\nFor more details see [HashiCorp Vault Secret Lookup](https://docs.ansible.com/automation-controller/latest/html/userguide/credential_plugins.html#ug-credentials-hashivault)",
 		CreateContext: resourceCredentialHashiVaultSecretCreate,
 		ReadContext:   resourceCredentialHashiVaultSecretRead,
 		UpdateContext: resourceCredentialHashiVaultSecretUpdate,

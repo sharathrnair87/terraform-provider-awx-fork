@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to associate a Notification template with a Workflow Job Template, triggered in case of an error
 
 # Example Usage
 
@@ -20,6 +20,7 @@ import (
 
 func resourceWorkflowJobTemplateNotificationTemplateError() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate a Notification template with a Workflow Job Template, triggered in case of an error",
 		CreateContext: resourceWorkflowJobTemplateNotificationTemplateCreateForType("error"),
 		DeleteContext: resourceWorkflowJobTemplateNotificationTemplateDeleteForType("error"),
 		ReadContext:   resourceWorkflowJobTemplateNotificationTemplateRead,

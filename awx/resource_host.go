@@ -36,6 +36,7 @@ import (
 
 func resourceHost() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a managed host in AWX/AT.",
 		CreateContext: resourceHostCreate,
 		ReadContext:   resourceHostRead,
 		DeleteContext: resourceHostDelete,

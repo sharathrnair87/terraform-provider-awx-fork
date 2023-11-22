@@ -24,6 +24,7 @@ import (
 
 func dataSourceOrganization() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an AWX/AT Organization",
 		ReadContext: dataSourceOrganizationRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

@@ -21,6 +21,7 @@ import (
 
 func dataSourceOrganizations() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query Organizations.",
 		ReadContext: dataSourceOrganizationsRead,
 		Schema: map[string]*schema.Schema{
 			"organizations": {

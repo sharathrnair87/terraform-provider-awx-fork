@@ -25,6 +25,7 @@ import (
 
 func dataSourceInventoryGroup() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an Inventory Group in AWX/AT",
 		ReadContext: dataSourceInventoryGroupRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

@@ -29,6 +29,7 @@ import (
 
 func dataSourceCredentialRole() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to lookup a Credential Role in AWX/AT",
 		ReadContext: dataSourceCredentialRoleRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

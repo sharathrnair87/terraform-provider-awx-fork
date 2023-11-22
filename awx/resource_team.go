@@ -56,6 +56,7 @@ import (
 
 func resourceTeam() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a Team with appropriate Role Entitlements in AWX/AT. See examples below.",
 		CreateContext: resourceTeamCreate,
 		ReadContext:   resourceTeamRead,
 		DeleteContext: resourceTeamDelete,

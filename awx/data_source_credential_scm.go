@@ -6,7 +6,7 @@ Use this data source to query an SCM Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_scm" "my_scm_cred" {
-	  credential_id = <my_scm_cred_id>
+	  credential_id = var.my_scm_cred_id
 	}
 
 	output "my_scm_cred" {
@@ -31,6 +31,7 @@ import (
 
 func dataSourceCredentialSCM() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an SCM Credential in AWX/AT",
 		ReadContext: dataSourceCredentialSCMRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

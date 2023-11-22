@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to launch an AWX/AT Job Template
 
 Example Usage
 
@@ -40,6 +40,7 @@ import (
 
 func resourceJobTemplateLaunch() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to launch an AWX/AT Job Template",
 		CreateContext: resourceJobTemplateLaunchCreate,
 		ReadContext:   resourceJobRead,
 		DeleteContext: resourceJobDelete,

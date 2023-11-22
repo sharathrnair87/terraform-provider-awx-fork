@@ -33,6 +33,7 @@ import (
 
 func resourceCredentialSCM() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an SCM Credential in AWX/AT",
 		CreateContext: resourceCredentialSCMCreate,
 		ReadContext:   resourceCredentialSCMRead,
 		UpdateContext: resourceCredentialSCMUpdate,

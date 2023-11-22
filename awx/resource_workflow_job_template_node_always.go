@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a node which will always be executed within a Workflow job template
 
 # Example Usage
 
@@ -28,6 +28,7 @@ import (
 
 func resourceWorkflowJobTemplateNodeAlways() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a node which will always be executed within a Workflow job template",
 		CreateContext: resourceWorkflowJobTemplateNodeAlwaysCreate,
 		ReadContext:   resourceWorkflowJobTemplateNodeRead,
 		UpdateContext: resourceWorkflowJobTemplateNodeUpdate,

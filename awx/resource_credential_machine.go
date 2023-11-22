@@ -35,6 +35,7 @@ import (
 
 func resourceCredentialMachine() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an AWX/AT Machine Credential",
 		CreateContext: resourceCredentialMachineCreate,
 		ReadContext:   resourceCredentialMachineRead,
 		UpdateContext: resourceCredentialMachineUpdate,

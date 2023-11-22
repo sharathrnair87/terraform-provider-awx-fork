@@ -37,6 +37,7 @@ import (
 
 func resourceInventorySource() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an Inventory Source for an existing Inventory in AWX/AT",
 		CreateContext: resourceInventorySourceCreate,
 		ReadContext:   resourceInventorySourceRead,
 		UpdateContext: resourceInventorySourceUpdate,

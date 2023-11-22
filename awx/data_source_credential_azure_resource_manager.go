@@ -6,7 +6,7 @@ Use this data source to lookup an Azure Resource Manager Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_azure_resource_manager" "my_azrm_creds" {
-	  credential_id = <my_azrm_cred_id>
+	  credential_id = var.my_azrm_cred_id
 	}
 
 	output "my_azrm_creds" {
@@ -31,6 +31,7 @@ import (
 
 func dataSourceCredentialAzureRM() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to lookup an Azure Resource Manager Credential in AWX/AT",
 		ReadContext: dataSourceCredentialAzureRMRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

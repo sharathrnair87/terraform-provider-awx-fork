@@ -36,6 +36,7 @@ import (
 
 func resourceCredentialAzureRM() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage an Azure Resource Manager Credential in AWX/AT.",
 		CreateContext: resourceCredentialAzureRMCreate,
 		ReadContext:   resourceCredentialAzureRMRead,
 		UpdateContext: resourceCredentialAzureRMUpdate,

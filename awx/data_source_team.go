@@ -24,6 +24,7 @@ import (
 
 func dataSourceTeam() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to lookup a Team by name or ID in AWX/AT",
 		ReadContext: dataSourceTeamsRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

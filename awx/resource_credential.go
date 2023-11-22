@@ -44,6 +44,7 @@ import (
 
 func resourceCredential() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this when a resource to create a specific credential type is not available,",
 		CreateContext: resourceCredentialCreate,
 		ReadContext:   resourceCredentialRead,
 		UpdateContext: resourceCredentialUpdate,

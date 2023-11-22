@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to associate a Notification template with a Job Template in case of a successful execution
 
 # Example Usage
 
@@ -20,6 +20,7 @@ import (
 
 func resourceJobTemplateNotificationTemplateSuccess() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate a Notification template with a Job Template in case of a successful execution",
 		CreateContext: resourceJobTemplateNotificationTemplateCreateForType("success"),
 		DeleteContext: resourceJobTemplateNotificationTemplateDeleteForType("success"),
 		ReadContext:   resourceJobTemplateNotificationTemplateRead,

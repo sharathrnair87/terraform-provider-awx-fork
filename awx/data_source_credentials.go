@@ -46,6 +46,7 @@ import (
 
 func dataSourceCredentials() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to all available Credentials in AWX/AT",
 		ReadContext: dataSourceCredentialsRead,
 		Schema: map[string]*schema.Schema{
 			"credentials": {

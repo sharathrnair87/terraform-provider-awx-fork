@@ -30,6 +30,7 @@ import (
 
 func dataSourceJobTemplate() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an AWX/AT Job Template",
 		ReadContext: dataSourceJobTemplateRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

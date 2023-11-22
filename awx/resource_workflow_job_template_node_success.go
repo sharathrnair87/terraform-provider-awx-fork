@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a workflow job template success node in AWX/AT
 
 # Example Usage
 
@@ -28,6 +28,7 @@ import (
 
 func resourceWorkflowJobTemplateNodeSuccess() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a workflow job template success node in AWX/AT",
 		CreateContext: resourceWorkflowJobTemplateNodeSuccessCreate,
 		ReadContext:   resourceWorkflowJobTemplateNodeRead,
 		UpdateContext: resourceWorkflowJobTemplateNodeUpdate,

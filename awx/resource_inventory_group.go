@@ -36,6 +36,7 @@ import (
 
 func resourceInventoryGroup() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an Inventory Group in an existing Inventory in AWX/AT",
 		CreateContext: resourceInventoryGroupCreate,
 		ReadContext:   resourceInventoryGroupRead,
 		UpdateContext: resourceInventoryGroupUpdate,

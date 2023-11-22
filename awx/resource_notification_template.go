@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a Notification Template in AWX/AT
 
 # Example Usage
 
@@ -27,6 +27,7 @@ import (
 
 func resourceNotificationTemplate() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a Notification Template in AWX/AT",
 		CreateContext: resourceNotificationTemplateCreate,
 		ReadContext:   resourceNotificationTemplateRead,
 		UpdateContext: resourceNotificationTemplateUpdate,

@@ -6,7 +6,7 @@ Use this data source to query an Azure Key Vault Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_azure_key_vault" "my_kv_lookup" {
-	  credential_id = <my_kv_id>
+	  credential_id = var.my_kv_id
 	}
 
 	output "kv" {
@@ -31,6 +31,7 @@ import (
 
 func dataSourceCredentialAzure() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an Azure Key Vault Credential in AWX/AT",
 		ReadContext: dataSourceCredentialAzureRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

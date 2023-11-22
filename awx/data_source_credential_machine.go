@@ -6,7 +6,7 @@ Use this data source to query a Machine Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_machine" "my_machine_creds" {
-	  credential_id = <my_machine_creds>
+	  credential_id = var.my_machine_creds
 	}
 
 	output "my_machine_creds" {
@@ -31,6 +31,7 @@ import (
 
 func dataSourceCredentialMachine() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query a Machine Credential in AWX/AT",
 		ReadContext: dataSourceCredentialMachineRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

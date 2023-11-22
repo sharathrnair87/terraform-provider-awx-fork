@@ -7,7 +7,7 @@ Use this data source to query the ID of a given Inventory Role in AWX/AT
 
 		resource "awx_inventory" "myinv" {
 		  name = "My Inventory"
-		  ...
+          // Truncated //
 		}
 
 		data "awx_inventory_role" "inv_admin_role" {

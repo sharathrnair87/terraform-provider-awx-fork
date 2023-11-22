@@ -28,6 +28,7 @@ import (
 
 func dataSourceExecutionEnvironment() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query an Execution Environment in AWX/AT",
 		ReadContext: dataSourceExecutionEnvironmentsRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

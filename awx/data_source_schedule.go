@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to query a Job Template schedule in AWX/AT
 
 # Example Usage
 
@@ -24,6 +24,7 @@ import (
 
 func dataSourceSchedule() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this resource to query a Job Template schedule in AWX/AT",
 		ReadContext: dataSourceSchedulesRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

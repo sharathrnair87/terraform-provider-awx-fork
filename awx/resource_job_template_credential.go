@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to associate an AWX/AT Credential with an existing Job Template
 
 # Example Usage
 
@@ -26,6 +26,7 @@ import (
 
 func resourceJobTemplateCredentials() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate an AWX/AT Credential with an existing Job Template",
 		CreateContext: resourceJobTemplateCredentialsCreate,
 		DeleteContext: resourceJobTemplateCredentialsDelete,
 		ReadContext:   resourceJobTemplateCredentialsRead,

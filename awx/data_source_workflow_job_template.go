@@ -12,7 +12,7 @@ Use this resource to lookup a Workflow Job Template in AWX/AT
 
 	        // Lookup by `id`
 			data "awx_workflow_job_template" "default" {
-		        id = <default_workflow_job_template_id>
+		        id = var.default_workflow_job_template_id
 			}
 
 ```
@@ -30,6 +30,7 @@ import (
 
 func dataSourceWorkflowJobTemplate() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this resource to lookup a Workflow Job Template in AWX/AT",
 		ReadContext: dataSourceWorkflowJobTemplateRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

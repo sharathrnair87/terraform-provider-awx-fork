@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to associate a Notification template with a Job Template in case of an error
 
 # Example Usage
 
@@ -20,6 +20,7 @@ import (
 
 func resourceJobTemplateNotificationTemplateError() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate a Notification template with a Job Template in case of an error",
 		CreateContext: resourceJobTemplateNotificationTemplateCreateForType("error"),
 		DeleteContext: resourceJobTemplateNotificationTemplateDeleteForType("error"),
 		ReadContext:   resourceJobTemplateNotificationTemplateRead,

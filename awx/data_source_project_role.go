@@ -7,7 +7,7 @@ Use this data source to obtain the ID of a given Project Role in AWX/AT
 
 	resource "awx_project" "myproj" {
 	  name = "My AWX Project"
-	  ...
+	  // Truncated //
 	}
 
 	data "awx_project_role" "proj_admins" {

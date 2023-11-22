@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create a node in a workflow job template, for more details see [Workflow Visualizer](https://docs.ansible.com/automation-controller/latest/html/userguide/workflow_templates.html#build-a-workflow)
 
 # Example Usage
 
@@ -30,6 +30,7 @@ import (
 
 func resourceWorkflowJobTemplateNode() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a node in a workflow job template, for more details see [Workflow Visualizer](https://docs.ansible.com/automation-controller/latest/html/userguide/workflow_templates.html#build-a-workflow)",
 		CreateContext: resourceWorkflowJobTemplateNodeCreate,
 		ReadContext:   resourceWorkflowJobTemplateNodeRead,
 		UpdateContext: resourceWorkflowJobTemplateNodeUpdate,

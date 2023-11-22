@@ -6,7 +6,7 @@ Use this data source to query a HashiCorp Vault Signed SSH Credential in AWX/AT
 ```hcl
 
 	data "awx_credential_hashivault_signed_ssh" "my_hashi_signed_ssh" {
-	  credential_id = <my_hashi_signed_ssh_id>
+	  credential_id = var.my_hashi_signed_ssh_id
 	}
 
 	output "my_hashi_signed_ssh" {
@@ -31,6 +31,7 @@ import (
 
 func dataSourceCredentialHashiVaultSSH() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query a HashiCorp Vault Signed SSH Credential in AWX/AT",
 		ReadContext: dataSourceCredentialHashiVaultSSHRead,
 		Schema: map[string]*schema.Schema{
 			"credential_id": {

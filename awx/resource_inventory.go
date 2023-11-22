@@ -36,6 +36,7 @@ import (
 
 func resourceInventory() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an AWX/AT Inventory",
 		CreateContext: resourceInventoryCreate,
 		ReadContext:   resourceInventoryRead,
 		DeleteContext: resourceInventoryDelete,

@@ -33,6 +33,7 @@ import (
 
 func resourceCredentialVault() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an Ansible Vault Credential in AWX/AT",
 		CreateContext: resourceCredentialVaultCreate,
 		ReadContext:   resourceCredentialVaultRead,
 		UpdateContext: resourceCredentialVaultUpdate,

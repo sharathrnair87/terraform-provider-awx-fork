@@ -1,5 +1,6 @@
 /*
-*TBD*
+Use this resource to manage the SAML Group to AWX/AT team mapping.
+NOTE: This resource manages the global SAML Group to AWX/AT team mapping i.e. SOCIAL_AUTH_SAML_TEAM_MAP, ensure that it is managed by a single terraform state to avoid unexpected behaviour
 
 # Example Usage
 
@@ -16,7 +17,7 @@
 
 	resource "awx_settings_saml_team_map" "admin_team_map" {
 	  name         = resource.awx_team.admin_team.name
-	  users        = ["CN=MyTeam,OU=Groups,DC=example,DC=com"]
+	  users        = ["myorg-global-admins"] // Name of the SAML Group
 	  organization = data.awx_organization.default.name
 	  remove       = true
 	}
@@ -40,6 +41,7 @@ var samlTeamMapAccessMutex sync.Mutex
 
 func resourceSettingsSAMLTeamMap() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to manage the SAML Group to AWX/AT team mapping.\nNOTE: This resource manages the global SAML Group to AWX/AT team mapping i.e. SOCIAL_AUTH_SAML_TEAM_MAP, ensure that it is managed by a single terraform state to avoid unexpected behaviour",
 		CreateContext: resourceSettingsSAMLTeamMapCreate,
 		ReadContext:   resourceSettingsSAMLTeamMapRead,
 		DeleteContext: resourceSettingsSAMLTeamMapDelete,

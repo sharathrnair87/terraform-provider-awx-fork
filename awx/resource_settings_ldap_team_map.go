@@ -1,5 +1,5 @@
 /*
-*TBD*
+Use this resource to create an LDAP Group to AWX/AT Team mapping
 
 # Example Usage
 

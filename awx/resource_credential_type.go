@@ -56,6 +56,7 @@ import (
 
 func resourceCredentialType() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a custom Credential Type in AWX/AT",
 		CreateContext: resourceCredentialTypeCreate,
 		ReadContext:   resourceCredentialTypeRead,
 		UpdateContext: resourceCredentialTypeUpdate,
