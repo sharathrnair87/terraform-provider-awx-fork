@@ -1,3 +1,10 @@
+# [0.23.0](https://github.com/denouche/terraform-provider-awx/compare/v0.22.6...v0.23.0) (2023-11-23)
+
+
+### Features
+
+* add allow_override for awx_project. ([#30](https://github.com/denouche/terraform-provider-awx/issues/30)) ([285bb45](https://github.com/denouche/terraform-provider-awx/commit/285bb45ef85e9988434fb95d1b711fd411247217))
+
 ## [0.22.6](https://github.com/denouche/terraform-provider-awx/compare/v0.22.5...v0.22.6) (2023-11-23)
 
 ## [0.22.5](https://github.com/denouche/terraform-provider-awx/compare/v0.22.4...v0.22.5) (2023-11-23)
