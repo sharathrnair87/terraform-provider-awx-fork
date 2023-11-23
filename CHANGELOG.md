@@ -1,3 +1,11 @@
+# [0.22.0](https://github.com/denouche/terraform-provider-awx/compare/v0.21.0...v0.22.0) (2023-11-23)
+
+
+### Features
+
+* **resource_job_template_launch:** add extra_vars option ([3e4ab25](https://github.com/denouche/terraform-provider-awx/commit/3e4ab257f760fd5aca4f206ff1d00d2467f4652f))
+* **resource_job_template_launch:** add more configuration options (limit, inventory, completion wait) ([abe120c](https://github.com/denouche/terraform-provider-awx/commit/abe120ce93029b02b9b34f29be4615e430a9d8c5))
+
 # [0.21.0](https://github.com/denouche/terraform-provider-awx/compare/v0.20.0...v0.21.0) (2023-04-17)
 
 
