@@ -1,3 +1,10 @@
+## [0.22.5](https://github.com/denouche/terraform-provider-awx/compare/v0.22.4...v0.22.5) (2023-11-23)
+
+
+### Bug Fixes
+
+* segmentation fault when datasource does not exist ([fa53eac](https://github.com/denouche/terraform-provider-awx/commit/fa53eac9aa1ec3be4ceedda15e6b6a2173c9ed18))
+
 ## [0.22.4](https://github.com/denouche/terraform-provider-awx/compare/v0.22.3...v0.22.4) (2023-11-23)
 
 ## [0.22.3](https://github.com/denouche/terraform-provider-awx/compare/v0.22.2...v0.22.3) (2023-11-23)
