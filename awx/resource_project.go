@@ -294,7 +294,7 @@ func setProjectResourceData(d *schema.ResourceData, r *awx.Project) *schema.Reso
 	}
 	d.Set("scm_update_on_launch", r.ScmUpdateOnLaunch)
 	d.Set("scm_update_cache_timeout", r.ScmUpdateCacheTimeout)
-	d.Set("allow_override".r.AllowOverride)
+	d.Set("allow_override", r.AllowOverride)
 
 	d.SetId(strconv.Itoa(r.ID))
 	return d
