@@ -1,3 +1,10 @@
+## [0.24.2](https://github.com/denouche/terraform-provider-awx/compare/v0.24.1...v0.24.2) (2023-11-23)
+
+
+### Bug Fixes
+
+* fix compilation issue in resource project ([45771cd](https://github.com/denouche/terraform-provider-awx/commit/45771cd8ec7b9409c073fb7110105788d546e586))
+
 ## [0.24.1](https://github.com/denouche/terraform-provider-awx/compare/v0.24.0...v0.24.1) (2023-11-23)
 
 
