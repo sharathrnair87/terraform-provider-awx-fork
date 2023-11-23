@@ -1,3 +1,11 @@
+## [0.24.3](https://github.com/denouche/terraform-provider-awx/compare/v0.24.2...v0.24.3) (2023-11-23)
+
+
+### Bug Fixes
+
+* allow empty credential_id for inventory_source creation ([b960b53](https://github.com/denouche/terraform-provider-awx/commit/b960b538a60d7d28c566eac3c887985d58bf4d6a)), closes [#19](https://github.com/denouche/terraform-provider-awx/issues/19)
+* allow empty source_project_id for inventory_source creation ([#29](https://github.com/denouche/terraform-provider-awx/issues/29)) ([4d8d1d8](https://github.com/denouche/terraform-provider-awx/commit/4d8d1d8de62b50e0f9614175f993e10a4c92c609))
+
 ## [0.24.2](https://github.com/denouche/terraform-provider-awx/compare/v0.24.1...v0.24.2) (2023-11-23)
 
 
