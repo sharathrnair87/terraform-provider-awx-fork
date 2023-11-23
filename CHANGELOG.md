@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/denouche/terraform-provider-awx/compare/v0.23.0...v0.24.0) (2023-11-23)
+
+
+### Features
+
+* add Organizations GalaxyCredentials, resource credential Ansible Galaxy, user resource, organization role, Gitlab credential, resource settings, instance group support ([5a30c50](https://github.com/denouche/terraform-provider-awx/commit/5a30c505fb9d2e4fdc6b72b080e16effaf47d1d4))
+
 # [0.23.0](https://github.com/denouche/terraform-provider-awx/compare/v0.22.6...v0.23.0) (2023-11-23)
 
 
