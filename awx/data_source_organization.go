@@ -41,12 +41,14 @@ func dataSourceOrganization() *schema.Resource {
 			},
 			"max_hosts": {
 				Type:     schema.TypeInt,
-				Optional: true,
 				Computed: true,
 			},
 			"custom_virtualenv": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
+			},
+			"default_environment": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 		},

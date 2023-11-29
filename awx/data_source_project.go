@@ -34,66 +34,63 @@ func dataSourceProject() *schema.Resource {
 		ReadContext: dataSourceProjectsRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Computed:     true,
+				ExactlyOneOf: []string{"id", "name"},
 			},
 			"name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				Computed:     true,
+				ExactlyOneOf: []string{"id", "name"},
 			},
 			"organization_id": {
 				Type:     schema.TypeInt,
-				Optional: true,
 				Computed: true,
 			},
 			"description": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"local_path": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"scm_type": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"scm_url": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"scm_credential_id": {
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 			"scm_branch": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"scm_clean": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"scm_delete_on_update": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"scm_update_on_launch": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"scm_update_cache_timeout": {
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
+			},
+			"allow_override": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 		},
