@@ -102,7 +102,7 @@ func resourceOrganizationsUpdate(ctx context.Context, d *schema.ResourceData, m 
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
-	id, diags := convertStateIDToNummeric("Update Organizations", d)
+	id, diags := convertStateIDToNumeric("Update Organizations", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -137,7 +137,7 @@ func resourceOrganizationsRead(ctx context.Context, d *schema.ResourceData, m in
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
-	id, diags := convertStateIDToNummeric("Read Organizations", d)
+	id, diags := convertStateIDToNumeric("Read Organizations", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -156,7 +156,7 @@ func resourceOrganizationsDelete(ctx context.Context, d *schema.ResourceData, m 
 	digMessagePart := "Organization"
 	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
-	id, diags := convertStateIDToNummeric("Delete Organization", d)
+	id, diags := convertStateIDToNumeric("Delete Organization", d)
 	if diags.HasError() {
 		return diags
 	}

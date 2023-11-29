@@ -86,7 +86,7 @@ func resourceInstanceGroupCreate(ctx context.Context, d *schema.ResourceData, m 
 func resourceInstanceGroupUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.InstanceGroupsService
-	id, diags := convertStateIDToNummeric(diagElementInstanceGroupTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInstanceGroupTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -110,7 +110,7 @@ func resourceInstanceGroupDelete(ctx context.Context, d *schema.ResourceData, m 
 	client := m.(*awx.AWX)
 	awxService := client.InstanceGroupsService
 
-	id, diags := convertStateIDToNummeric(diagElementInstanceGroupTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInstanceGroupTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -130,7 +130,7 @@ func resourceInstanceGroupRead(ctx context.Context, d *schema.ResourceData, m in
 	client := m.(*awx.AWX)
 	awxService := client.InstanceGroupsService
 
-	id, diags := convertStateIDToNummeric(diagElementInstanceGroupTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInstanceGroupTitle, d)
 	if diags.HasError() {
 		return diags
 	}

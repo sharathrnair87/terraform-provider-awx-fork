@@ -280,7 +280,7 @@ func resourceJobTemplateUpdate(ctx context.Context, d *schema.ResourceData, m in
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.JobTemplateService
-	id, diags := convertStateIDToNummeric("Update JobTemplate", d)
+	id, diags := convertStateIDToNumeric("Update JobTemplate", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -341,7 +341,7 @@ func resourceJobTemplateRead(ctx context.Context, d *schema.ResourceData, m inte
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.JobTemplateService
-	id, diags := convertStateIDToNummeric("Read JobTemplate", d)
+	id, diags := convertStateIDToNumeric("Read JobTemplate", d)
 	if diags.HasError() {
 		return diags
 	}

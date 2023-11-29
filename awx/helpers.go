@@ -25,7 +25,7 @@ func resourceJobTemplateDelete(ctx context.Context, d *schema.ResourceData, m in
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.JobTemplateService
-	id, diags := convertStateIDToNummeric("Delete JobTemplate", d)
+	id, diags := convertStateIDToNumeric("Delete JobTemplate", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -78,7 +78,7 @@ func buildDiagDeleteFailDetails(tfMethode, detailsString string) string {
 	return fmt.Sprintf("Failed to delete %s, %s", tfMethode, detailsString)
 }
 
-func convertStateIDToNummeric(tfElement string, d *schema.ResourceData) (int, diag.Diagnostics) {
+func convertStateIDToNumeric(tfElement string, d *schema.ResourceData) (int, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	id, err := strconv.Atoi(d.Id())
 	if err != nil {

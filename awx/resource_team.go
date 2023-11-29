@@ -181,7 +181,7 @@ func resourceTeamUpdate(ctx context.Context, d *schema.ResourceData, m interface
 	client := m.(*awx.AWX)
 	awxService := client.TeamService
 
-	id, diags := convertStateIDToNummeric("Update Team", d)
+	id, diags := convertStateIDToNumeric("Update Team", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -232,7 +232,7 @@ func resourceTeamRead(ctx context.Context, d *schema.ResourceData, m interface{}
 	client := m.(*awx.AWX)
 	awxService := client.TeamService
 
-	id, diags := convertStateIDToNummeric("Read Team", d)
+	id, diags := convertStateIDToNumeric("Read Team", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -256,7 +256,7 @@ func resourceTeamDelete(ctx context.Context, d *schema.ResourceData, m interface
 	client := m.(*awx.AWX)
 	awxService := client.TeamService
 
-	id, diags := convertStateIDToNummeric("Delete Team", d)
+	id, diags := convertStateIDToNumeric("Delete Team", d)
 	if diags.HasError() {
 		return diags
 	}

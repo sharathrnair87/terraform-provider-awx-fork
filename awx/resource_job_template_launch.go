@@ -187,7 +187,7 @@ func resourceJobDelete(ctx context.Context, d *schema.ResourceData, m interface{
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.JobService
-	jobID, diags := convertStateIDToNummeric("Delete Job", d)
+	jobID, diags := convertStateIDToNumeric("Delete Job", d)
 	_, err := awxService.GetJob(jobID, map[string]string{})
 	if err != nil {
 		return buildDiagNotFoundFail("job", jobID, err)

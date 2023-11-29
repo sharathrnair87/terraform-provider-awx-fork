@@ -175,7 +175,7 @@ func resourceWorkflowJobTemplateNodeUpdate(ctx context.Context, d *schema.Resour
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.WorkflowJobTemplateNodeService
-	id, diags := convertStateIDToNummeric("Update WorkflowJobTemplateNode", d)
+	id, diags := convertStateIDToNumeric("Update WorkflowJobTemplateNode", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -220,7 +220,7 @@ func resourceWorkflowJobTemplateNodeRead(ctx context.Context, d *schema.Resource
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.WorkflowJobTemplateNodeService
-	id, diags := convertStateIDToNummeric("Read WorkflowJobTemplateNode", d)
+	id, diags := convertStateIDToNumeric("Read WorkflowJobTemplateNode", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -237,7 +237,7 @@ func resourceWorkflowJobTemplateNodeRead(ctx context.Context, d *schema.Resource
 func resourceWorkflowJobTemplateNodeDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.WorkflowJobTemplateNodeService
-	id, diags := convertStateIDToNummeric(diagElementHostTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementHostTitle, d)
 	if diags.HasError() {
 		return diags
 	}

@@ -101,7 +101,7 @@ func resourceNotificationTemplateUpdate(ctx context.Context, d *schema.ResourceD
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.NotificationTemplatesService
-	id, diags := convertStateIDToNummeric("Update NotificationTemplate", d)
+	id, diags := convertStateIDToNumeric("Update NotificationTemplate", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -147,7 +147,7 @@ func resourceNotificationTemplateRead(ctx context.Context, d *schema.ResourceDat
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.NotificationTemplatesService
-	id, diags := convertStateIDToNummeric("Read notification_template", d)
+	id, diags := convertStateIDToNumeric("Read notification_template", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -164,7 +164,7 @@ func resourceNotificationTemplateRead(ctx context.Context, d *schema.ResourceDat
 func resourceNotificationTemplateDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.NotificationTemplatesService
-	id, diags := convertStateIDToNummeric(diagElementHostTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementHostTitle, d)
 	if diags.HasError() {
 		return diags
 	}

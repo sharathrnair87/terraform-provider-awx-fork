@@ -105,7 +105,7 @@ func resourceScheduleUpdate(ctx context.Context, d *schema.ResourceData, m inter
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.ScheduleService
-	id, diags := convertStateIDToNummeric("Update Schedule", d)
+	id, diags := convertStateIDToNumeric("Update Schedule", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -141,7 +141,7 @@ func resourceScheduleRead(ctx context.Context, d *schema.ResourceData, m interfa
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.ScheduleService
-	id, diags := convertStateIDToNummeric("Read schedule", d)
+	id, diags := convertStateIDToNumeric("Read schedule", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -158,7 +158,7 @@ func resourceScheduleRead(ctx context.Context, d *schema.ResourceData, m interfa
 func resourceScheduleDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.ScheduleService
-	id, diags := convertStateIDToNummeric(diagElementHostTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementHostTitle, d)
 	if diags.HasError() {
 		return diags
 	}

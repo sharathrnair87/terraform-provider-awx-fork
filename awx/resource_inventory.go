@@ -103,7 +103,7 @@ func resourceInventoryCreate(ctx context.Context, d *schema.ResourceData, m inte
 func resourceInventoryUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.InventoriesService
-	id, diags := convertStateIDToNummeric(diagElementInventoryTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInventoryTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -127,7 +127,7 @@ func resourceInventoryRead(ctx context.Context, d *schema.ResourceData, m interf
 	client := m.(*awx.AWX)
 	awxService := client.InventoriesService
 	id, err := strconv.Atoi(d.Id())
-	id, diags := convertStateIDToNummeric(diagElementInventoryTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInventoryTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -142,7 +142,7 @@ func resourceInventoryRead(ctx context.Context, d *schema.ResourceData, m interf
 func resourceInventoryDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.InventoriesService
-	id, diags := convertStateIDToNummeric(diagElementInventoryTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInventoryTitle, d)
 	if diags.HasError() {
 		return diags
 	}

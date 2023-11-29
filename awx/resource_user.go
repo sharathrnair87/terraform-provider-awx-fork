@@ -261,7 +261,7 @@ func resourceUserRead(ctx context.Context, d *schema.ResourceData, m interface{}
 func resourceUserDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.UserService
-	id, diags := convertStateIDToNummeric("Delete User", d)
+	id, diags := convertStateIDToNumeric("Delete User", d)
 
 	if diags.HasError() {
 		return diags

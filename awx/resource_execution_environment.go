@@ -109,7 +109,7 @@ func resourceExecutionEnvironmentsUpdate(ctx context.Context, d *schema.Resource
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.ExecutionEnvironmentsService
-	id, diags := convertStateIDToNummeric("Update ExecutionEnvironments", d)
+	id, diags := convertStateIDToNumeric("Update ExecutionEnvironments", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -145,7 +145,7 @@ func resourceExecutionEnvironmentsRead(ctx context.Context, d *schema.ResourceDa
 	var diags diag.Diagnostics
 	client := m.(*awx.AWX)
 	awxService := client.ExecutionEnvironmentsService
-	id, diags := convertStateIDToNummeric("Read ExecutionEnvironments", d)
+	id, diags := convertStateIDToNumeric("Read ExecutionEnvironments", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -164,7 +164,7 @@ func resourceExecutionEnvironmentsDelete(ctx context.Context, d *schema.Resource
 	digMessagePart := "ExecutionEnvironment"
 	client := m.(*awx.AWX)
 	awxService := client.ExecutionEnvironmentsService
-	id, diags := convertStateIDToNummeric("Delete ExecutionEnvironment", d)
+	id, diags := convertStateIDToNumeric("Delete ExecutionEnvironment", d)
 	if diags.HasError() {
 		return diags
 	}

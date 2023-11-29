@@ -183,7 +183,7 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
-	id, diags := convertStateIDToNummeric(diagElementInventorySourceTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInventorySourceTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -229,7 +229,7 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 func resourceInventorySourceDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
-	id, diags := convertStateIDToNummeric(diagElementInventorySourceTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInventorySourceTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -246,7 +246,7 @@ func resourceInventorySourceDelete(ctx context.Context, d *schema.ResourceData, 
 func resourceInventorySourceRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
-	id, diags := convertStateIDToNummeric(diagElementInventorySourceTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementInventorySourceTitle, d)
 	if diags.HasError() {
 		return diags
 	}

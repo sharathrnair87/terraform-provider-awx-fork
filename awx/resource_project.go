@@ -178,7 +178,7 @@ func resourceProjectUpdate(ctx context.Context, d *schema.ResourceData, m interf
 	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 
-	id, diags := convertStateIDToNummeric("Update Project", d)
+	id, diags := convertStateIDToNumeric("Update Project", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -219,7 +219,7 @@ func resourceProjectRead(ctx context.Context, d *schema.ResourceData, m interfac
 	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 
-	id, diags := convertStateIDToNummeric("Read Project", d)
+	id, diags := convertStateIDToNumeric("Read Project", d)
 	if diags.HasError() {
 		return diags
 	}
@@ -239,7 +239,7 @@ func resourceProjectDelete(ctx context.Context, d *schema.ResourceData, m interf
 	awxService := client.ProjectService
 	var jobID int
 	var finished time.Time
-	id, diags := convertStateIDToNummeric("Delete Project", d)
+	id, diags := convertStateIDToNumeric("Delete Project", d)
 	if diags.HasError() {
 		return diags
 	}

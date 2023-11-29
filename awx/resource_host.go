@@ -125,7 +125,7 @@ func resourceHostCreate(ctx context.Context, d *schema.ResourceData, m interface
 func resourceHostUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.HostService
-	id, diags := convertStateIDToNummeric(diagElementHostTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementHostTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -165,7 +165,7 @@ func resourceHostUpdate(ctx context.Context, d *schema.ResourceData, m interface
 func resourceHostRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.HostService
-	id, diags := convertStateIDToNummeric(diagElementHostTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementHostTitle, d)
 	if diags.HasError() {
 		return diags
 	}
@@ -180,7 +180,7 @@ func resourceHostRead(ctx context.Context, d *schema.ResourceData, m interface{}
 func resourceHostDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*awx.AWX)
 	awxService := client.HostService
-	id, diags := convertStateIDToNummeric(diagElementHostTitle, d)
+	id, diags := convertStateIDToNumeric(diagElementHostTitle, d)
 	if diags.HasError() {
 		return diags
 	}
