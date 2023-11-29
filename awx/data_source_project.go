@@ -118,7 +118,7 @@ func dataSourceProjectsRead(ctx context.Context, d *schema.ResourceData, m inter
 			"Please use one of the selectors (name or project_id)",
 		)
 	}
-	Projects, _, err := client.ProjectService.ListProjects(params)
+	projects, _, err := client.ProjectService.ListProjects(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
 			"Get: Failed to fetch Project",
@@ -126,15 +126,22 @@ func dataSourceProjectsRead(ctx context.Context, d *schema.ResourceData, m inter
 			err.Error(),
 		)
 	}
-	if len(Projects) > 1 {
+	if len(projects) > 1 {
 		return buildDiagnosticsMessage(
 			"Get: found more than one Element",
 			"The Query Returns more than one Project, %d",
-			len(Projects),
+			len(projects),
+		)
+	}
+	if len(projects) == 0 {
+		return buildDiagnosticsMessage(
+			"Get: No Project found",
+			"The Query Returns no Project matching filter, %v",
+			params,
 		)
 	}
 
-	Project := Projects[0]
+	Project := projects[0]
 	d = setProjectResourceData(d, Project)
 	return diags
 }

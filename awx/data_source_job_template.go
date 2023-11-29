@@ -240,13 +240,21 @@ func dataSourceJobTemplateRead(ctx context.Context, d *schema.ResourceData, m in
 
 	if _, okGroupID := d.GetOk("id"); okGroupID {
 		log.Printf("byid %v", len(jobTemplate))
-		if len(jobTemplate) != 1 {
+		if len(jobTemplate) > 1 {
 			return buildDiagnosticsMessage(
 				"Get: found more than one Element",
 				"The Query Returns more than one Job Template, %d",
 				len(jobTemplate),
 			)
 		}
+		if len(jobTemplate) == 0 {
+			return buildDiagnosticsMessage(
+				"Get: No Job Template found",
+				"The Query Returns no Job Template matching filter, %v",
+				params,
+			)
+		}
+
 		d = setJobTemplateResourceData(d, jobTemplate[0])
 		return diags
 	}

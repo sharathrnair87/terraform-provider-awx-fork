@@ -89,7 +89,7 @@ func dataSourceSchedulesRead(ctx context.Context, d *schema.ResourceData, m inte
 	schedules, _, err := client.ScheduleService.List(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
-			"Get: Failed to fetch Schedule Group",
+			"Get: Failed to fetch Schedule",
 			"Failed to find the group got: %s",
 			err.Error(),
 		)
@@ -97,7 +97,14 @@ func dataSourceSchedulesRead(ctx context.Context, d *schema.ResourceData, m inte
 	if len(schedules) > 1 {
 		return buildDiagnosticsMessage(
 			"Get: found more than one Element",
-			"The Query Returns more than one Group, %d",
+			"The Query Returns more than one Schedule, %d",
+			len(schedules),
+		)
+	}
+	if len(schedules) == 0 {
+		return buildDiagnosticsMessage(
+			"Get: Schedule does not exist",
+			"The Query Returns no Schedule matching filter, %v",
 			len(schedules),
 		)
 	}

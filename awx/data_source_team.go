@@ -89,7 +89,7 @@ func dataSourceTeamsRead(ctx context.Context, d *schema.ResourceData, m interfac
 			"Please use one of the selectors (name or id)",
 		)
 	}
-	Teams, _, err := client.TeamService.ListTeams(params)
+	teams, _, err := client.TeamService.ListTeams(params)
 	if err != nil {
 		return buildDiagnosticsMessage(
 			"Get: Failed to fetch Team",
@@ -97,16 +97,23 @@ func dataSourceTeamsRead(ctx context.Context, d *schema.ResourceData, m interfac
 			err.Error(),
 		)
 	}
-	if len(Teams) > 1 {
+	if len(teams) > 1 {
 		return buildDiagnosticsMessage(
 			"Get: found more than one Element",
 			"The Query Returns more than one team, %d",
-			len(Teams),
+			len(teams),
+		)
+	}
+	if len(teams) == 0 {
+		return buildDiagnosticsMessage(
+			"Get: No Team found",
+			"The Query Returns no team matching filter, %v",
+			len(teams),
 		)
 	}
 
-	Team := Teams[0]
-	Entitlements, _, err := client.TeamService.ListTeamRoleEntitlements(Team.ID, make(map[string]string))
+	team := teams[0]
+	Entitlements, _, err := client.TeamService.ListTeamRoleEntitlements(team.ID, make(map[string]string))
 	if err != nil {
 		return buildDiagnosticsMessage(
 			"Get: Failed to fetch team role entitlements",
@@ -115,6 +122,6 @@ func dataSourceTeamsRead(ctx context.Context, d *schema.ResourceData, m interfac
 		)
 	}
 
-	d = setTeamResourceData(d, Team, Entitlements)
+	d = setTeamResourceData(d, team, Entitlements)
 	return diags
 }

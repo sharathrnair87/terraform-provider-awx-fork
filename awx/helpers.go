@@ -14,6 +14,7 @@ import (
 )
 
 const (
+	diagElementInstanceGroupTitle   = "Instance Group"
 	diagElementInventoryGroupTitle  = "Inventory Group"
 	diagElementInventorySourceTitle = "Inventory Source"
 	diagElementInventoryTitle       = "Inventory"

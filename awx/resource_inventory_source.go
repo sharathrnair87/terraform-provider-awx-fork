@@ -107,12 +107,6 @@ func resourceInventorySource() *schema.Resource {
 				Default:  1,
 				Optional: true,
 			},
-			// obsolete schema added so terraform doesn't break
-			// these don't do anything in later versions of AWX! Update your code.
-			"source_regions": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"instance_filters": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -126,6 +120,12 @@ func resourceInventorySource() *schema.Resource {
 				Optional: true,
 			},
 			"source_path": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			// obsolete schema added so terraform doesn't break
+			// these don't do anything in later versions of AWX! Update your code.
+			"source_regions": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -154,17 +154,20 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 		"host_filter":          d.Get("host_filter").(string),
 		"update_cache_timeout": d.Get("update_cache_timeout").(int),
 		"verbosity":            d.Get("verbosity").(int),
+		"instance_filters":     d.Get("instance_filters").(string),
+		"group_by":             d.Get("group_by").(string),
+		"source_path":          d.Get("source_path").(string),
 		// obsolete schema added so terraform doesn't break
 		// these don't do anything in later versions of AWX! Update your code.
-		"source_regions":   d.Get("source_regions").(string),
-		"instance_filters": d.Get("instance_filters").(string),
-		"group_by":         d.Get("group_by").(string),
-		"source_project":   d.Get("source_project_id").(int),
-		"source_path":      d.Get("source_path").(string),
+		"source_regions": d.Get("source_regions").(string),
 	}
 
 	if credential, ok := d.GetOk("credential_id"); ok {
 		inventorySourceMap["credential"] = credential.(int)
+	}
+
+	if sourceProjectID, ok := d.GetOk("source_project_id"); ok {
+		inventorySourceMap["credential"] = sourceProjectID.(int)
 	}
 
 	result, err := awxService.CreateInventorySource(inventorySourceMap, map[string]string{})
@@ -199,17 +202,20 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 		"host_filter":          d.Get("host_filter").(string),
 		"update_cache_timeout": d.Get("update_cache_timeout").(int),
 		"verbosity":            d.Get("verbosity").(int),
+		"instance_filters":     d.Get("instance_filters").(string),
+		"group_by":             d.Get("group_by").(string),
+		"source_path":          d.Get("source_path").(string),
 		// obsolete schema added so terraform doesn't break
 		// these don't do anything in later versions of AWX! Update your code.
-		"source_regions":   d.Get("source_regions").(string),
-		"instance_filters": d.Get("instance_filters").(string),
-		"group_by":         d.Get("group_by").(string),
-		"source_project":   d.Get("source_project_id").(int),
-		"source_path":      d.Get("source_path").(string),
+		"source_regions": d.Get("source_regions").(string),
 	}
 
 	if credential, ok := d.GetOk("credential_id"); ok {
 		inventorySourceMap["credential"] = credential.(int)
+	}
+
+	if sourceProjectID, ok := d.GetOk("source_project_id"); ok {
+		inventorySourceMap["credential"] = sourceProjectID.(int)
 	}
 
 	_, err := awxService.UpdateInventorySource(id, inventorySourceMap, nil)
@@ -267,13 +273,13 @@ func setInventorySourceResourceData(d *schema.ResourceData, r *awx.InventorySour
 	d.Set("host_filter", r.HostFilter)
 	d.Set("update_cache_timeout", r.UpdateCacheTimeout)
 	d.Set("verbosity", r.Verbosity)
-	// obsolete schema added so terraform doesn't break
-	// these don't do anything in later versions of AWX! Update your code.
-	d.Set("source_regions", r.SourceRegions)
 	d.Set("instance_filters", r.InstanceFilters)
 	d.Set("group_by", r.GroupBy)
 	d.Set("source_project_id", r.SourceProject)
 	d.Set("source_path", r.SourcePath)
+	// obsolete schema added so terraform doesn't break
+	// these don't do anything in later versions of AWX! Update your code.
+	d.Set("source_regions", r.SourceRegions)
 
 	return d
 }

@@ -79,6 +79,14 @@ func dataSourceExecutionEnvironmentsRead(ctx context.Context, d *schema.Resource
 		)
 	}
 
+	if len(executionEnvironments) == 0 {
+		return buildDiagnosticsMessage(
+			"Get: Execution Environment does not exist",
+			"The query returns no Execution Environment matching filter, %v",
+			params,
+		)
+	}
+
 	executionEnvironment := executionEnvironments[0]
 	d = setExecutionEnvironmentsResourceData(d, executionEnvironment)
 	return diags

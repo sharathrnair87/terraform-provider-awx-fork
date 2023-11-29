@@ -61,10 +61,10 @@ func dataSourceInventoryGroupRead(ctx context.Context, d *schema.ResourceData, m
 	if len(params) == 0 {
 		return buildDiagnosticsMessage(
 			"Get: Missing Parameters",
-			"Please use one of the selectors (name or group_id)",
+			"Please use one of the selectors (name or id)",
 		)
-		return diags
 	}
+
 	inventoryID := d.Get("inventory_id").(int)
 	groups, _, err := client.InventoryGroupService.ListInventoryGroups(inventoryID, params)
 	if err != nil {
@@ -74,13 +74,21 @@ func dataSourceInventoryGroupRead(ctx context.Context, d *schema.ResourceData, m
 			err.Error(),
 		)
 	}
+
 	if len(groups) > 1 {
 		return buildDiagnosticsMessage(
 			"Get: found more than one Element",
 			"The Query Returns more than one Group, %d",
 			len(groups),
 		)
-		return diags
+	}
+
+	if len(groups) == 0 {
+		return buildDiagnosticsMessage(
+			"Get: Inventory Group does not exist",
+			"The Query Returns no Inventory Group matching filter, %v",
+			params,
+		)
 	}
 
 	group := groups[0]

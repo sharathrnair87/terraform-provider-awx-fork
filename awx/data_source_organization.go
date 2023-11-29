@@ -86,6 +86,13 @@ func dataSourceOrganizationRead(ctx context.Context, d *schema.ResourceData, m i
 			len(organizations),
 		)
 	}
+	if len(organizations) == 0 {
+		return buildDiagnosticsMessage(
+			"Get: Organization does not exist",
+			"The Query Returns no Organization matching filter, %v",
+			params,
+		)
+	}
 
 	organization := organizations[0]
 	d = setOrganizationsResourceData(d, organization)
