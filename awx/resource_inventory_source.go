@@ -167,7 +167,7 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	if sourceProjectID, ok := d.GetOk("source_project_id"); ok {
-		inventorySourceMap["credential"] = sourceProjectID.(int)
+		inventorySourceMap["source_project_id"] = sourceProjectID.(int)
 	}
 
 	result, err := awxService.CreateInventorySource(inventorySourceMap, map[string]string{})
@@ -215,7 +215,7 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	if sourceProjectID, ok := d.GetOk("source_project_id"); ok {
-		inventorySourceMap["credential"] = sourceProjectID.(int)
+		inventorySourceMap["source_project_id"] = sourceProjectID.(int)
 	}
 
 	_, err := awxService.UpdateInventorySource(id, inventorySourceMap, nil)
