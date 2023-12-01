@@ -37,6 +37,7 @@ import (
 
 func resourceUser() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create a user in AWX/AT with specified role entitlements",
 		CreateContext: resourceUserCreate,
 		ReadContext:   resourceUserRead,
 		DeleteContext: resourceUserDelete,

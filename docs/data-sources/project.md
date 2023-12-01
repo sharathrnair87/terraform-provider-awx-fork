@@ -29,9 +29,14 @@ data "awx_project" "sharedServices" {
 
 ### Optional
 
-- `description` (String)
-- `local_path` (String)
 - `name` (String)
+
+### Read-Only
+
+- `allow_override` (Boolean)
+- `description` (String)
+- `id` (Number) The ID of this resource.
+- `local_path` (String)
 - `organization_id` (Number)
 - `scm_branch` (String)
 - `scm_clean` (Boolean)
@@ -41,7 +46,3 @@ data "awx_project" "sharedServices" {
 - `scm_update_cache_timeout` (Number)
 - `scm_update_on_launch` (Boolean)
 - `scm_url` (String)
-
-### Read-Only
-
-- `id` (Number) The ID of this resource.

@@ -38,6 +38,7 @@ resource "awx_project" "base_service_config" {
 
 ### Optional
 
+- `allow_override` (Boolean) Allow SCM branch override
 - `description` (String) Optional description of this project.
 - `local_path` (String) Local path (relative to PROJECTS_ROOT) containing playbooks and related files for this project.
 - `scm_branch` (String) Specific branch, tag or commit to checkout.

@@ -31,6 +31,7 @@ import (
 
 func resourceCredentialGalaxy() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to create an Ansible Galaxy Credential in AWX/AT",
 		CreateContext: resourceCredentialGalaxyCreate,
 		ReadContext:   resourceCredentialGalaxyRead,
 		UpdateContext: resourceCredentialGalaxyUpdate,

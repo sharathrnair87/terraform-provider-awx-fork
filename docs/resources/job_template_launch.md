@@ -39,6 +39,13 @@ resource "awx_job_template_launch" "now" {
 
 - `job_template_id` (Number) Job template ID
 
+### Optional
+
+- `extra_vars` (String) Override job template variables. Only JSON content is supported yet.
+- `inventory` (Number) Override Inventory ID. Required ask_inventory_on_launch set on job_template.
+- `limit` (String) List of comma delimited hosts to limit job execution. Required ask_limit_on_launch set on job_template.
+- `wait_for_completion` (Boolean) Resource creation will wait for job completion.
+
 ### Read-Only
 
 - `id` (String) The ID of this resource.

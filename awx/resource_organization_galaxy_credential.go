@@ -25,6 +25,7 @@ import (
 
 func resourceOrganizationsGalaxyCredentials() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this resource to associate an Ansible Galaxy Credential to an AWX/AT Organization",
 		CreateContext: resourceOrganizationsGalaxyCredentialsCreate,
 		DeleteContext: resourceOrganizationsGalaxyCredentialsDelete,
 		ReadContext:   resourceOrganizationsGalaxyCredentialsRead,

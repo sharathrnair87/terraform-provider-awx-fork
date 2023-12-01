@@ -28,6 +28,7 @@ resource "awx_organization" "default" {
 ### Optional
 
 - `custom_virtualenv` (String) Local absolute file path containing a custom Python virtualenv to use
+- `default_environment` (Number) The default execution environment for jobs run by this organization.
 - `description` (String)
 - `max_hosts` (Number) Maximum number of hosts allowed to be managed by this organization
 

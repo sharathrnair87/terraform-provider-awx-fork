@@ -23,10 +23,11 @@ data "awx_organization" "default" {
 
 ### Optional
 
-- `custom_virtualenv` (String)
-- `max_hosts` (Number)
 - `name` (String)
 
 ### Read-Only
 
+- `custom_virtualenv` (String)
+- `default_environment` (Number)
 - `id` (Number) The ID of this resource.
+- `max_hosts` (Number)
