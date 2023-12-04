@@ -80,13 +80,12 @@ resource "awx_project" "project" {
 
 ## give Certsmanger Time to Work
 resource "time_sleep" "wait_seconds" {
-  depends_on = [awx_project.project]
-
-  create_duration = "15s"
+  depends_on      = [awx_project.project]
+  create_duration = "30s"
 }
 
 resource "awx_job_template" "template" {
-  depends_on     = [time_sleep.wait_seconds]
+  depends_on     = [time_sleep.wait_seconds, awx_project.project]
   name           = "acc-job-template"
   job_type       = "run"
   inventory_id   = awx_inventory.default.id

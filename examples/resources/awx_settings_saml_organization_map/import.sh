@@ -1,2 +1,2 @@
-# Argument represents the ID in Ansible Tower/AWX
-terraform import awx_settings_saml_organization_map.this_settings_saml_organization_map 70
+# Argument represents the SOCIAL_AUTH_SAML_ORGANIZATION_MAP in Ansible Tower/AWX Settings
+terraform import awx_settings_saml_organization_map.this_settings_saml_organization_map SOCIAL_AUTH_SAML_ORGANIZATION_MAP

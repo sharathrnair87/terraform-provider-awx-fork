@@ -1,2 +1,2 @@
-# Argument represents the ID in Ansible Tower/AWX
-terraform import awx_settings_saml_team_attributes.this_settings_saml_team_attributes 171
+# Argument represents the SOCIAL_AUTH_SAML_TEAM_ATTR in Ansible Tower/AWX Settings
+terraform import awx_settings_saml_team_attributes.this_settings_saml_team_attributes SOCIAL_AUTH_SAML_TEAM_ATTR

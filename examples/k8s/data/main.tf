@@ -2,7 +2,6 @@ data "awx_organization" "default" {
   name = "acc-test"
 }
 
-
 data "awx_job_template" "template" {
   name = "acc-job-template"
 }
