@@ -49,3 +49,12 @@ resource "awx_credential" "my_creds" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_credential.this_credential 134
+```

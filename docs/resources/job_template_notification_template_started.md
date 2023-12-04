@@ -30,3 +30,12 @@ resource "awx_job_template_notification_template_started" "baseconfig" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_job_template_notification_template_started.this_job_template_notification_template_started 99
+```

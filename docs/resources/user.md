@@ -58,3 +58,12 @@ resource "awx_user" "my_user" {
 Required:
 
 - `role_id` (Number)
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_user.this_user 195
+```

@@ -73,6 +73,9 @@ func resourceCredential() *schema.Resource {
 				Sensitive: true,
 			},
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 	}
 }
 

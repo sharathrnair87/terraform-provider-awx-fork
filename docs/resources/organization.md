@@ -35,3 +35,12 @@ resource "awx_organization" "default" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_organization.this_organization 162
+```

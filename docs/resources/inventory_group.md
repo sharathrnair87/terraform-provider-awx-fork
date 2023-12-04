@@ -45,3 +45,12 @@ YAML
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_inventory_group.this_inventory_group 121
+```

@@ -30,3 +30,12 @@ resource "awx_organization_galaxy_credential" "baseconfig" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_organization_galaxy_credential.this_organization_galaxy_credential 164
+```

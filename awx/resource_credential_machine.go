@@ -90,6 +90,9 @@ func resourceCredentialMachine() *schema.Resource {
 				Sensitive: true,
 			},
 		},
+        Importer: &schema.ResourceImporter {
+            StateContext: schema.ImportStatePassthroughContext,
+        },
 	}
 }
 

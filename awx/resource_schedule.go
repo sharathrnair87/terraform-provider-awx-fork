@@ -70,6 +70,9 @@ func resourceSchedule() *schema.Resource {
 				Description: "Extra data to be pass for the schedule (YAML format)",
 			},
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 	}
 }
 

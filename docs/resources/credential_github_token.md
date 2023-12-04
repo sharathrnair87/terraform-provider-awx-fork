@@ -50,3 +50,12 @@ Optional:
 - `create` (String)
 - `delete` (String)
 - `update` (String)
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_credential_github_token.this_credential_github_token 172
+```

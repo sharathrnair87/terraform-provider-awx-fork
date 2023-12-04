@@ -87,3 +87,12 @@ Optional:
 - `create` (String)
 - `delete` (String)
 - `update` (String)
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_team.this_team 191
+```

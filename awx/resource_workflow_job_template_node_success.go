@@ -34,6 +34,9 @@ func resourceWorkflowJobTemplateNodeSuccess() *schema.Resource {
 		UpdateContext: resourceWorkflowJobTemplateNodeUpdate,
 		DeleteContext: resourceWorkflowJobTemplateNodeDelete,
 		Schema:        workflowJobNodeSchema,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 	}
 }
 

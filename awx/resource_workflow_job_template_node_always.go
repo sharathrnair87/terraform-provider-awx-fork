@@ -34,6 +34,9 @@ func resourceWorkflowJobTemplateNodeAlways() *schema.Resource {
 		UpdateContext: resourceWorkflowJobTemplateNodeUpdate,
 		DeleteContext: resourceWorkflowJobTemplateNodeDelete,
 		Schema:        workflowJobNodeSchema,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 	}
 }
 func resourceWorkflowJobTemplateNodeAlwaysCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

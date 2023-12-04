@@ -61,3 +61,12 @@ resource "awx_inventory_source" "db_inventory_source" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_inventory_source.this_inventory_source 102
+```

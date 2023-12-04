@@ -49,3 +49,12 @@ resource "awx_job_template_launch" "now" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_job_template_launch.this_job_template_launch 118
+```

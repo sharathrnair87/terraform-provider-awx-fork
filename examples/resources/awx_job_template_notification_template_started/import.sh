@@ -1,0 +1,2 @@
+# Argument represents the ID in Ansible Tower/AWX
+terraform import awx_job_template_notification_template_started.this_job_template_notification_template_started 99
