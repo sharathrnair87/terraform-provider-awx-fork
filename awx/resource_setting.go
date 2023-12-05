@@ -1,6 +1,6 @@
 /*
-This resource configure generic AWX settings.
-Please note that resource deletion only delete object from terraform state and do not reset setting to his initial value.
+This resource configures generic AWX settings.
+Please note that resource deletion only deletes the object from terraform state and does not reset the setting to its initial value.
 
 See available settings list here: https://docs.ansible.com/ansible-tower/latest/html/towerapi/api_ref.html#/Settings/Settings_settings_update
 
@@ -46,6 +46,8 @@ package awx
 import (
 	"context"
 	"encoding/json"
+	"reflect"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -71,6 +73,42 @@ func resourceSetting() *schema.Resource {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "Value to be modified for given setting.",
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// Supress Diffs when the Stringified JSON is logically equivalent
+					var map_decoded map[string]interface{}
+					var slice_decoded []interface{}
+					err := json.Unmarshal([]byte(old), &map_decoded)
+					if err != nil {
+						err = json.Unmarshal([]byte(old), &slice_decoded)
+
+						if err != nil {
+							// string
+							if strings.TrimSpace(old) == strings.TrimSpace(new) {
+								return true
+							}
+						} else {
+							// stringified List
+							var new_slice_decoded []interface{}
+							err = json.Unmarshal([]byte(new), &new_slice_decoded)
+							if err != nil {
+								return false
+							} else {
+								return reflect.DeepEqual(slice_decoded, new_slice_decoded)
+							}
+						}
+					} else {
+						// stringified JSON
+						var new_map_decoded map[string]interface{}
+						err = json.Unmarshal([]byte(new), &new_map_decoded)
+						if err != nil {
+							return false
+						} else {
+							return reflect.DeepEqual(map_decoded, new_map_decoded)
+						}
+					}
+
+					return false
+				},
 			},
 		},
 		Importer: &schema.ResourceImporter{
@@ -143,7 +181,9 @@ func resourceSettingRead(ctx context.Context, d *schema.ResourceData, m interfac
 	client := m.(*awx.AWX)
 	awxService := client.SettingService
 
-	_, err := awxService.GetSettingsBySlug("all", make(map[string]string))
+	name := d.Id()
+
+	setting, err := awxService.GetSettingsBySlug("all", make(map[string]string))
 	if err != nil {
 		return buildDiagnosticsMessage(
 			"Unable to fetch settings",
@@ -151,8 +191,8 @@ func resourceSettingRead(ctx context.Context, d *schema.ResourceData, m interfac
 		)
 	}
 
-	d.Set("name", d.Id())
-	d.Set("value", d.Get("value").(string))
+	d.Set("name", name)
+	d.Set("value", string((*setting)[name]))
 	return diags
 }
 
