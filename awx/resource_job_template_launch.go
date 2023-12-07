@@ -166,7 +166,6 @@ func resourceJobTemplateLaunchCreate(ctx context.Context, d *schema.ResourceData
 		return diags
 	}
 
-	// return resourceJobRead(ctx, d, m)
 	d.SetId(strconv.Itoa(res.ID))
 	if d.Get("wait_for_completion").(bool) {
 		err = jobTemplateLaunchWait(ctx, awxJobService, res, d.Timeout(schema.TimeoutCreate))

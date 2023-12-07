@@ -102,10 +102,9 @@ func resourceCredentialGoogleComputeEngineCreate(ctx context.Context, d *schema.
 	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":         d.Get("name").(string),
-		"description":  d.Get("description").(string),
-		"organization": d.Get("organization_id").(int),
-		//"credential_type": 10, // Google Compute Engine
+		"name":            d.Get("name").(string),
+		"description":     d.Get("description").(string),
+		"organization":    d.Get("organization_id").(int),
 		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
 			"username":     d.Get("username").(string),
@@ -188,10 +187,9 @@ func resourceCredentialGoogleComputeEngineUpdate(ctx context.Context, d *schema.
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":         d.Get("name").(string),
-			"description":  d.Get("description").(string),
-			"organization": d.Get("organization_id").(int),
-			//"credential_type": 10, // Google Compute Engine
+			"name":            d.Get("name").(string),
+			"description":     d.Get("description").(string),
+			"organization":    d.Get("organization_id").(int),
 			"credential_type": credentialTypeID, // Google Compute Engine
 			"inputs": map[string]interface{}{
 				"username":     d.Get("username").(string),

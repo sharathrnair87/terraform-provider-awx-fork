@@ -122,10 +122,9 @@ func resourceCredentialHashiVaultSSHCreate(ctx context.Context, d *schema.Resour
 	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":         d.Get("name").(string),
-		"description":  d.Get("description").(string),
-		"organization": d.Get("organization_id").(int),
-		//"credential_type": 22, // Hashicorp Vault Signed SSH
+		"name":            d.Get("name").(string),
+		"description":     d.Get("description").(string),
+		"organization":    d.Get("organization_id").(int),
 		"credential_type": credentialTypeID,
 		"inputs": map[string]interface{}{
 			"url":               d.Get("url").(string),
@@ -223,10 +222,9 @@ func resourceCredentialHashiVaultSSHUpdate(ctx context.Context, d *schema.Resour
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":         d.Get("name").(string),
-			"description":  d.Get("description").(string),
-			"organization": d.Get("organization_id").(int),
-			//"credential_type": 22, // Hashicorp Vault Signed SSH
+			"name":            d.Get("name").(string),
+			"description":     d.Get("description").(string),
+			"organization":    d.Get("organization_id").(int),
 			"credential_type": credentialTypeID,
 			"inputs": map[string]interface{}{
 				"url":               d.Get("url").(string),

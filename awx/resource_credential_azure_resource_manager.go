@@ -140,10 +140,9 @@ func resourceCredentialAzureRMCreate(ctx context.Context, d *schema.ResourceData
 	}
 
 	newCredential := map[string]interface{}{
-		"name":         d.Get("name").(string),
-		"description":  d.Get("description").(string),
-		"organization": d.Get("organization_id").(int),
-		//"credential_type": 11, // Azure Resource Manager
+		"name":            d.Get("name").(string),
+		"description":     d.Get("description").(string),
+		"organization":    d.Get("organization_id").(int),
 		"credential_type": credentialTypeID, // Azure Resource Manager
 		"inputs":          inputs,
 	}
@@ -226,10 +225,9 @@ func resourceCredentialAzureRMUpdate(ctx context.Context, d *schema.ResourceData
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":         d.Get("name").(string),
-			"description":  d.Get("description").(string),
-			"organization": d.Get("organization_id").(int),
-			//"credential_type": 11, // Azure Resource Manager
+			"name":            d.Get("name").(string),
+			"description":     d.Get("description").(string),
+			"organization":    d.Get("organization_id").(int),
 			"credential_type": credentialTypeID, // Azure Resource Manager
 			"inputs": map[string]interface{}{
 				"url":      d.Get("url").(string),

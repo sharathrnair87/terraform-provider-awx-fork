@@ -84,21 +84,17 @@ func createNodeForWorkflowJob(awxService *awx.WorkflowJobTemplateNodeStepService
 	var diags diag.Diagnostics
 	templateNodeID := d.Get("workflow_job_template_node_id").(int)
 	result, err := awxService.CreateWorkflowJobTemplateNodeStep(templateNodeID, map[string]interface{}{
-		"extra_data":            d.Get("extra_data").(string),
-		"inventory":             d.Get("inventory_id").(int),
-		"scm_branch":            d.Get("scm_branch").(string),
-		"skip_tags":             d.Get("skip_tags").(string),
-		"job_type":              d.Get("job_type").(string),
-		"job_tags":              d.Get("job_tags").(string),
-		"limit":                 d.Get("limit").(string),
-		"diff_mode":             d.Get("diff_mode").(bool),
-		"verbosity":             d.Get("verbosity").(int),
-		"workflow_job_template": d.Get("workflow_job_template_id").(int),
-		"unified_job_template":  d.Get("unified_job_template_id").(int),
-		//"failure_nodes":         d.Get("failure_nodes").([]interface{}),
-		//"success_nodes":         d.Get("success_nodes").([]interface{}),
-		//"always_nodes":          d.Get("always_nodes").([]interface{}),
-
+		"extra_data":                d.Get("extra_data").(string),
+		"inventory":                 d.Get("inventory_id").(int),
+		"scm_branch":                d.Get("scm_branch").(string),
+		"skip_tags":                 d.Get("skip_tags").(string),
+		"job_type":                  d.Get("job_type").(string),
+		"job_tags":                  d.Get("job_tags").(string),
+		"limit":                     d.Get("limit").(string),
+		"diff_mode":                 d.Get("diff_mode").(bool),
+		"verbosity":                 d.Get("verbosity").(int),
+		"workflow_job_template":     d.Get("workflow_job_template_id").(int),
+		"unified_job_template":      d.Get("unified_job_template_id").(int),
 		"all_parents_must_converge": d.Get("all_parents_must_converge").(bool),
 		"identifier":                d.Get("identifier").(string),
 	}, map[string]string{})

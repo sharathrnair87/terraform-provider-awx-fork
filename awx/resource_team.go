@@ -213,7 +213,6 @@ func resourceTeamUpdate(ctx context.Context, d *schema.ResourceData, m interface
 				"Failed to add team role entitlement: got %s", err.Error(),
 			)
 		}
-		//d.SetPartial("role_entitlemen")
 	}
 	_, err := awxService.UpdateTeam(id, map[string]interface{}{
 		"name":         d.Get("name").(string),

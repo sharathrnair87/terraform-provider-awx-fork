@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -89,28 +90,6 @@ func resourceWorkflowJobTemplateNode() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			//"success_nodes": &schema.Schema{
-			//	Type: schema.TypeList,
-			//	Elem: &schema.Schema{
-			//		Type: schema.TypeInt,
-			//	},
-			//	Optional: true,
-			//},
-			//"failure_nodes": &schema.Schema{
-			//	Type: schema.TypeList,
-			//	Elem: &schema.Schema{
-			//		Type: schema.TypeInt,
-			//	},
-			//	Optional: true,
-			//},
-			//"always_nodes": &schema.Schema{
-			//	Type: schema.TypeList,
-			//	Elem: &schema.Schema{
-			//		Type: schema.TypeInt,
-			//	},
-			//	Optional: true,
-			//},
-
 			"all_parents_must_converge": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -121,15 +100,14 @@ func resourceWorkflowJobTemplateNode() *schema.Resource {
 				Required: true,
 			},
 		},
-		//Importer: &schema.ResourceImporter{
-		//	StateContext: schema.ImportStatePassthroughContext,
-		//},
-		//
-		//Timeouts: &schema.ResourceTimeout{
-		//	Create: schema.DefaultTimeout(1 * time.Minute),
-		//	Update: schema.DefaultTimeout(1 * time.Minute),
-		//	Delete: schema.DefaultTimeout(1 * time.Minute),
-		//},
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(1 * time.Minute),
+			Update: schema.DefaultTimeout(1 * time.Minute),
+			Delete: schema.DefaultTimeout(1 * time.Minute),
+		},
 	}
 }
 
@@ -139,21 +117,17 @@ func resourceWorkflowJobTemplateNodeCreate(ctx context.Context, d *schema.Resour
 	awxService := client.WorkflowJobTemplateNodeService
 
 	result, err := awxService.CreateWorkflowJobTemplateNode(map[string]interface{}{
-		"extra_data":            d.Get("extra_data").(string),
-		"inventory":             d.Get("inventory_id").(int),
-		"scm_branch":            d.Get("scm_branch").(string),
-		"skip_tags":             d.Get("skip_tags").(string),
-		"job_type":              d.Get("job_type").(string),
-		"job_tags":              d.Get("job_tags").(string),
-		"limit":                 d.Get("limit").(string),
-		"diff_mode":             d.Get("diff_mode").(bool),
-		"verbosity":             d.Get("verbosity").(int),
-		"workflow_job_template": d.Get("workflow_job_template_id").(int),
-		"unified_job_template":  d.Get("unified_job_template_id").(int),
-		//"failure_nodes":         d.Get("failure_nodes").([]interface{}),
-		//"success_nodes": d.Get("success_nodes").([]interface{}),
-		//"always_nodes":          d.Get("always_nodes").([]interface{}),
-
+		"extra_data":                d.Get("extra_data").(string),
+		"inventory":                 d.Get("inventory_id").(int),
+		"scm_branch":                d.Get("scm_branch").(string),
+		"skip_tags":                 d.Get("skip_tags").(string),
+		"job_type":                  d.Get("job_type").(string),
+		"job_tags":                  d.Get("job_tags").(string),
+		"limit":                     d.Get("limit").(string),
+		"diff_mode":                 d.Get("diff_mode").(bool),
+		"verbosity":                 d.Get("verbosity").(int),
+		"workflow_job_template":     d.Get("workflow_job_template_id").(int),
+		"unified_job_template":      d.Get("unified_job_template_id").(int),
 		"all_parents_must_converge": d.Get("all_parents_must_converge").(bool),
 		"identifier":                d.Get("identifier").(string),
 	}, map[string]string{})
@@ -187,20 +161,17 @@ func resourceWorkflowJobTemplateNodeUpdate(ctx context.Context, d *schema.Resour
 	}
 
 	_, err = awxService.UpdateWorkflowJobTemplateNode(id, map[string]interface{}{
-		"extra_data":            d.Get("extra_data").(string),
-		"inventory":             d.Get("inventory_id").(int),
-		"scm_branch":            d.Get("scm_branch").(string),
-		"skip_tags":             d.Get("skip_tags").(string),
-		"job_type":              d.Get("job_type").(string),
-		"job_tags":              d.Get("job_tags").(string),
-		"limit":                 d.Get("limit").(string),
-		"diff_mode":             d.Get("diff_mode").(bool),
-		"verbosity":             d.Get("verbosity").(int),
-		"workflow_job_template": d.Get("workflow_job_template_id").(int),
-		"unified_job_template":  d.Get("unified_job_template_id").(int),
-		//"failure_nodes":             d.Get("failure_nodes").([]interface{}),
-		//"success_nodes": d.Get("success_nodes").([]interface{}),
-		//"always_nodes":              d.Get("always_nodes").([]interface{}),
+		"extra_data":                d.Get("extra_data").(string),
+		"inventory":                 d.Get("inventory_id").(int),
+		"scm_branch":                d.Get("scm_branch").(string),
+		"skip_tags":                 d.Get("skip_tags").(string),
+		"job_type":                  d.Get("job_type").(string),
+		"job_tags":                  d.Get("job_tags").(string),
+		"limit":                     d.Get("limit").(string),
+		"diff_mode":                 d.Get("diff_mode").(bool),
+		"verbosity":                 d.Get("verbosity").(int),
+		"workflow_job_template":     d.Get("workflow_job_template_id").(int),
+		"unified_job_template":      d.Get("unified_job_template_id").(int),
 		"all_parents_must_converge": d.Get("all_parents_must_converge").(bool),
 		"identifier":                d.Get("identifier").(string),
 	}, map[string]string{})
@@ -263,10 +234,6 @@ func setWorkflowJobTemplateNodeResourceData(d *schema.ResourceData, r *awx.Workf
 	d.Set("limit", r.Limit)
 	d.Set("diff_mode", r.DiffMode)
 	d.Set("verbosity", r.Verbosity)
-	//d.Set("failure_nodes", r.FailureNodes)
-	//d.Set("success_nodes", r.SuccessNodes)
-	//d.Set("always_nodes", r.AlwaysNodes)
-
 	d.Set("workflow_job_template_id", strconv.Itoa(r.WorkflowJobTemplate))
 	d.Set("unified_job_template_id", strconv.Itoa(r.UnifiedJobTemplate))
 	d.Set("all_parents_must_converge", r.AllParentsMustConverge)

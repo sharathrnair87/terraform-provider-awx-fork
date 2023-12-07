@@ -72,11 +72,6 @@ func resourceSettingsSAMLOrganizationMap() *schema.Resource {
 				Optional:    true,
 				Description: "SAML Group to map admins to this organization",
 			},
-			//"organization": {
-			//	Type:        schema.TypeString,
-			//	Required:    true,
-			//	Description: "Name of the organization",
-			//},
 			"remove_users": {
 				Type:        schema.TypeBool,
 				Optional:    true,
@@ -93,7 +88,6 @@ func resourceSettingsSAMLOrganizationMap() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
-
 		Timeouts: &schema.ResourceTimeout{
 			Create: schema.DefaultTimeout(1 * time.Minute),
 			Update: schema.DefaultTimeout(1 * time.Minute),

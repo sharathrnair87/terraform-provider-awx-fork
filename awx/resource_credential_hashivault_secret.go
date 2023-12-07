@@ -108,10 +108,9 @@ func resourceCredentialHashiVaultSecretCreate(ctx context.Context, d *schema.Res
 	credentialTypeID = credType[0].ID
 
 	newCredential := map[string]interface{}{
-		"name":         d.Get("name").(string),
-		"description":  d.Get("description").(string),
-		"organization": d.Get("organization_id").(int),
-		//"credential_type": 21, // Hashicorp Vault Secret Lookup
+		"name":            d.Get("name").(string),
+		"description":     d.Get("description").(string),
+		"organization":    d.Get("organization_id").(int),
 		"credential_type": credentialTypeID, // Hashicorp Vault Secret Lookup
 		"inputs": map[string]interface{}{
 			"url":         d.Get("url").(string),
@@ -197,10 +196,9 @@ func resourceCredentialHashiVaultSecretUpdate(ctx context.Context, d *schema.Res
 
 		id, _ := strconv.Atoi(d.Id())
 		updatedCredential := map[string]interface{}{
-			"name":         d.Get("name").(string),
-			"description":  d.Get("description").(string),
-			"organization": d.Get("organization_id").(int),
-			//"credential_type": 21, // Hashicorp Vault Secret Lookup
+			"name":            d.Get("name").(string),
+			"description":     d.Get("description").(string),
+			"organization":    d.Get("organization_id").(int),
 			"credential_type": credentialTypeID, // Hashicorp Vault Secret Lookup
 			"inputs": map[string]interface{}{
 				"url":         d.Get("url").(string),
