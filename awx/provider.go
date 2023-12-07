@@ -51,6 +51,7 @@ func Provider() *schema.Provider {
 			"awx_credential_type":                                     resourceCredentialType(),
 			"awx_credential_machine":                                  resourceCredentialMachine(),
 			"awx_credential_scm":                                      resourceCredentialSCM(),
+			"awx_credential_galaxy":                                   resourceCredentialGalaxy(),
 			"awx_credential_github_token":                             resourceCredentialGithubPAT(),
 			"awx_credential_hashivault_secret":                        resourceCredentialHashiVaultSecret(),
 			"awx_credential_hashivault_signed_ssh":                    resourceCredentialHashiVaultSSH(),
@@ -119,6 +120,12 @@ func Provider() *schema.Provider {
 			"awx_schedule":                          dataSourceSchedule(),
 			"awx_workflow_job_template":             dataSourceWorkflowJobTemplate(),
 			"awx_team":                              dataSourceTeam(),
+			//TODO
+			// "awx_user": dataSourceUser(),
+			// "awx_setting": dataSourceSetting(),
+			// "awx_credential_galaxy": dataSourceGalaxy(),
+			// "awx_organization_galaxy_credential": dataSourceOrganizationGalaxyCredentials(),
+
 		},
 		ConfigureContextFunc: providerConfigure,
 	}

@@ -14,7 +14,7 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 
 [{makefile,Makefile}]
-indent_style = tabs
+indent_style = tab
 
 [{*.yml,*.yaml, *.tf}]
 indent_style = space

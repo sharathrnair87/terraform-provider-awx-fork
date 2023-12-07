@@ -8,6 +8,9 @@ OS_ARCH=linux_amd64 #darwin_amd64
 
 default: install
 
+fmt:
+	find . -name '*.go' | grep -v vendor | xargs gofmt -s -w
+
 build:
 	go build -o ${BINARY}
 
