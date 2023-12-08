@@ -120,8 +120,8 @@ func Provider() *schema.Provider {
 			"awx_schedule":                          dataSourceSchedule(),
 			"awx_workflow_job_template":             dataSourceWorkflowJobTemplate(),
 			"awx_team":                              dataSourceTeam(),
+			"awx_user":                              dataSourceUser(),
 			//TODO
-			// "awx_user": dataSourceUser(),
 			// "awx_setting": dataSourceSetting(),
 			// "awx_credential_galaxy": dataSourceGalaxy(),
 			// "awx_organization_galaxy_credential": dataSourceOrganizationGalaxyCredentials(),
