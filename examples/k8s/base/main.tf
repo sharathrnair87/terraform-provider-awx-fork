@@ -52,7 +52,7 @@ resource "awx_workflow_job_template_node" "default" {
 resource "random_uuid" "workflow_node_second_uuid" {}
 
 resource "awx_workflow_job_template_node_success" "default" {
-
+  workflow_job_template_id      = awx_workflow_job_template.default.id
   workflow_job_template_node_id = awx_workflow_job_template_node.default.id
   unified_job_template_id       = awx_job_template.template.id
   inventory_id                  = awx_inventory.default.id
