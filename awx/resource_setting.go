@@ -57,7 +57,7 @@ import (
 
 func resourceSetting() *schema.Resource {
 	return &schema.Resource{
-		Description:   "",
+		Description:   "Use this resource to manage the AWX/AT Generic Controller Configuration.\nNOTE: Settings managed using this resource must be in a single state to avoid unexpected behaviour",
 		CreateContext: resourceSettingUpdate,
 		ReadContext:   resourceSettingRead,
 		DeleteContext: resourceSettingDelete,

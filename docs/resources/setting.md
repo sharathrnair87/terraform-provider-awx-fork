@@ -3,12 +3,14 @@
 page_title: "awx_setting Resource - terraform-provider-awx"
 subcategory: ""
 description: |-
-  
+  Use this resource to manage the AWX/AT Generic Controller Configuration.
+  NOTE: Settings managed using this resource must be in a single state to avoid unexpected behaviour
 ---
 
 # awx_setting (Resource)
 
-
+Use this resource to manage the AWX/AT Generic Controller Configuration.
+NOTE: Settings managed using this resource must be in a single state to avoid unexpected behaviour
 
 ## Example Usage
 

@@ -30,6 +30,7 @@ import (
 
 func dataSourceProjectRole() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to obtain the ID of a given Project Role in AWX/AT",
 		ReadContext: dataSourceProjectRolesRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

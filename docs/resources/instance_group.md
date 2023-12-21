@@ -3,12 +3,12 @@
 page_title: "awx_instance_group Resource - terraform-provider-awx"
 subcategory: ""
 description: |-
-  
+  Create and manage an Instance Group in AWX/AT
 ---
 
 # awx_instance_group (Resource)
 
-
+Create and manage an Instance Group in AWX/AT
 
 ## Example Usage
 

@@ -4,13 +4,13 @@ page_title: "awx_settings_saml_team_attributes Resource - terraform-provider-awx
 subcategory: ""
 description: |-
   Use this resource to globally set the SOCIALAUTHSAMLTEAMATTR setting in the SAML config.
-  NOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be
+  NOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be managed from a single state
 ---
 
 # awx_settings_saml_team_attributes (Resource)
 
 Use this resource to globally set the SOCIAL_AUTH_SAML_TEAM_ATTR setting in the SAML config.
-NOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be
+NOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be managed from a single state
 
 ## Example Usage
 

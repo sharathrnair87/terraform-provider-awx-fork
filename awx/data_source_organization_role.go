@@ -30,6 +30,7 @@ import (
 
 func dataSourceOrganizationRole() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query the ID of a given Organization Role in AWX/AT",
 		ReadContext: dataSourceOrganizationRolesRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

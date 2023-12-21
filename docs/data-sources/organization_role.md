@@ -3,12 +3,12 @@
 page_title: "awx_organization_role Data Source - terraform-provider-awx"
 subcategory: ""
 description: |-
-  
+  Use this data source to query the ID of a given Organization Role in AWX/AT
 ---
 
 # awx_organization_role (Data Source)
 
-
+Use this data source to query the ID of a given Organization Role in AWX/AT
 
 ## Example Usage
 

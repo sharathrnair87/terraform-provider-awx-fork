@@ -40,6 +40,7 @@ var ldapTeamMapAccessMutex sync.Mutex
 
 func resourceSettingsLDAPTeamMap() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Use this to manage the LDAP Team mappings under Settings",
 		CreateContext: resourceSettingsLDAPTeamMapCreate,
 		ReadContext:   resourceSettingsLDAPTeamMapRead,
 		DeleteContext: resourceSettingsLDAPTeamMapDelete,

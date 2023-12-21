@@ -27,7 +27,7 @@ import (
 
 func dataSourceUser() *schema.Resource {
 	return &schema.Resource{
-		Description: "Use this resource to create a user in AWX/AT with specified role entitlements",
+		Description: "Use this resource to query a user in AWX/AT with specified role entitlements",
 		ReadContext: dataSourceUserRead,
 
 		Schema: map[string]*schema.Schema{

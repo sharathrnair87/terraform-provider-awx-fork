@@ -34,6 +34,7 @@ import (
 
 func dataSourceInventoryRole() *schema.Resource {
 	return &schema.Resource{
+		Description: "Use this data source to query the ID of a given Inventory Role in AWX/AT",
 		ReadContext: dataSourceInventoryRoleRead,
 		Schema: map[string]*schema.Schema{
 			"id": {

@@ -24,6 +24,7 @@ import (
 
 func resourceInstanceGroup() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Create and manage an Instance Group in AWX/AT",
 		CreateContext: resourceInstanceGroupCreate,
 		ReadContext:   resourceInstanceGroupRead,
 		UpdateContext: resourceInstanceGroupUpdate,

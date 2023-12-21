@@ -3,12 +3,12 @@
 page_title: "awx_settings_ldap_team_map Resource - terraform-provider-awx"
 subcategory: ""
 description: |-
-  
+  Use this to manage the LDAP Team mappings under Settings
 ---
 
 # awx_settings_ldap_team_map (Resource)
 
-
+Use this to manage the LDAP Team mappings under Settings
 
 ## Example Usage
 

@@ -40,7 +40,7 @@ var samlTeamAttrMapAccessMutex sync.Mutex
 
 func resourceSettingsSAMLTeamAttrMap() *schema.Resource {
 	return &schema.Resource{
-		Description:   "Use this resource to globally set the SOCIAL_AUTH_SAML_TEAM_ATTR setting in the SAML config.\nNOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be",
+		Description:   "Use this resource to globally set the SOCIAL_AUTH_SAML_TEAM_ATTR setting in the SAML config.\nNOTE: This resource controls this setting globally across your entire AWX/AT setup, and must be managed from a single state",
 		CreateContext: resourceSettingsSAMLTeamAttrMapCreate,
 		ReadContext:   resourceSettingsSAMLTeamAttrMapRead,
 		DeleteContext: resourceSettingsSAMLTeamAttrMapDelete,

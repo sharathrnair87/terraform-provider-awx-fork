@@ -3,12 +3,12 @@
 page_title: "awx_project_role Data Source - terraform-provider-awx"
 subcategory: ""
 description: |-
-  
+  Use this data source to obtain the ID of a given Project Role in AWX/AT
 ---
 
 # awx_project_role (Data Source)
 
-
+Use this data source to obtain the ID of a given Project Role in AWX/AT
 
 ## Example Usage
 
