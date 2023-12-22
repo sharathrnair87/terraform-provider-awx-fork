@@ -35,7 +35,7 @@ func dataSourceCredentialGalaxy() *schema.Resource {
 		ReadContext:   dataSourceCredentialGalaxyRead,
 		Schema: map[string]*schema.Schema{
             "credential_id": {
-                Type: schema.TypeString,
+                Type: schema.TypeInt,
                 Required: true,
             },
 			"name": {
