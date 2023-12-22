@@ -123,7 +123,7 @@ func Provider() *schema.Provider {
 			"awx_user":                              dataSourceUser(),
 			//TODO
 			// "awx_setting": dataSourceSetting(),
-			// "awx_credential_galaxy": dataSourceGalaxy(),
+			 "awx_credential_galaxy": dataSourceCredentialGalaxy(),
 			// "awx_organization_galaxy_credential": dataSourceOrganizationGalaxyCredentials(),
 
 		},
