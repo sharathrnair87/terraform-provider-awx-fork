@@ -31,20 +31,20 @@ import (
 
 func dataSourceCredentialGalaxy() *schema.Resource {
 	return &schema.Resource{
-		Description:   "Use this resource to query an Ansible Galaxy Credential in AWX/AT",
-		ReadContext:   dataSourceCredentialGalaxyRead,
+		Description: "Use this resource to query an Ansible Galaxy Credential in AWX/AT",
+		ReadContext: dataSourceCredentialGalaxyRead,
 		Schema: map[string]*schema.Schema{
-            "credential_id": {
-                Type: schema.TypeInt,
-                Required: true,
-            },
+			"credential_id": {
+				Type:     schema.TypeInt,
+				Required: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"description": {
 				Type:     schema.TypeString,
-                Computed: true,
+				Computed: true,
 			},
 			"organization_id": {
 				Type:     schema.TypeInt,
@@ -52,15 +52,15 @@ func dataSourceCredentialGalaxy() *schema.Resource {
 			},
 			"url": {
 				Type:     schema.TypeString,
-                Computed: true,
+				Computed: true,
 			},
 			"auth_url": {
 				Type:     schema.TypeString,
-                Computed: true,
+				Computed: true,
 			},
 			"token": {
 				Type:      schema.TypeString,
-                Computed: true,
+				Computed:  true,
 				Sensitive: true,
 			},
 		},
@@ -91,7 +91,7 @@ func dataSourceCredentialGalaxyRead(ctx context.Context, d *schema.ResourceData,
 	d.Set("auth_url", cred.Inputs["auth_url"])
 	d.Set("token", d.Get("token").(string))
 	d.Set("organization_id", cred.OrganizationID)
-    d.SetId(strconv.Itoa(id))
+	d.SetId(strconv.Itoa(id))
 
 	return diags
 }
