@@ -1,7 +1,5 @@
 # Visit https://goreleaser.com for documentation on how to customize this
 # behavior.
-variables:
-  binaryName: terraform-provider-awx
 before:
   hooks:
     # this is just an example and not a requirement for provider building/publishing
@@ -30,12 +28,12 @@ builds:
   ignore:
     - goos: darwin
       goarch: '386'
-  binary: '{{ .Var.binaryName }}_v{{ .Version }}'
+  binary: 'terraform-provider-awx_v{{ .Version }}'
 archives:
 - format: zip
-  name_template: '{{ .Var.binaryName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+  name_template: 'terraform-provider-awx_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 checksum:
-  name_template: '{{ .Var.binaryName }}_{{ .Version }}_SHA256SUMS'
+  name_template: 'terraform-provider-awx_{{ .Version }}_SHA256SUMS'
   algorithm: sha256
 signs:
   - artifacts: checksum
