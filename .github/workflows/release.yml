@@ -43,23 +43,29 @@ jobs:
         uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4.2.0
         with:
           version: latest
-          args: release --rm-dist
+          args: release --skip publish --clean
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           # GitHub sets this automatically
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Python
-        uses: actions/setup-python@4
-        with:
-          python-version: '3.10'
+      - name: Get CURR_DIR
+        run: |
+          pwd
+          ls -l
+          ls -l dist/
 
-      - name: Install dependencies
-        run: python -m pip install --upgrade pip requests
+            #- name: Setup Python
+            #  uses: actions/setup-python@4
+            #  with:
+            #    python-version: '3.10'
 
-      - name: Release TFC
-        run: python upload.py
-        env:
-          TFC_PROVIDER_NAMESPACE: ${{ env.TFC_PROVIDER_NAMESPACE }}
-          TFC_ORG_NAME: ${{ env.TFC_ORG_NAME }}
-          TFC_TOKEN: ${{ secrets.TFC_TOKEN }}
+            #- name: Install dependencies
+            #  run: python -m pip install --upgrade pip requests
+
+            #- name: Release TFC
+            #  run: python upload.py
+            #  env:
+            #    TFC_PROVIDER_NAMESPACE: ${{ env.TFC_PROVIDER_NAMESPACE }}
+            #    TFC_ORG_NAME: ${{ env.TFC_ORG_NAME }}
+            #    TFC_TOKEN: ${{ secrets.TFC_TOKEN }}
