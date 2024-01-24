@@ -63,6 +63,6 @@ jobs:
           echo $GITHUB_REF_NAME
           python helpers/upload.py
         env:
-          TFC_PROVIDER_NAMESPACE: ${{ env.TFC_PROVIDER_NAMESPACE }}
-          TFC_ORG_NAME: ${{ env.TFC_ORG_NAME }}
+          TFC_PROVIDER_NAMESPACE: ${{ vars.TFC_PROVIDER_NAMESPACE }}
+          TFC_ORG_NAME: ${{ vars.TFC_ORG_NAME }}
           TFC_TOKEN: ${{ secrets.TFC_TOKEN }}
