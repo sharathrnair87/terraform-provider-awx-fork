@@ -1,3 +1,8 @@
+"""
+With this script, the artifacts created by goreleaser are pushed to the configured TFC private provider registry
+NOTE: This script does not create the private provider registry, only uploads new versions to an existing one
+see: https://developer.hashicorp.com/terraform/cloud-docs/registry/publish-providers#create-the-provider for details
+"""
 import json
 import os
 import requests
@@ -15,9 +20,10 @@ provider = "awx"
 namespace = os.getenv("TFC_PROVIDER_NAMESPACE")
 org_name = os.getenv("TFC_ORG_NAME")
 token = os.getenv("TFC_TOKEN")
+gpg_key_id = os.getenv("TFC_GPG_KEY_ID")
 github_ref = os.getenv("GITHUB_REF_NAME")
 
-new_version = github_ref.replace("v","")
+new_version = github_ref.replace("v", "")
 
 os.chdir("dist/")
 
@@ -39,13 +45,16 @@ if resp.status_code != 200:
 
 data = json.loads(resp.content)
 
-
+"""
+Create the endpoint for the new provider version
+"""
 upload_versions_dict = {
     "data": {
         "type": "registry-provider-versions",
         "attributes": {
             "version": new_version,
-            "key-id": "E77CB102B8D5532D",
+            #"key-id": "E77CB102B8D5532D",
+            "key-id": gpg_key_id,
             "protocols": ["5.0"],
         },
     }
@@ -78,6 +87,9 @@ shasum_file_url_dict = {}
 shasum_file_url_dict[shasums_file] = shasums_upload_url
 shasum_file_url_dict[shasums_sig_file] = shasums_sig_upload_url
 
+"""
+Upload the SHASUM and SHASUM.sig files
+"""
 for sha_file, sha_url in shasum_file_url_dict.items():
     with open(sha_file, "rb") as ssum:
         shasum_data = ssum.read()
@@ -102,6 +114,9 @@ with open(glob.glob("*SHA256SUMS")[0], "r") as ssum:
 
 logging.info(f"{json.dumps(shasum_dict, indent=4)}")
 
+"""
+Upload the platform artifacts into the Registry
+"""
 for artifact in glob.glob("*.zip"):
     attr_dict = upload_platform_dict["data"]["attributes"]
     os_type = artifact.split("_")[2]

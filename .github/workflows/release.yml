@@ -65,4 +65,5 @@ jobs:
         env:
           TFC_PROVIDER_NAMESPACE: ${{ vars.TFC_PROVIDER_NAMESPACE }}
           TFC_ORG_NAME: ${{ vars.TFC_ORG_NAME }}
+          TFC_GPG_KEY_ID: ${{ vars.TFC_GPG_KEY_ID }}
           TFC_TOKEN: ${{ secrets.TFC_TOKEN }}
