@@ -31,7 +31,7 @@ version_url = "{}/{}/registry-providers/{}/{}/{}/versions".format(
     tfc_org_url, org_name, service, namespace, provider
 )
 
-logging.info(f"{version_url}")
+logging.info(f"VERSION URL: {version_url}")
 
 headers = {
     "Authorization": "Bearer " + token,
@@ -53,7 +53,6 @@ upload_versions_dict = {
         "type": "registry-provider-versions",
         "attributes": {
             "version": new_version,
-            #"key-id": "E77CB102B8D5532D",
             "key-id": gpg_key_id,
             "protocols": ["5.0"],
         },
@@ -71,7 +70,9 @@ if version_create_response.status_code != 201:
 
 version_create_response_dict = json.loads(version_create_response.content)
 
-logging.info(f"{json.dumps(version_create_response_dict, indent=4)}")
+logging.info(
+    f"TFC PROVIDER VERSION CREATION: {json.dumps(version_create_response_dict, indent=4)}"
+)
 
 shasums_upload_url = version_create_response_dict["data"]["links"]["shasums-upload"]
 shasums_sig_upload_url = version_create_response_dict["data"]["links"][
@@ -112,7 +113,7 @@ with open(glob.glob("*SHA256SUMS")[0], "r") as ssum:
     for line in ssum:
         shasum_dict[line.split()[1]] = line.split()[0]
 
-logging.info(f"{json.dumps(shasum_dict, indent=4)}")
+logging.info(f"ARTIFACT SHASUM MAP: {json.dumps(shasum_dict, indent=4)}")
 
 """
 Upload the platform artifacts into the Registry
@@ -128,10 +129,12 @@ for artifact in glob.glob("*.zip"):
     attr_dict["shasum"] = shasum
     attr_dict["filename"] = artifact
 
-    logging.info(f"{json.dumps(upload_platform_dict, indent=4)}")
+    logging.info(
+        f"TFC PROVIDER PLATFORM MAP: {json.dumps(upload_platform_dict, indent=4)}"
+    )
 
     json_payload = json.dumps(upload_platform_dict)
-    platform_url = "{}/0.1.1/platforms".format(version_url)
+    platform_url = "{}/{}/platforms".format(version_url, new_version)
 
     platform_upload_response = requests.post(
         platform_url, data=json_payload, headers=headers
@@ -144,7 +147,9 @@ for artifact in glob.glob("*.zip"):
 
     platform_upload_response_dict = json.loads(platform_upload_response.content)
 
-    logging.info(f"{json.dumps(platform_upload_response_dict, indent=4)}")
+    logging.info(
+        f"TFC PROVIDER PLATFORM CREATION: {json.dumps(platform_upload_response_dict, indent=4)}"
+    )
 
     artifact_binary_upload_url = platform_upload_response_dict["data"]["links"][
         "provider-binary-upload"
