@@ -77,6 +77,11 @@ func resourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Default:  "",
 			},
+			"scm_branch": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "",
+			},
 			"forks": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -141,7 +146,17 @@ func resourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Default:  "",
 			},
+			"ask_scm_branch_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"ask_diff_mode_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_variables_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
@@ -156,6 +171,16 @@ func resourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
+			"ask_skip_tags_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_job_type_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"ask_verbosity_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -166,12 +191,37 @@ func resourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
-			"ask_variables_on_launch": {
+			"ask_credential_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
 			},
-			"ask_credential_on_launch": {
+			"ask_execution_environment_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_labels_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_forks_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_job_slice_count_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_timeout_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"ask_instance_groups_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
@@ -191,11 +241,6 @@ func resourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
-			"ask_skip_tags_on_launch": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
 			"allow_simultaneous": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -205,11 +250,6 @@ func resourceJobTemplate() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "",
-			},
-			"ask_job_type_on_launch": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
 			},
 			"execution_environment": {
 				Type:     schema.TypeString,
@@ -357,12 +397,22 @@ func resourceJobTemplateRead(ctx context.Context, d *schema.ResourceData, m inte
 
 func setJobTemplateResourceData(d *schema.ResourceData, r *awx.JobTemplate) *schema.ResourceData {
 	d.Set("allow_simultaneous", r.AllowSimultaneous)
-	d.Set("ask_credential_on_launch", r.AskCredentialOnLaunch)
-	d.Set("ask_job_type_on_launch", r.AskJobTypeOnLaunch)
-	d.Set("ask_limit_on_launch", r.AskLimitOnLaunch)
-	d.Set("ask_skip_tags_on_launch", r.AskSkipTagsOnLaunch)
-	d.Set("ask_tags_on_launch", r.AskTagsOnLaunch)
+	d.Set("ask_scm_branch_on_launch", r.AskScmBranchOnLaunch)
+	d.Set("ask_diff_mode_on_launch", r.AskDiffModeOnLaunch)
 	d.Set("ask_variables_on_launch", r.AskVariablesOnLaunch)
+	d.Set("ask_limit_on_launch", r.AskLimitOnLaunch)
+	d.Set("ask_tags_on_launch", r.AskTagsOnLaunch)
+	d.Set("ask_skip_tags_on_launch", r.AskSkipTagsOnLaunch)
+	d.Set("ask_job_type_on_launch", r.AskJobTypeOnLaunch)
+	d.Set("ask_verbosity_on_launch", r.AskVerbosityOnLaunch)
+	d.Set("ask_inventory_on_launch", r.AskInventoryOnLaunch)
+	d.Set("ask_credential_on_launch", r.AskCredentialOnLaunch)
+	d.Set("ask_execution_environment_on_launch", r.AskExecutionEnvironmentOnLaunch)
+	d.Set("ask_labels_on_launch", r.AskLabelsOnLaunch)
+	d.Set("ask_forks_on_launch", r.AskForksOnLaunch)
+	d.Set("ask_job_slice_count_on_launch", r.AskJobSliceCountOnLaunch)
+	d.Set("ask_timeout_on_launch", r.AskTimeoutOnLaunch)
+	d.Set("ask_instance_groups_on_launch", r.AskInstanceGroupsOnLaunch)
 	d.Set("description", r.Description)
 	d.Set("extra_vars", normalizeJsonYaml(r.ExtraVars))
 	d.Set("force_handlers", r.ForceHandlers)
@@ -378,6 +428,7 @@ func setJobTemplateResourceData(d *schema.ResourceData, r *awx.JobTemplate) *sch
 	d.Set("become_enabled", r.BecomeEnabled)
 	d.Set("use_fact_cache", r.UseFactCache)
 	d.Set("playbook", r.Playbook)
+	d.Set("scm_branch", r.ScmBranch)
 	d.Set("project_id", r.Project)
 	d.Set("skip_tags", r.SkipTags)
 	d.Set("start_at_task", r.StartAtTask)

@@ -67,6 +67,11 @@ func dataSourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"scm_branch": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"forks": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -122,7 +127,17 @@ func dataSourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ask_scm_branch_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"ask_diff_mode_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_variables_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -137,6 +152,16 @@ func dataSourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ask_skip_tags_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_job_type_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"ask_verbosity_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -147,12 +172,37 @@ func dataSourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"ask_variables_on_launch": {
+			"ask_credential_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},
-			"ask_credential_on_launch": {
+			"ask_execution_environment_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_labels_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_forks_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_job_slice_count_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_timeout_on_launch": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"ask_instance_groups_on_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -172,11 +222,6 @@ func dataSourceJobTemplate() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"ask_skip_tags_on_launch": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
 			"allow_simultaneous": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -184,11 +229,6 @@ func dataSourceJobTemplate() *schema.Resource {
 			},
 			"custom_virtualenv": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ask_job_type_on_launch": {
-				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},

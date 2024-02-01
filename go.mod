@@ -6,7 +6,7 @@ require (
 	github.com/gruntwork-io/terratest v0.31.2
 	github.com/hashicorp/go-version v1.6.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.30.0
-	github.com/sharathrnair87/goawx v0.0.0-20231129042036-1f30e55d6fe1
+	github.com/sharathrnair87/goawx v0.0.0-20240201030316-a5fe0a2100a3
 	github.com/stretchr/testify v1.7.2
 	gopkg.in/yaml.v2 v2.4.0
 )
