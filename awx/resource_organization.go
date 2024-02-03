@@ -56,7 +56,7 @@ func resourceOrganization() *schema.Resource {
 			"default_environment": {
 				Type:        schema.TypeInt,
 				Optional:    true,
-				Default:     0,
+				Default:     1,
 				Description: "The default execution environment for jobs run by this organization.",
 			},
 		},
@@ -83,7 +83,7 @@ func resourceOrganizationsCreate(ctx context.Context, d *schema.ResourceData, m 
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create Organizations",
-			Detail:   fmt.Sprintf("Organizations with name %s in the project id %d, failed to create %s", d.Get("name").(string), d.Get("project_id").(int), err.Error()),
+			Detail:   fmt.Sprintf("Failed to create Organization with name %s: %s", d.Get("name").(string), err.Error()),
 		})
 		return diags
 	}
